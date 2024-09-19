@@ -1,1 +1,1 @@
-pyiron_module_template/_version.py export-subst
+sphinx/_version.py export-subst
