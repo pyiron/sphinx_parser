@@ -24,7 +24,7 @@ classifiers = [
     "Programming Language :: Python :: 3.12",
 ]
 dependencies = [
-    "pyiron_base==0.8.3"
+    "sphinxdft==3.1"
 ]
 dynamic = [ "version",]
 authors = [
