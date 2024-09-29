@@ -368,7 +368,7 @@ pawHamiltonian:
       sign:
         data_type: int
         required: false
-        description: relative sign of orbitals on both atoms. Can be +1 or −1.
+        description: relative sign of orbitals on both atoms. Can be +1 or -1.
       U:
         data_type: float
         required: false
@@ -493,14 +493,13 @@ initialGuess:
         required: true
         description: The occupation value.
   exchange:
-    description: Note: hybrid functionals are experimental and slow. The exchange group allows to set waves for the non-local exchange operator at the initialization stage. This is necessary if you want to initialize the waves from an LCAO calculation. The exchange group contains a single parameter,
-file, which contains the filename of the waves file to be used.
+    description: "Note: hybrid functionals are experimental and slow. The exchange group allows to set waves for the non-local exchange operator at the initialization stage. This is necessary if you want to initialize the waves from an LCAO calculation. The exchange group contains a single parameter, file, which contains the filename of the waves file to be used."
     file:
       data_type: str
       required: false
       description: Read exchange-correlation potential from this file.
 pseudoPot:
-  description: The pseudoPot group defines the norm-conserving pseudopotentials by a sequence of species groups. The order of species must agree with the structure group.  Note; PAW and norm-conserving pseudopotentials cannot be mixed. Using pseudoPot requires to use PWHamiltonian to define the Hamiltonian.
+  description: "The pseudoPot group defines the norm-conserving pseudopotentials by a sequence of species groups. The order of species must agree with the structure group. \n\nNote: PAW and norm-conserving pseudopotentials cannot be mixed. Using pseudoPot requires to use PWHamiltonian to define the Hamiltonian."
   species:
     name:
       data_type: str
@@ -529,7 +528,7 @@ pseudoPot:
     lcaoOrbital:
       data_type: int
       required: false
-      description: Which orbitals should be used for lcao initialization. Note; s,p,d, and f are predefined constants in parameters.sx.
+      description: "Which orbitals should be used for lcao initialization. Note: s,p,d, and f are predefined constants in parameters.sx."
     rGauss:
       data_type: float
       required: true
@@ -616,7 +615,7 @@ main:
       data_type: str
       required: false
       default: 2
-      description: Method for the density mixing. Constants dened in parameters.sx. Can be PULAY (2) or LINEAR (0).
+      description: Method for the density mixing. Constants defined in parameters.sx. Can be PULAY (2) or LINEAR (0).
     nPulaySteps:
       data_type: int
       required: false
@@ -717,7 +716,7 @@ main:
         required: false
         description: Stop iterating when approaching the numerical limit.
     preconditioner:
-      description: The preconditioner group defines the density preconditioner, i.e., a transformation of the observed (or predicted) difference between the input and output density to the applied changes to the input density. An ideal preconditioner models the screening behavior of the system and is able to include the expected screening response into the suggested density change. Selecting an appropriate preconditioner, that reects the screening properties of the system at hand, is a key to an efficient (i.e. fast) convergence. The preconditioner does not affect the converged result.
+      description: The preconditioner group defines the density preconditioner, i.e., a transformation of the observed (or predicted) difference between the input and output density to the applied changes to the input density. An ideal preconditioner models the screening behavior of the system and is able to include the expected screening response into the suggested density change. Selecting an appropriate preconditioner, that rejects the screening properties of the system at hand, is a key to an efficient (i.e. fast) convergence. The preconditioner does not affect the converged result.
       type:
         data_type: str
         required: true
@@ -787,7 +786,7 @@ main:
         required: false
         description: Do not write waves.sxb
   QN:
-    description: The QN group selects and controls the geometry optimization via quasi-Newton scheme with BFGS updates. Note; In general, ricQN is the faster algorithm.
+    description: "The QN group selects and controls the geometry optimization via quasi-Newton scheme with BFGS updates. Note: In general, ricQN is the faster algorithm."
     maxSteps:
       data_type: int
       required: false
@@ -833,7 +832,7 @@ main:
         required: false
         description: SCF diagonalization
   linQN:
-    description: The linQN group selects and controls the geometry optimization via linear quasi-Newton scheme with BFGS updates. Note; In general, ricQN is the faster algorithm.
+    description: "The linQN group selects and controls the geometry optimization via linear quasi-Newton scheme with BFGS updates. Note: In general, ricQN is the faster algorithm."
     maxSteps:
       data_type: int
       required: false
@@ -928,7 +927,7 @@ main:
       default: true
       description: Project out the average force and displacement.
   ric:
-    description: The ric group denes the parameters for internal coordinate generation.
+    description: The ric group defines the parameters for internal coordinate generation.
     maxDist:
       data_type: float
       required: false
@@ -963,7 +962,7 @@ main:
       required: false
       description: Born-Oppenheimer
   ricTS:
-    description: The ricTS group requests a quasi-Newton optimization for 1st-order saddle points (transition states) using updates [11] of an on-the-fly optimized internal- coordinate based initial guess for the Hessian [10]. An initial guess for the reaction coordinate must be known. Note; This is an experimental feature. The optimization should be started within the saddle point region (one negative eigenvalue of the Hesse matrix), otherwise, the algorithm may converge to a different stationary point (a mini- mum, or a higher-order saddle point).
+    description: "The ricTS group requests a quasi-Newton optimization for 1st-order saddle points (transition states) using updates [11] of an on-the-fly optimized internal-coordinate based initial guess for the Hessian [10]. An initial guess for the reaction coordinate must be known. Note: This is an experimental feature. The optimization should be started within the saddle point region (one negative eigenvalue of the Hesse matrix), otherwise, the algorithm may converge to a different stationary point (a minimum, or a higher-order saddle point)."
     maxSteps:
       data_type: int
       required: false
