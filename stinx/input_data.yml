@@ -293,7 +293,7 @@ all:
             data_type: bool
             required: false
             description: Get orbital shape from potential. This is not recommended.
-          is_:
+          is:
             data_type: int
             required: false
             description: species id within file (starts at 0). If not given, assumes same species ordering in sxb file as in input file.
@@ -313,7 +313,7 @@ all:
             data_type: bool
             required: false
             description: Get orbital shape from potential. This is not recommended.
-          is_:
+          is:
             data_type: int
             required: false
             description: species id within file (starts at 0). If not given, assumes same species ordering in sxb file as in input file.
