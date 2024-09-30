@@ -95,7 +95,8 @@ all:
       dK:
         data_type: float
         required: false
-        description: Set the number of intermediate k-points such that the distance is at most dK (in 1/bohr).
+        unit: 1/bohr
+        description: Set the number of intermediate k-points such that the distance is at most dK.
       from:
         description: The from group (within the kPoints group) adds a single k-point at the desired position. It may be used multiple times.
         relative:
@@ -127,7 +128,8 @@ all:
         dK:
           data_type: float
           required: false
-          description: Set the number of intermediate k-points such that the distance is at most dK (in 1/bohr).
+          unit: 1/bohr
+          description: Set the number of intermediate k-points such that the distance is at most dK.
         nPoints:
           data_type: int
           required: false
@@ -181,7 +183,8 @@ all:
     ekt:
       data_type: float
       required: false
-      description: The electronic temperature in eV.
+      unit: eV
+      description: The electronic temperature.
     MethfesselPaxton:
       data_type: float
       required: false
@@ -272,11 +275,13 @@ all:
           U:
             data_type: float
             required: false
-            description: The Hubbard U value (in eV)
+            unit: eV
+            description: The Hubbard U value
           shift:
             data_type: float
             required: false
-            description: An additional energy shift of the projector (in eV)
+            unit: eV
+            description: An additional energy shift of the projector
       AO:
         description: AO
         orbital:
@@ -332,14 +337,15 @@ all:
         maxDist:
           data_type: float
           required: false
+          default: 10.0
           unit: bohr
           description: maximum distance of two atoms to be considered a molecule
         minDist:
           data_type: float
           required: false
           unit: bohr
-          default: 0.5 * maxDist
-          description: minimum distance of two atoms to be considered a molecule.
+          default: 5.0
+          description: minimum distance of two atoms to be considered a molecule. Default value is half the maximum distance.
         nInterpolate:
           data_type: int
           required: false
@@ -354,7 +360,7 @@ all:
           data_type: float
           required: false
           unit: bohr
-          description: The cutoff radius for the atomic orbital (in bohr).
+          description: The cutoff radius for the atomic orbital
         cutWidth:
           data_type: float
           required: false
@@ -673,7 +679,7 @@ all:
         dRelEps:
           data_type: float
           required: false
-          description: Stop iterating when the change in eigen- value falls below this fraction of the change in the first (steepest-descent) step.
+          description: Stop iterating when the change in eigenvalue falls below this fraction of the change in the first (steepest-descent) step.
         maxStepsCCG:
           data_type: int
           required: false
@@ -688,7 +694,7 @@ all:
         dRelEps:
           data_type: float
           required: false
-          description: Stop iterating when the change in eigen- value falls below this fraction of the change in the first (steepest-descent) step.
+          description: Stop iterating when the change in eigenvalue falls below this fraction of the change in the first (steepest-descent) step.
         maxStepsCCG:
           data_type: int
           required: false
@@ -815,7 +821,7 @@ all:
         required: false
         unit: bohr
         default: 0.3
-        description: maximum allowed displacement (length of displacement vector for a single atom) in bohr. Larger steps are reduced by scaling
+        description: maximum allowed displacement (length of displacement vector for a single atom). Larger steps are reduced by scaling
       hessian:
         data_type: str
         required: false
@@ -859,7 +865,7 @@ all:
         required: false
         unit: bohr
         default: 0.3
-        description: maximum allowed displacement (length of displacement vector for a single atom) in bohr. Larger steps are reduced by scaling
+        description: maximum allowed displacement (length of displacement vector for a single atom). Larger steps are reduced by scaling
       nProjectors:
         data_type: int
         required: false
@@ -904,7 +910,7 @@ all:
         required: false
         unit: bohr
         default: 0.3
-        description: maximum allowed displacement (length of displacement vector for a single atom) in bohr. Larger steps are reduced by scaling
+        description: maximum allowed displacement (length of displacement vector for a single atom). Larger steps are reduced by scaling
       nProjectors:
         data_type: int
         required: false
@@ -914,7 +920,7 @@ all:
         required: false
         default: 0.01
         unit: Hartree/bohr**2
-        description: Initial value for Hessian shift (in Hartree/bohr2). This is overriden with the first successful fit of a positive shift parameter.
+        description: Initial value for Hessian shift. This is overriden with the first successful fit of a positive shift parameter.
       driftFilter:
         data_type: bool
         required: false
