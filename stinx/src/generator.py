@@ -105,32 +105,37 @@ def _get_docstring_line(data: dict, key: str):
     return line
 
 
-def get_docstring(all_data, description=None, indent=indent, predefined=predefined, n_indent=1):
-    txt = n_indent * indent + '"""\n'
+def get_docstring(all_data, description=None, indent=indent, predefined=predefined):
+    txt = [indent + '"""']
     if description is not None:
-        txt += n_indent * indent + f"{description}\n\n"
-    txt += n_indent * indent + "Args:\n"
+        txt.append(f"{indent}{description}\n")
+    txt.append(f"{indent}Args:")
     for key, data in all_data.items():
         if key not in predefined:
-            txt += (n_indent + 1) * indent + _get_docstring_line(data, key) + "\n"
-    txt += n_indent * indent + '"""\n'
+            txt.append(2 * indent + _get_docstring_line(data, key))
+    txt.append(indent + '"""')
     return txt
 
 
-def get_input_arg(key, entry, indent=indent, n_indent=1):
+def get_input_arg(key, entry, indent=indent):
     t = entry.get("data_type", "dict")
     if not entry.get("required", False):
         t = f"Optional[{t}] = None"
-    t = f"{n_indent * indent}{key}: {t},"
+    t = f"{indent}{key}: {t},"
     return t
 
 
-def get_function(data, tag, predefined=predefined, indent=indent, n_indent=1):
+def get_function(data, tag, predefined=predefined, indent=indent, n_indent=0):
     d = {_get_safe_parameter_name(key): value for key, value in data.items()}
-    args = "\n".join([get_input_arg(key, value, n_indent=n_indent + 1) for key, value in d.items() if key not in predefined])
-    docstring = get_docstring(d, d.get("description", None), n_indent=n_indent)
-    output = "\n".join([(1 + n_indent) * indent + f"{key}={key}," for key in d.keys() if key not in predefined])
-    return f"{n_indent * indent}def get_{tag}(\n{args}\n{n_indent * indent}):\n" + docstring + (n_indent + 1) * indent + f"return fill_values(\n{output}\n{n_indent * indent})"
+    func = [f"def get_{tag}("]
+    func.extend([get_input_arg(key, value) for key, value in d.items() if key not in predefined])
+    func.append("):")
+    docstring = get_docstring(d, d.get("description", None))
+    output = [indent + "return fill_values("]
+    output.extend([2 * indent + f"{key}={key}," for key in d.keys() if key not in predefined])
+    output.append(indent + ")")
+    result = func + docstring + output
+    return "\n".join([indent * n_indent + line for line in result])
 
 
 def get_all_function_names(all_data, head="", predefined=predefined):
