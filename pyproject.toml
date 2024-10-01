@@ -7,8 +7,8 @@ requires = [
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "pyiron_module_template"
-description = "pyiron_module_template - Your pyiron-like module."
+name = "stinx"
+description = "stinx - Your pyiron-like module."
 readme = "docs/README.md"
 keywords = [ "pyiron",]
 requires-python = ">=3.9, <3.13"
@@ -36,18 +36,18 @@ file = "LICENSE"
 
 [project.urls]
 Homepage = "https://pyiron.org/"
-Documentation = "https://pyiron_module_template.readthedocs.io"
-Repository = "https://github.com/pyiron/pyiron_module_template"
+Documentation = "https://stinx.readthedocs.io"
+Repository = "https://github.com/pyiron/stinx"
 
 [tool.versioneer]
 VCS = "git"
 style = "pep440-pre"
-versionfile_source = "pyiron_module_template/_version.py"
-parentdir_prefix = "pyiron_module_template"
-tag_prefix = "pyiron_module_template-"
+versionfile_source = "stinx/_version.py"
+parentdir_prefix = "stinx"
+tag_prefix = "stinx-"
 
 [tool.setuptools.packages.find]
-include = [ "pyiron_module_template*",]
+include = [ "stinx*",]
 
 [tool.setuptools.dynamic.version]
-attr = "pyiron_module_template.__version__"
+attr = "stinx.__version__"
