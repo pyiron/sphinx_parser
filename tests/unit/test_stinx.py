@@ -8,7 +8,7 @@ class TestStinx(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         cls.current_dir = os.path.dirname(os.path.abspath(__file__)).replace("\\", "/")
-        cls.file_name = cls.current_dir + "/../../stinx/source/input_data.yml"
+        cls.file_name = cls.current_dir + "/../../stinx/src/input_data.yml"
 
     def test_stinx(self):
         with open(self.file_name, "r") as f:
