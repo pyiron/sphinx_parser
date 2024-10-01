@@ -485,19 +485,27 @@ all:
           description: Request a Gaussian charge at this position
     occupations:
       description: The occupations group within the initialGuess group defines the initial oc- cupations. This makes sense if the density is computed from wave functions, or if the occupations are going to be fixed at these values.
+      kPoints:
+        spin:
+          bands:
+            value:
+              data_type: list
+              required: true
+              description: Specifically list the indices affected.
+            range:
+              data_type: list
+              required: true
+              description: Specify start and end index.
+            focc:
+              data_type: int
+              required: true
+              description: The occupation value.
+        bands:
+          alias: all.initialGuess.occupations.kPoints.spin.bands
+      spin:
+        alias: all.initialGuess.occupations.kPoints.spin
       bands:
-        value:
-          data_type: list
-          required: true
-          description: Specifically list the indices affected.
-        range:
-          data_type: list
-          required: true
-          description: Specify start and end index.
-        focc:
-          data_type: int
-          required: true
-          description: The occupation value.
+        alias: all.initialGuess.occupations.kPoints.spin.bands
     exchange:
       description: "Note: hybrid functionals are experimental and slow. The exchange group allows to set waves for the non-local exchange operator at the initialization stage. This is necessary if you want to initialize the waves from an LCAO calculation. The exchange group contains a single parameter, file, which contains the filename of the waves file to be used."
       file:
