@@ -1,5 +1,6 @@
 channels:
-  - conda-forge
+- conda-forge
 dependencies:
-  - pyiron_base =0.8.3
-  
+- coveralls
+- coverage
+- numpy =1.26.0
