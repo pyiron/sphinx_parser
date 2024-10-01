@@ -125,12 +125,12 @@ def get_input_arg(key, entry, indent=indent):
     return t
 
 
-def get_function(data, tag, predefined=predefined):
+def get_function(data, tag, predefined=predefined, indent=indent, preindent=0):
     d = {_get_safe_parameter_name(key): value for key, value in data.items()}
     args = "\n".join([get_input_arg(key, value) for key, value in d.items() if key not in predefined])
     docstring = get_docstring(d, d.get("description", None))
-    output = "\n".join([2 * indent + f"{key}={key}," for key in d.keys() if key not in predefined])
-    return f"def get_{tag}(\n{args}\n):\n" + docstring + indent + f"return fill_values(\n{output}\n{indent})"
+    output = "\n".join([(2 + preindent) * indent + f"{key}={key}," for key in d.keys() if key not in predefined])
+    return f"def get_{tag}(\n{args}\n):\n" + docstring + (1 + preindent) * indent + f"return fill_values(\n{output}\n{indent})"
 
 
 def get_all_function_names(all_data, head="", predefined=predefined):
