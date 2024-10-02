@@ -96,6 +96,10 @@ Note: PAW and norm-conserving pseudopotentials cannot be mixed. Using pseudoPot 
                     relative: Optional[bool] = None,
                     movableLine: Optional[list] = None,
                     label: Optional[str] = None,
+                    movable: Optional[bool] = None,
+                    movableX: Optional[bool] = None,
+                    movableY: Optional[bool] = None,
+                    movableZ: Optional[bool] = None,
                 ):
                     """
                     Args:
@@ -103,12 +107,20 @@ Note: PAW and norm-conserving pseudopotentials cannot be mixed. Using pseudoPot 
                         relative (bool): The coordinates are given relative to the unit cell vectors. (Optional)
                         movableLine (list): The movement of the atom is restricted to a line. The value gives the direction of the line as a 3-vector. (Optional)
                         label (str): Assign a label (or rather a tag) to this atom. If labels are used, atoms with different labels are considered inequivalent. Think of spin configurations for a use-case. (Optional)
+                        movable (bool): Allow atoms to move. Default: True. (Optional)
+                        movableX (bool): Allow atoms to move in the x direction. Default: True. (Optional)
+                        movableY (bool): Allow atoms to move in the y direction. Default: True. (Optional)
+                        movableZ (bool): Allow atoms to move in the z direction. Default: True. (Optional)
                     """
                     return fill_values(
                         coords=coords,
                         relative=relative,
                         movableLine=movableLine,
                         label=label,
+                        movable=movable,
+                        movableX=movableX,
+                        movableY=movableY,
+                        movableZ=movableZ,
                     )
 
         class symmetry:
