@@ -514,7 +514,7 @@ all:
         required: false
         description: Read exchange-correlation potential from this file.
   pseudoPot:
-    description: "The pseudoPot group defines the norm-conserving pseudopotentials by a sequence of species groups. The order of species must agree with the structure group. \n\nNote: PAW and norm-conserving pseudopotentials cannot be mixed. Using pseudoPot requires to use PWHamiltonian to define the Hamiltonian."
+    description: "The pseudoPot group defines the norm-conserving pseudopotentials by a sequence of species groups. The order of species must agree with the structure group.\n\nNote: PAW and norm-conserving pseudopotentials cannot be mixed. Using pseudoPot requires to use PWHamiltonian to define the Hamiltonian."
     species:
       name:
         data_type: str

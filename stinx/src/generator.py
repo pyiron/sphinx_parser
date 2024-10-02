@@ -102,7 +102,7 @@ def _get_docstring_line(data: dict, key: str):
         line += f" Default: {data['default']}."
     if "unit" in data:
         line += f" Unit: {data['unit']}."
-    if not data.get("required", True):
+    if not data.get("required", False):
         line += " (Optional)"
     return line
 
@@ -121,7 +121,7 @@ def get_docstring(all_data, description=None, indent=indent, predefined=predefin
 
 def get_input_arg(key, entry, indent=indent):
     t = entry.get("data_type", "dict")
-    if not entry.get("required", True):
+    if not entry.get("required", False):
         t = f"Optional[{t}] = None"
     t = f"{indent}{key}: {t},"
     return t
@@ -131,7 +131,7 @@ def _rename_keys(data):
     d_1 = {_get_safe_parameter_name(key): value for key, value in data.items()}
     d_2 = {
         key: d for key, d in d_1.items()
-        if not isinstance(d, dict) or d.get("required", True)
+        if not isinstance(d, dict) or d.get("required", False)
     }
     d_2.update(d_1)
     return d_2
@@ -192,15 +192,19 @@ def get_class(all_data, indent=indent):
     return txt
 
 
-def export_class(yml_file_name="input_data.yml", py_file_name="input_data.py"):
+def export_class(yml_file_name="input_data.yml", py_file_name="stx.py"):
     file_location = os.path.join(os.path.dirname(__file__), yml_file_name)
     with open(file_location, "r") as f:
         file_content = f.read()
     all_data = yaml.safe_load(file_content)
     all_data = replace_alias(all_data)
     file_content = get_class(all_data)
-    file_content = "from typing import Optional\n" + file_content
-    file_content = "from stinx.toolkit import fill_values\n" + file_content
+    imports = [
+        "import numpy as np",
+        "from typing import Optional",
+        "from stinx.toolkit import fill_values",
+    ]
+    file_content = "\n".join(imports) + "\n\n\n" + file_content
     with open(
         os.path.join(os.path.dirname(__file__), "..", py_file_name), "w"
     ) as f:
