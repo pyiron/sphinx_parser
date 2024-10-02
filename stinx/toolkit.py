@@ -5,6 +5,8 @@ import numpy as np
 def format_value(v, indent=0):
     if isinstance(v, bool):
         return f" = {v};".lower()
+    elif isinstance(v, list) and not isinstance(v[0], dict):
+        return f" = {v};"
     elif isinstance(v, dict) or isinstance(v, list):
         if len(v) == 0:
             return " {}"
@@ -20,7 +22,7 @@ def to_sphinx(obj, indent=0):
     line = ""
     for k, v in obj.items():
         current_line = indent * "\t" + k.split("___")[0]
-        if isinstance(v, list):
+        if isinstance(v, list) and isinstance(v[0], dict):
             for vv in v:
                 line += current_line + format_value(vv, indent) + "\n"
         else:

@@ -1,4 +1,4 @@
-all:
+sphinx:
   structure:
     cell:
       data_type: list
@@ -502,11 +502,11 @@ all:
               required: true
               description: The occupation value.
         bands:
-          alias: all.initialGuess.occupations.kPoints.spin.bands
+          alias: sphinx.initialGuess.occupations.kPoints.spin.bands
       spin:
-        alias: all.initialGuess.occupations.kPoints.spin
+        alias: sphinx.initialGuess.occupations.kPoints.spin
       bands:
-        alias: all.initialGuess.occupations.kPoints.spin.bands
+        alias: sphinx.initialGuess.occupations.kPoints.spin.bands
     exchange:
       description: "Note: hybrid functionals are experimental and slow. The exchange group allows to set waves for the non-local exchange operator at the initialization stage. This is necessary if you want to initialize the waves from an LCAO calculation. The exchange group contains a single parameter, file, which contains the filename of the waves file to be used."
       file:
@@ -843,7 +843,7 @@ all:
       bornOppenheimer:
         description: The bornOppenheimer group defines the electronic loop within a geometry optimization. It contains one or more of the electronic loop groups. If more than one minimizer is used, the complete electronic loop sequence is executed at each ionic step.
         scfDiag:
-          alias: all.main.scfDiag
+          alias: sphinx.main.scfDiag
     linQN:
       description: "The linQN group selects and controls the geometry optimization via linear quasi-Newton scheme with BFGS updates. Note: In general, ricQN is the faster algorithm."
       maxSteps:
@@ -889,7 +889,7 @@ all:
         default: true
         description: Project out the average force and displacement.
       bornOppenheimer:
-        alias: all.main.QN.bornOppenheimer
+        alias: sphinx.main.QN.bornOppenheimer
     ricQN:
       maxSteps:
         data_type: int
@@ -936,7 +936,7 @@ all:
         default: true
         description: Project out the average force and displacement.
       bornOppenheimer:
-        alias: all.main.QN.bornOppenheimer
+        alias: sphinx.main.QN.bornOppenheimer
     ric:
       description: The ric group defines the parameters for internal coordinate generation.
       maxDist:
@@ -969,7 +969,7 @@ all:
         required: false
         description: (experimental) List of atom ids (starting from 1) for which born-von-Karman transversal force constants are added. The comma-separated list must be enclosed by square brackets []. This adds a bond-directional coordinate to each bond of the atoms in the list.
       bornOppenheimer:
-        alias: all.main.QN.bornOppenheimer
+        alias: sphinx.main.QN.bornOppenheimer
     ricTS:
       description: "The ricTS group requests a quasi-Newton optimization for 1st-order saddle points (transition states) using updates [11] of an on-the-fly optimized internal-coordinate based initial guess for the Hessian [10]. An initial guess for the reaction coordinate must be known. Note: This is an experimental feature. The optimization should be started within the saddle point region (one negative eigenvalue of the Hesse matrix), otherwise, the algorithm may converge to a different stationary point (a minimum, or a higher-order saddle point)."
       maxSteps:
@@ -1019,4 +1019,4 @@ all:
         required: false
         description: Drift filter
       bornOppenheimer:
-        alias: all.main.QN.bornOppenheimer
+        alias: sphinx.main.QN.bornOppenheimer

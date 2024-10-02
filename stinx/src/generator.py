@@ -137,14 +137,20 @@ def _rename_keys(data):
     return d_2
 
 
-def get_function(data, tag, predefined=predefined, indent=indent, n_indent=0):
+def get_function(data, function_name, predefined=predefined, indent=indent, n_indent=0, is_kwarg=False):
     d = _rename_keys(data)
-    func = [f"def get_{tag}("]
-    func.extend([get_input_arg(key, value) for key, value in d.items() if key not in predefined])
+    func = ["@staticmethod", f"def {function_name}("]
+    if is_kwarg:
+        func.append(f"{indent}**kwargs")
+    else:
+        func.extend([get_input_arg(key, value) for key, value in d.items() if key not in predefined])
     func.append("):")
     docstring = get_docstring(d, d.get("description", None))
     output = [indent + "return fill_values("]
-    output.extend([2 * indent + f"{key}={key}," for key in d.keys() if key not in predefined])
+    if is_kwarg:
+        output.append(2 * indent + "**kwargs")
+    else:
+        output.extend([2 * indent + f"{key}={key}," for key in d.keys() if key not in predefined])
     output.append(indent + ")")
     result = func + docstring + output
     return "\n".join([indent * n_indent + line for line in result])
@@ -172,14 +178,6 @@ def get_unique_tags(tags, max_steps=10):
                 counter[ii] += 1
 
 
-def get_all_functions(all_data):
-    tags = get_all_function_names(all_data)
-    return [
-        get_function(get(all_data, address), f_name)
-        for f_name, address in zip(get_unique_tags(tags), tags)
-    ]
-
-
 def get_class(all_data, indent=indent):
     fnames = get_all_function_names(all_data)
     txt = ""
@@ -187,12 +185,12 @@ def get_class(all_data, indent=indent):
         names = name.split("/")
         txt += indent * (len(names) - 1) + "class {}:\n".format(_get_safe_parameter_name(names[-1]))
         txt += get_function(
-            get(all_data, name), "group", n_indent=len(names)
+            get(all_data, name), "create", n_indent=len(names), is_kwarg=names[-1] == "main"
         ) + "\n\n"
     return txt
 
 
-def export_class(yml_file_name="input_data.yml", py_file_name="stx.py"):
+def export_class(yml_file_name="input_data.yml", py_file_name="input.py"):
     file_location = os.path.join(os.path.dirname(__file__), yml_file_name)
     with open(file_location, "r") as f:
         file_content = f.read()
