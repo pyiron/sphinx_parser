@@ -184,7 +184,7 @@ sphinx:
         data_type: float
         required: false
         description: Change the PAW radius used for atomic quantities "inside the PAW sphere".
-  pawHamiltonian:
+  PAWHamiltonian:
     xc:
       data_type: str
       required: true

@@ -9,7 +9,7 @@ class sphinx:
         structure: Optional[dict] = None,
         basis: Optional[dict] = None,
         pawPot: Optional[dict] = None,
-        pawHamiltonian: Optional[dict] = None,
+        PAWHamiltonian: Optional[dict] = None,
         spinConstraint: Optional[dict] = None,
         initialGuess: Optional[dict] = None,
         pseudoPot: Optional[dict] = None,
@@ -21,7 +21,7 @@ class sphinx:
             structure (dict): (Optional)
             basis (dict): (Optional)
             pawPot (dict): The pawPot group defines the PAW potentials, by a sequence of species groups. The order of species must agree with the structure group. (Optional)
-            pawHamiltonian (dict): (Optional)
+            PAWHamiltonian (dict): (Optional)
             spinConstraint (dict): (Optional)
             initialGuess (dict): In order to start a DFT calculations, one must set up an initial guess for the density and for the wave functions. The initialGuess group defines how this is done, as well as a few other settings (such as keeping the waves on disk to save RAM). The default is to set up the density from a superposition of atomic densities, and the wave-functions from a single-step LCAO calculation, using the atomic valence orbitals. This works exceptionally well. If you want to finetune the behavior, the initialGuess group must contain a waves or a rho group. Otherwise, you may omit the waves and rho groups to get the default behavior. Additionally, the initialGuess group may contain an occupations group to set up initial occupations (notably when keeping them fixed), and an exchange group for hybrid functionals. (Optional)
             pseudoPot (dict): The pseudoPot group defines the norm-conserving pseudopotentials by a sequence of species groups. The order of species must agree with the structure group.
@@ -34,7 +34,7 @@ Note: PAW and norm-conserving pseudopotentials cannot be mixed. Using pseudoPot 
             structure=structure,
             basis=basis,
             pawPot=pawPot,
-            pawHamiltonian=pawHamiltonian,
+            PAWHamiltonian=PAWHamiltonian,
             spinConstraint=spinConstraint,
             initialGuess=initialGuess,
             pseudoPot=pseudoPot,
@@ -294,7 +294,7 @@ Note: PAW and norm-conserving pseudopotentials cannot be mixed. Using pseudoPot 
                     name (str): English name of the element. (Optional)
                     element (str): Chemical symbol of the element. (Optional)
                     lMaxRho (int): Truncate the spherical expansion of densities (and compensation charges) at this l. (Optional)
-                    angularGrid (int): Choose a different angular grid for xc calculation in the PAW sphere. Larger is finer. Default is 7 (110 points). Default: 7. (Optional)
+                    angularGrid (int): Choose a different angular grid for xc calculation in the PAW sphere. Larger is finer. Default: 7 (110 points). (Optional)
                     nRadGrid (int): Interpolate to a different radial grid. (Optional)
                     checkOverlap (bool): Check that PAW norm is garantueed to be positive definite in the limit of large cutoffs. Some problematic PAW potentials may fail the check, but work normally in some circumstances, so you can switch off the check here. Default: True. (Optional)
                     rPAW (float): Change the PAW radius used for atomic quantities "inside the PAW sphere". (Optional)
@@ -311,7 +311,7 @@ Note: PAW and norm-conserving pseudopotentials cannot be mixed. Using pseudoPot 
                     rPAW=rPAW,
                 )
 
-    class pawHamiltonian:
+    class PAWHamiltonian:
         @staticmethod
         def create(
             xc: str,
