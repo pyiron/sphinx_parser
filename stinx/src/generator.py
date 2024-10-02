@@ -1,9 +1,11 @@
 import keyword
 import numpy as np
+import yaml
+import os
 
 
 indent = 4 * " "
-predefined = ["description", "default", "data_type", "required", "alias", "unit"]
+predefined = ["description", "default", "data_type", "required", "alias", "units"]
 
 
 def find_alias(all_data: dict, head: list | None = None):
@@ -91,9 +93,9 @@ def _get_docstring_line(data: dict, key: str):
         ... )
         "iterations (int): The number of iterations."
     """
-    line = f"{key} ({data.get('data_type', 'dict')}): "
+    line = f"{key} ({data.get('data_type', 'dict')}):"
     if "description" in data:
-        line = (line + data["description"]).strip()
+        line = (line + " " + data["description"]).strip()
         if not line.endswith("."):
             line += "."
     if "default" in data:
@@ -119,14 +121,24 @@ def get_docstring(all_data, description=None, indent=indent, predefined=predefin
 
 def get_input_arg(key, entry, indent=indent):
     t = entry.get("data_type", "dict")
-    if not entry.get("required", False):
+    if not entry.get("required", True):
         t = f"Optional[{t}] = None"
     t = f"{indent}{key}: {t},"
     return t
 
 
+def _rename_keys(data):
+    d_1 = {_get_safe_parameter_name(key): value for key, value in data.items()}
+    d_2 = {
+        key: d for key, d in d_1.items()
+        if not isinstance(d, dict) or d.get("required", True)
+    }
+    d_2.update(d_1)
+    return d_2
+
+
 def get_function(data, tag, predefined=predefined, indent=indent, n_indent=0):
-    d = {_get_safe_parameter_name(key): value for key, value in data.items()}
+    d = _rename_keys(data)
     func = [f"def get_{tag}("]
     func.extend([get_input_arg(key, value) for key, value in d.items() if key not in predefined])
     func.append("):")
@@ -166,3 +178,30 @@ def get_all_functions(all_data):
         get_function(get(all_data, address), f_name)
         for f_name, address in zip(get_unique_tags(tags), tags)
     ]
+
+
+def get_class(all_data, indent=indent):
+    fnames = get_all_function_names(all_data)
+    txt = ""
+    for name in fnames:
+        names = name.split("/")
+        txt += indent * (len(names) - 1) + "class {}:\n".format(_get_safe_parameter_name(names[-1]))
+        txt += get_function(
+            get(all_data, name), "group", n_indent=len(names)
+        ) + "\n\n"
+    return txt
+
+
+def export_class(yml_file_name="input_data.yml", py_file_name="input_data.py"):
+    file_location = os.path.join(os.path.dirname(__file__), yml_file_name)
+    with open(file_location, "r") as f:
+        file_content = f.read()
+    all_data = yaml.safe_load(file_content)
+    all_data = replace_alias(all_data)
+    file_content = get_class(all_data)
+    file_content = "from typing import Optional\n" + file_content
+    file_content = "from stinx.toolkit import fill_values\n" + file_content
+    with open(
+        os.path.join(os.path.dirname(__file__), "..", py_file_name), "w"
+    ) as f:
+        f.write(file_content)

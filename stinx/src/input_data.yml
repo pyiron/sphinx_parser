@@ -95,7 +95,7 @@ all:
       dK:
         data_type: float
         required: false
-        unit: 1/bohr
+        units: 1/bohr
         description: Set the number of intermediate k-points such that the distance is at most dK.
       from:
         description: The from group (within the kPoints group) adds a single k-point at the desired position. It may be used multiple times.
@@ -106,7 +106,8 @@ all:
         coords:
           data_type: np.ndarray
           required: true
-          description: The k-point coordinates as a 3-vector. If the relative flag is not given, the units are 1/bohr.
+          units: 1/bohr
+          description: The k-point coordinates as a 3-vector. If the relative flag is not given.
         label:
           data_type: str
           required: false
@@ -128,7 +129,7 @@ all:
         dK:
           data_type: float
           required: false
-          unit: 1/bohr
+          units: 1/bohr
           description: Set the number of intermediate k-points such that the distance is at most dK.
         nPoints:
           data_type: int
@@ -183,7 +184,7 @@ all:
     ekt:
       data_type: float
       required: false
-      unit: eV
+      units: eV
       description: The electronic temperature.
     MethfesselPaxton:
       data_type: float
@@ -275,12 +276,12 @@ all:
           U:
             data_type: float
             required: false
-            unit: eV
+            units: eV
             description: The Hubbard U value
           shift:
             data_type: float
             required: false
-            unit: eV
+            units: eV
             description: An additional energy shift of the projector
       AO:
         description: AO
@@ -338,12 +339,12 @@ all:
           data_type: float
           required: false
           default: 10.0
-          unit: bohr
+          units: bohr
           description: maximum distance of two atoms to be considered a molecule
         minDist:
           data_type: float
           required: false
-          unit: bohr
+          units: bohr
           default: 5.0
           description: minimum distance of two atoms to be considered a molecule. Default value is half the maximum distance.
         nInterpolate:
@@ -359,12 +360,12 @@ all:
         rCut:
           data_type: float
           required: false
-          unit: bohr
+          units: bohr
           description: The cutoff radius for the atomic orbital
         cutWidth:
           data_type: float
           required: false
-          unit: bohr
+          units: bohr
           default: 0.7
           description: The width of the cutoff region
         mMO:
@@ -378,12 +379,12 @@ all:
         U:
           data_type: float
           required: false
-          unit: eV
+          units: eV
           description: The Hubbard U value
         shift:
           data_type: float
           required: false
-          unit: eV
+          units: eV
           description: An additional energy shift of the
   spinConstraint:
     label:
@@ -481,10 +482,10 @@ all:
         coords:
           data_type: np.ndarray
           required: false
-          unit: bohr
+          units: bohr
           description: Request a Gaussian charge at this position
     occupations:
-      description: The occupations group within the initialGuess group defines the initial oc- cupations. This makes sense if the density is computed from wave functions, or if the occupations are going to be fixed at these values.
+      description: The occupations group within the initialGuess group defines the initial occupations. This makes sense if the density is computed from wave functions, or if the occupations are going to be fixed at these values.
       kPoints:
         spin:
           bands:
@@ -571,7 +572,7 @@ all:
     ekt:
       data_type: float
       required: false
-      unit: eV
+      units: eV
       description: The electronic temperature
     MethfesselPaxton:
       data_type: float
@@ -601,7 +602,7 @@ all:
     zField:
       data_type: float
       required: false
-      unit: eV/bohr
+      units: eV/bohr
       description: Use an additional electric field along z when using the dipole correction
   main:
     scfDiag:
@@ -609,7 +610,7 @@ all:
       dEnergy:
         data_type: float
         required: false
-        unit: Hartree
+        units: Hartree
         default: 1e-8
         description: Free energy convergence criterium
       maxSteps:
@@ -663,7 +664,7 @@ all:
       ekt:
         data_type: float
         required: false
-        unit: eV
+        units: eV
         description: The electronic temperature
       dipoleCorrection:
         data_type: bool
@@ -785,7 +786,7 @@ all:
         ekt:
           data_type: float
           required: false
-          unit: eV
+          units: eV
           description: Override electronic temperature setting in the Hamiltonian group.
         dipoleCorrection:
           data_type: bool
@@ -809,25 +810,25 @@ all:
       dX:
         data_type: float
         required: false
-        unit: bohr
+        units: bohr
         default: 0.01
         description: Stop iterating when the change in geometry falls below this threshold.
       dF:
         data_type: float
         required: false
-        unit: Hartree/bohr
+        units: Hartree/bohr
         default: 0.01
         description: Stop iterating when the change in forces falls below this threshold.
       dEnergy:
         data_type: float
         required: false
-        unit: Hartree
+        units: Hartree
         default: 1e-4
         description: Use these settings until energy change fall below this threshold.
       maxStepLength:
         data_type: float
         required: false
-        unit: bohr
+        units: bohr
         default: 0.3
         description: maximum allowed displacement (length of displacement vector for a single atom). Larger steps are reduced by scaling
       hessian:
@@ -853,25 +854,25 @@ all:
       dX:
         data_type: float
         required: false
-        unit: bohr
+        units: bohr
         default: 0.01
         description: Stop iterating when the change in geometry falls below this threshold.
       dF:
         data_type: float
         required: false
-        unit: Hartree/bohr
+        units: Hartree/bohr
         default: 0.001
         description: Stop iterating when the change in forces falls below this threshold.
       dEnergy:
         data_type: float
         required: false
-        unit: Hartree
+        units: Hartree
         default: 1e-4
         description: Use these settings until energy change fall below this threshold.
       maxStepLength:
         data_type: float
         required: false
-        unit: bohr
+        units: bohr
         default: 0.3
         description: maximum allowed displacement (length of displacement vector for a single atom). Larger steps are reduced by scaling
       nProjectors:
@@ -898,25 +899,25 @@ all:
       dX:
         data_type: float
         required: false
-        unit: bohr
+        units: bohr
         default: 0.01
         description: Stop iterating when the change in geometry falls below this threshold.
       dF:
         data_type: float
         required: false
-        unit: Hartree/bohr
+        units: Hartree/bohr
         default: 0.001
         description: Stop iterating when the change in forces falls below this threshold.
       dEnergy:
         data_type: float
         required: false
-        unit: Hartree
+        units: Hartree
         default: 1e-4
         description: Use these settings until energy change fall below this threshold.
       maxStepLength:
         data_type: float
         required: false
-        unit: bohr
+        units: bohr
         default: 0.3
         description: maximum allowed displacement (length of displacement vector for a single atom). Larger steps are reduced by scaling
       nProjectors:
@@ -927,7 +928,7 @@ all:
         data_type: float
         required: false
         default: 0.01
-        unit: Hartree/bohr**2
+        units: Hartree/bohr**2
         description: Initial value for Hessian shift. This is overriden with the first successful fit of a positive shift parameter.
       driftFilter:
         data_type: bool
@@ -941,7 +942,7 @@ all:
       maxDist:
         data_type: float
         required: false
-        unit: bohr
+        units: bohr
         default: 10
         description: maximum possible distance for considering neighbors
       typifyThreshold:
