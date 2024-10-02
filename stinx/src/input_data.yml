@@ -169,8 +169,8 @@ sphinx:
       angularGrid:
         data_type: int
         required: false
-        default: 7
-        description: Choose a different angular grid for xc calculation in the PAW sphere. Larger is finer. Default is 7 (110 points).
+        default: 7 (110 points)
+        description: Choose a different angular grid for xc calculation in the PAW sphere. Larger is finer.
       nRadGrid:
         data_type: int
         required: false
