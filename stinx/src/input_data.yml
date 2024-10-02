@@ -44,6 +44,14 @@ sphinx:
           data_type: str
           required: false
           description: Assign a label (or rather a tag) to this atom. If labels are used, atoms with different labels are considered inequivalent. Think of spin configurations for a use-case.
+        movable:
+          alias: sphinx.structure.movable
+        movableX:
+          alias: sphinx.structure.movableX
+        movableY:
+          alias: sphinx.structure.movableY
+        movableZ:
+          alias: sphinx.structure.movableZ
     symmetry:
       operator:
         data_type: list 
