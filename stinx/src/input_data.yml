@@ -44,6 +44,14 @@ sphinx:
           data_type: str
           required: false
           description: Assign a label (or rather a tag) to this atom. If labels are used, atoms with different labels are considered inequivalent. Think of spin configurations for a use-case.
+        movable:
+          alias: sphinx.structure.movable
+        movableX:
+          alias: sphinx.structure.movableX
+        movableY:
+          alias: sphinx.structure.movableY
+        movableZ:
+          alias: sphinx.structure.movableZ
     symmetry:
       operator:
         data_type: list 
@@ -161,8 +169,8 @@ sphinx:
       angularGrid:
         data_type: int
         required: false
-        default: 7
-        description: Choose a different angular grid for xc calculation in the PAW sphere. Larger is finer. Default is 7 (110 points).
+        default: 7 (110 points)
+        description: Choose a different angular grid for xc calculation in the PAW sphere. Larger is finer.
       nRadGrid:
         data_type: int
         required: false
@@ -176,7 +184,7 @@ sphinx:
         data_type: float
         required: false
         description: Change the PAW radius used for atomic quantities "inside the PAW sphere".
-  pawHamiltonian:
+  PAWHamiltonian:
     xc:
       data_type: str
       required: true
