@@ -7,7 +7,7 @@ import h5py
 import numpy as np
 
 
-def splitter(arr, counter):
+def _splitter(arr, counter):
     if len(arr) == 0 or len(counter) == 0:
         return []
     arr_new = []
@@ -33,11 +33,11 @@ def collect_energy_dat(file_name="energy.dat", cwd=None):
     if cwd is not None:
         path = Path(cwd) / path
     energies = np.loadtxt(str(path), ndmin=2)
-    results = {"scf_computation_time": splitter(energies[:, 1], energies[:, 0])}
-    results["scf_energy_int"] = splitter(energies[:, 2], energies[:, 0])
+    results = {"scf_computation_time": _splitter(energies[:, 1], energies[:, 0])}
+    results["scf_energy_int"] = _splitter(energies[:, 2], energies[:, 0])
 
     def en_split(e, counter=energies[:, 0]):
-        return splitter(e, counter)
+        return _splitter(e, counter)
 
     if len(energies[0]) == 7:
         results["scf_energy_free"] = en_split(energies[:, 3])
@@ -65,7 +65,7 @@ def collect_residue_dat(file_name="residue.dat", cwd="."):
     residue = np.loadtxt(str(Path(cwd) / Path(file_name)), ndmin=2)
     if len(residue) == 0:
         return {}
-    return {"scf_residue": splitter(residue[:, 1:].squeeze(), residue[:, 0])}
+    return {"scf_residue": _splitter(residue[:, 1:].squeeze(), residue[:, 0])}
 
 
 def _collect_eps_dat(file_name="eps.dat", cwd=None):
@@ -114,7 +114,7 @@ def collect_energy_struct(file_name="energy-structOpt.dat", cwd=None):
     }
 
 
-def check_permutation(index_permutation):
+def _check_permutation(index_permutation):
     if index_permutation is None:
         return
     indices, counter = np.unique(index_permutation, return_counts=True)
@@ -136,7 +136,7 @@ def collect_spins_dat(file_name="spins.dat", cwd=None, index_permutation=None):
         (dict): results
 
     """
-    check_permutation(index_permutation)
+    _check_permutation(index_permutation)
     path = Path(file_name)
     if cwd is not None:
         path = Path(cwd) / path
@@ -145,7 +145,7 @@ def collect_spins_dat(file_name="spins.dat", cwd=None, index_permutation=None):
         s = np.array([ss[index_permutation] for ss in spins[:, 1:]])
     else:
         s = spins[:, 1:]
-    return {"atom_scf_spins": splitter(s, spins[:, 0])}
+    return {"atom_scf_spins": _splitter(s, spins[:, 0])}
 
 
 def collect_relaxed_hist(file_name="relaxHist.sx", cwd=None, index_permutation=None):
@@ -161,7 +161,7 @@ def collect_relaxed_hist(file_name="relaxHist.sx", cwd=None, index_permutation=N
 
     # TODO: parse movable, elements, species etc.
     """
-    check_permutation(index_permutation)
+    _check_permutation(index_permutation)
     path = Path(file_name)
     if cwd is not None:
         path = Path(cwd) / path
@@ -209,7 +209,7 @@ class SphinxLogParser:
         self._check_enter_scf()
         self._log_main = None
         self._n_atoms = None
-        check_permutation(index_permutation)
+        _check_permutation(index_permutation)
         self._index_permutation = index_permutation
         self.generic_dict = {
             "volume": self.get_volume,
@@ -312,7 +312,7 @@ class SphinxLogParser:
 
     def _get_energy(self, pattern):
         c, F = np.array(re.findall(pattern, self.log_main, re.MULTILINE)).T
-        return splitter(F.astype(float), c.astype(int))
+        return _splitter(F.astype(float), c.astype(int))
 
     def get_energy_free(self):
         return self._get_energy(pattern=r"F\((\d+)\)=(-?\d+\.\d+)")
@@ -358,7 +358,7 @@ class SphinxLogParser:
             if self.index_permutation is not None:
                 for ii, mm in enumerate(magnetic_forces):
                     magnetic_forces[ii] = mm[self.index_permutation]
-        return splitter(magnetic_forces, self.counter)
+        return _splitter(magnetic_forces, self.counter)
 
     @property
     def n_steps(self):
