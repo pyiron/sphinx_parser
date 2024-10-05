@@ -4,3 +4,4 @@ dependencies:
 - coveralls
 - coverage
 - numpy =1.26.0
+- black =24.8.0
