@@ -2,6 +2,7 @@ import keyword
 import numpy as np
 import yaml
 import os
+from black import format_str, FileMode
 
 
 indent = 4 * " "
@@ -203,6 +204,7 @@ def export_class(yml_file_name="input_data.yml", py_file_name="input.py"):
         "from stinx.toolkit import fill_values",
     ]
     file_content = "\n".join(imports) + "\n\n\n" + file_content
+    file_content = format_str(file_content, mode=FileMode())
     with open(
         os.path.join(os.path.dirname(__file__), "..", py_file_name), "w"
     ) as f:
