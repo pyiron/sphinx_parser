@@ -1,5 +1,5 @@
 import unittest
-from stinx.source import generator
+from stinx.src import generator
 import yaml
 import os
 
@@ -15,8 +15,7 @@ class TestStinx(unittest.TestCase):
             file_content = f.read()
         all_data = yaml.safe_load(file_content)
         all_data = generator.replace_alias(all_data)
-        all_files = "\n\n".join(generator.get_all_functions(all_data))
-        self.assertTrue("def get_all" in all_files)
+        self.assertTrue("def create" in generator.get_class(all_data))
 
 
 if __name__ == '__main__':
