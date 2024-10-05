@@ -17,18 +17,18 @@ class sphinx:
         main: Optional[dict] = None,
     ):
         """
-        Args:
-            structure (dict): (Optional)
-            basis (dict): (Optional)
-            pawPot (dict): The pawPot group defines the PAW potentials, by a sequence of species groups. The order of species must agree with the structure group. (Optional)
-            PAWHamiltonian (dict): (Optional)
-            spinConstraint (dict): (Optional)
-            initialGuess (dict): In order to start a DFT calculations, one must set up an initial guess for the density and for the wave functions. The initialGuess group defines how this is done, as well as a few other settings (such as keeping the waves on disk to save RAM). The default is to set up the density from a superposition of atomic densities, and the wave-functions from a single-step LCAO calculation, using the atomic valence orbitals. This works exceptionally well. If you want to finetune the behavior, the initialGuess group must contain a waves or a rho group. Otherwise, you may omit the waves and rho groups to get the default behavior. Additionally, the initialGuess group may contain an occupations group to set up initial occupations (notably when keeping them fixed), and an exchange group for hybrid functionals. (Optional)
-            pseudoPot (dict): The pseudoPot group defines the norm-conserving pseudopotentials by a sequence of species groups. The order of species must agree with the structure group.
+                Args:
+                    structure (dict): (Optional)
+                    basis (dict): (Optional)
+                    pawPot (dict): The pawPot group defines the PAW potentials, by a sequence of species groups. The order of species must agree with the structure group. (Optional)
+                    PAWHamiltonian (dict): (Optional)
+                    spinConstraint (dict): (Optional)
+                    initialGuess (dict): In order to start a DFT calculations, one must set up an initial guess for the density and for the wave functions. The initialGuess group defines how this is done, as well as a few other settings (such as keeping the waves on disk to save RAM). The default is to set up the density from a superposition of atomic densities, and the wave-functions from a single-step LCAO calculation, using the atomic valence orbitals. This works exceptionally well. If you want to finetune the behavior, the initialGuess group must contain a waves or a rho group. Otherwise, you may omit the waves and rho groups to get the default behavior. Additionally, the initialGuess group may contain an occupations group to set up initial occupations (notably when keeping them fixed), and an exchange group for hybrid functionals. (Optional)
+                    pseudoPot (dict): The pseudoPot group defines the norm-conserving pseudopotentials by a sequence of species groups. The order of species must agree with the structure group.
 
-Note: PAW and norm-conserving pseudopotentials cannot be mixed. Using pseudoPot requires to use PWHamiltonian to define the Hamiltonian. (Optional)
-            PWHamiltonian (dict): (Optional)
-            main (dict): (Optional)
+        Note: PAW and norm-conserving pseudopotentials cannot be mixed. Using pseudoPot requires to use PWHamiltonian to define the Hamiltonian. (Optional)
+                    PWHamiltonian (dict): (Optional)
+                    main (dict): (Optional)
         """
         return fill_values(
             structure=structure,
@@ -873,12 +873,12 @@ Note: PAW and norm-conserving pseudopotentials cannot be mixed. Using pseudoPot 
             species: Optional[dict] = None,
         ):
             """
-            The pseudoPot group defines the norm-conserving pseudopotentials by a sequence of species groups. The order of species must agree with the structure group.
+                        The pseudoPot group defines the norm-conserving pseudopotentials by a sequence of species groups. The order of species must agree with the structure group.
 
-Note: PAW and norm-conserving pseudopotentials cannot be mixed. Using pseudoPot requires to use PWHamiltonian to define the Hamiltonian.
+            Note: PAW and norm-conserving pseudopotentials cannot be mixed. Using pseudoPot requires to use PWHamiltonian to define the Hamiltonian.
 
-            Args:
-                species (dict): (Optional)
+                        Args:
+                            species (dict): (Optional)
             """
             return fill_values(
                 species=species,
@@ -969,9 +969,7 @@ Note: PAW and norm-conserving pseudopotentials cannot be mixed. Using pseudoPot 
 
     class main:
         @staticmethod
-        def create(
-            **kwargs
-        ):
+        def create(**kwargs):
             """
             Args:
                 scfDiag (dict): The scfDiag group selects and controls the iterative diagonalization + density mixing algorithm for the solution of the Kohn-Sham DFT equations. (Optional)
@@ -981,9 +979,7 @@ Note: PAW and norm-conserving pseudopotentials cannot be mixed. Using pseudoPot 
                 ric (dict): The ric group defines the parameters for internal coordinate generation. (Optional)
                 ricTS (dict): The ricTS group requests a quasi-Newton optimization for 1st-order saddle points (transition states) using updates [11] of an on-the-fly optimized internal-coordinate based initial guess for the Hessian [10]. An initial guess for the reaction coordinate must be known. Note: This is an experimental feature. The optimization should be started within the saddle point region (one negative eigenvalue of the Hesse matrix), otherwise, the algorithm may converge to a different stationary point (a minimum, or a higher-order saddle point). (Optional)
             """
-            return fill_values(
-                **kwargs
-            )
+            return fill_values(**kwargs)
 
         class scfDiag:
             @staticmethod
@@ -2296,4 +2292,3 @@ Note: PAW and norm-conserving pseudopotentials cannot be mixed. Using pseudoPot 
                                 spinScaling=spinScaling,
                                 dielecConstant=dielecConstant,
                             )
-
