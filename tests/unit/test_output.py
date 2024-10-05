@@ -22,5 +22,5 @@ class TestOutput(unittest.TestCase):
             self.assertIsInstance(energy["scf_energy_free"], list)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()

@@ -18,5 +18,5 @@ class TestStinx(unittest.TestCase):
         self.assertTrue("def create" in generator.get_class(all_data))
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()

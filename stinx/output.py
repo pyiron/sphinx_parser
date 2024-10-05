@@ -109,9 +109,7 @@ def collect_energy_struct(file_name="energy-structOpt.dat", cwd=None):
     path = Path(file_name)
     if cwd is not None:
         path = Path(cwd) / path
-    return {
-        "energy_free": np.loadtxt(str(path), ndmin=2).reshape(-1, 2)[:, 1]
-    }
+    return {"energy_free": np.loadtxt(str(path), ndmin=2).reshape(-1, 2)[:, 1]}
 
 
 def _check_permutation(index_permutation):
@@ -282,9 +280,7 @@ class SphinxLogParser:
     @property
     def _rec_cell(self):
         log_extract = re.findall("b[1-3]:.*$", self.log_file, re.MULTILINE)
-        return (
-            np.array([ll.split()[1:4] for ll in log_extract]).astype(float)
-        )[:3]
+        return (np.array([ll.split()[1:4] for ll in log_extract]).astype(float))[:3]
 
     def get_kpoints_cartesian(self):
         return np.einsum("ni,ij->nj", self.k_points, self._rec_cell)
