@@ -1,6 +1,7 @@
 import unittest
 import os
 from stinx import output
+import numpy as np
 
 
 class TestOutput(unittest.TestCase):
@@ -15,11 +16,33 @@ class TestOutput(unittest.TestCase):
             if file_name in files:
                 yield os.path.join(root, file_name)
 
-    def test_output(self):
+    def test_energy_dat(self):
+        counter = 0
         for file in self._find_file("energy.dat"):
             energy = output.collect_energy_dat(file)
             self.assertTrue("scf_energy_free" in energy)
             self.assertIsInstance(energy["scf_energy_free"], list)
+            self.assertLess(
+                energy["scf_energy_free"][-1][-1],
+                energy["scf_energy_zero"][-1][-1]
+            )
+            self.assertLess(
+                energy["scf_energy_zero"][-1][-1],
+                energy["scf_energy_int"][-1][-1]
+            )
+            counter += 1
+        self.assertGreater(counter, 0)
+
+    def test_residue(self):
+        counter = 0
+        for file in self._find_file("residue.dat"):
+            residue = output.collect_residue_dat(file)
+            counter += 1
+            self.assertGreater(len(residue), 0)
+            self.assertGreater(len(residue["scf_residue"]), 0)
+            self.assertGreater(len(residue["scf_residue"][-1]), 0)
+            self.assertGreater(np.min(residue["scf_residue"][-1]), 0)
+        self.assertGreater(counter, 0)
 
 
 if __name__ == "__main__":
