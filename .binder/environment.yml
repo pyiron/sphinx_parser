@@ -5,3 +5,4 @@ dependencies:
 - coverage
 - numpy =1.26.0
 - black =24.8.0
+- h5py =3.12.1
