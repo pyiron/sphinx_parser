@@ -131,27 +131,43 @@ def get_input_arg(key, entry, indent=indent):
 def _rename_keys(data):
     d_1 = {_get_safe_parameter_name(key): value for key, value in data.items()}
     d_2 = {
-        key: d for key, d in d_1.items()
+        key: d
+        for key, d in d_1.items()
         if not isinstance(d, dict) or d.get("required", False)
     }
     d_2.update(d_1)
     return d_2
 
 
-def get_function(data, function_name, predefined=predefined, indent=indent, n_indent=0, is_kwarg=False):
+def get_function(
+    data,
+    function_name,
+    predefined=predefined,
+    indent=indent,
+    n_indent=0,
+    is_kwarg=False,
+):
     d = _rename_keys(data)
     func = ["@staticmethod", f"def {function_name}("]
     if is_kwarg:
         func.append(f"{indent}**kwargs")
     else:
-        func.extend([get_input_arg(key, value) for key, value in d.items() if key not in predefined])
+        func.extend(
+            [
+                get_input_arg(key, value)
+                for key, value in d.items()
+                if key not in predefined
+            ]
+        )
     func.append("):")
     docstring = get_docstring(d, d.get("description", None))
     output = [indent + "return fill_values("]
     if is_kwarg:
         output.append(2 * indent + "**kwargs")
     else:
-        output.extend([2 * indent + f"{key}={key}," for key in d.keys() if key not in predefined])
+        output.extend(
+            [2 * indent + f"{key}={key}," for key in d.keys() if key not in predefined]
+        )
     output.append(indent + ")")
     result = func + docstring + output
     return "\n".join([indent * n_indent + line for line in result])
@@ -169,7 +185,9 @@ def get_all_function_names(all_data, head="", predefined=predefined):
 def get_unique_tags(tags, max_steps=10):
     counter = np.ones(len(tags)).astype(int)
     for _ in range(max_steps):
-        reduced_tags = ["_".join(tag.split("/")[-cc:]) for cc, tag in zip(counter, tags)]
+        reduced_tags = [
+            "_".join(tag.split("/")[-cc:]) for cc, tag in zip(counter, tags)
+        ]
         t, c = np.unique(reduced_tags, return_counts=True)
         if c.max() == 1:
             return reduced_tags
@@ -184,10 +202,18 @@ def get_class(all_data, indent=indent):
     txt = ""
     for name in fnames:
         names = name.split("/")
-        txt += indent * (len(names) - 1) + "class {}:\n".format(_get_safe_parameter_name(names[-1]))
-        txt += get_function(
-            get(all_data, name), "create", n_indent=len(names), is_kwarg=names[-1] == "main"
-        ) + "\n\n"
+        txt += indent * (len(names) - 1) + "class {}:\n".format(
+            _get_safe_parameter_name(names[-1])
+        )
+        txt += (
+            get_function(
+                get(all_data, name),
+                "create",
+                n_indent=len(names),
+                is_kwarg=names[-1] == "main",
+            )
+            + "\n\n"
+        )
     return txt
 
 
@@ -205,7 +231,5 @@ def export_class(yml_file_name="input_data.yml", py_file_name="input.py"):
     ]
     file_content = "\n".join(imports) + "\n\n\n" + file_content
     file_content = format_str(file_content, mode=FileMode())
-    with open(
-        os.path.join(os.path.dirname(__file__), "..", py_file_name), "w"
-    ) as f:
+    with open(os.path.join(os.path.dirname(__file__), "..", py_file_name), "w") as f:
         f.write(file_content)
