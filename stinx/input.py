@@ -126,15 +126,28 @@ class sphinx:
         class symmetry:
             @staticmethod
             def create(
-                operator: list,
+                operator: Optional[dict] = None,
             ):
                 """
                 Args:
-                    operator (list): Symmetry operator.
+                    operator (dict): (Optional)
                 """
                 return fill_values(
                     operator=operator,
                 )
+
+            class operator:
+                @staticmethod
+                def create(
+                    S: list,
+                ):
+                    """
+                    Args:
+                        S (list): Symmetry operator.
+                    """
+                    return fill_values(
+                        S=S,
+                    )
 
     class basis:
         @staticmethod
