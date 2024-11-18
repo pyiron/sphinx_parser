@@ -1029,3 +1029,10 @@ sphinx:
         description: Drift filter
       bornOppenheimer:
         alias: sphinx.main.QN.bornOppenheimer
+    evalForces:
+      description: The evalForces group is used to calculate forces and write them to a file in sx-format. This is useful for single-point calculations without a structure
+      file:
+        data_type: str
+        required: true
+        description: The file to write the forces to.
+optimization. It should be used after an electronic loop.
