@@ -38,8 +38,7 @@ def get_structure_group(structure, use_symmetry=True):
             movable[elm_list],
         ):
             atom_group = {"coords": np.array(elm_pos)}
-            if elm_magmom is not None:
-                atom_group["label"] = '"spin_' + str(elm_magmom) + '"'
+            atom_group["label"] = '"spin_' + str(elm_magmom) + '"'
             if all(selective):
                 atom_group["movable"] = True
             elif any(selective):
