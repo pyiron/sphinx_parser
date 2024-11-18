@@ -55,5 +55,10 @@ def get_structure_group(structure, use_symmetry=True):
         species.append(
             sphinx.structure.species.create(element=f'"{elm_species}"', atom=atom_list)
         )
-    structure_group = sphinx.structure.create(cell=np.array(cell), species=species)
+    symmetry = None
+    if not use_symmetry:
+        symmetry = sphinx.structure.symmetry.create(
+            operator=sphinx.structure.symmetry.operator.create(S=np.eye(3).tolist())
+        )
+    structure_group = sphinx.structure.create(cell=np.array(cell), species=species, symmetry=symmetry)
     return structure_group
