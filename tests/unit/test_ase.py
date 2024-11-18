@@ -13,8 +13,8 @@ class TestStinx(unittest.TestCase):
         for key in ["cell", "species", "species___0", "symmetry"]:
             self.assertTrue(key in input_dict)
         text = to_sphinx(input_dict)
-        self.assertEqual(len(re.findall(r'\bspecies\b', text, re.IGNORECASE)), 2)
-        self.assertEqual(len(re.findall(r'\batom\b', text, re.IGNORECASE)), 4)
+        self.assertEqual(len(re.findall(r"\bspecies\b", text, re.IGNORECASE)), 2)
+        self.assertEqual(len(re.findall(r"\batom\b", text, re.IGNORECASE)), 4)
 
 
 if __name__ == "__main__":

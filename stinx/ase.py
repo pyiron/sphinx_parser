@@ -60,5 +60,7 @@ def get_structure_group(structure, use_symmetry=True):
         symmetry = sphinx.structure.symmetry.create(
             operator=sphinx.structure.symmetry.operator.create(S=np.eye(3).tolist())
         )
-    structure_group = sphinx.structure.create(cell=np.array(cell), species=species, symmetry=symmetry)
+    structure_group = sphinx.structure.create(
+        cell=np.array(cell), species=species, symmetry=symmetry
+    )
     return structure_group
