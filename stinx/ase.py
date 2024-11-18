@@ -5,8 +5,12 @@ from ase.io.vasp import _handle_ase_constraints
 
 
 def get_constraints(atoms):
+    """
+    Get the constraints of the atoms object. The constraints are returned as a
+    boolean array. True means the atom is movable, False means it is fixed.
+    """
     if atoms.constraints:
-        return _handle_ase_constraints(atoms)
+        return ~_handle_ase_constraints(atoms)
     else:
         return np.full(shape=atoms.positions.shape, fill_value=True)
 
