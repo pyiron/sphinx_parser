@@ -146,9 +146,8 @@ def collect_spins_dat(file_name="spins.dat", cwd=None, index_permutation=None):
     return {"atom_scf_spins": _splitter(s, spins[:, 0])}
 
 
-def collect_relaxed_hist(file_name, cwd=None, index_permutation=None):
+def collect_eval_forces(file_name, cwd=None, index_permutation=None):
     """
-
     Args:
         file_name (str): file name
         cwd (str): directory path
