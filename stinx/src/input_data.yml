@@ -54,9 +54,10 @@ sphinx:
           alias: sphinx.structure.movableZ
     symmetry:
       operator:
-        data_type: list 
-        required: true
-        description: Symmetry operator
+        S:
+          data_type: list 
+          required: true
+          description: Symmetry operator
   basis:
     eCut:
       data_type: float
