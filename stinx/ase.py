@@ -11,6 +11,13 @@ def get_constraints(atoms):
         return np.full(shape=atoms.positions.shape, fill_value=True)
 
 
+def _to_angstrom(cell, positions):
+    bohr_to_angstrom = sc.physical_constants["Bohr radius"][0] / sc.angstrom
+    cell = np.array(cell) / bohr_to_angstrom
+    positions = np.array(positions) / bohr_to_angstrom
+    return cell, positions
+
+
 def get_structure_group(structure, use_symmetry=True):
     """
     create a SPHInX Group object based on structure
@@ -22,9 +29,7 @@ def get_structure_group(structure, use_symmetry=True):
     Returns:
         (Group): structure group
     """
-    bohr_to_angstrom = sc.physical_constants["Bohr radius"][0] / sc.angstrom
-    positions = np.array(structure.positions) / bohr_to_angstrom
-    cell = np.array(structure.cell) / bohr_to_angstrom
+    cell, positions = _to_angstrom(structure.cell, structure.positions)
     movable = get_constraints(structure)
     labels = structure.get_initial_magnetic_moments()
     elements = np.array(structure.get_chemical_symbols())
@@ -37,8 +42,10 @@ def get_structure_group(structure, use_symmetry=True):
             labels[elm_list],
             movable[elm_list],
         ):
-            atom_group = {"coords": np.array(elm_pos)}
-            atom_group["label"] = '"spin_' + str(elm_magmom) + '"'
+            atom_group = {
+                "coords": np.array(elm_pos),
+                "label": f'"spin_{elm_magmom}"',
+            }
             if all(selective):
                 atom_group["movable"] = True
             elif any(selective):
