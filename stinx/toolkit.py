@@ -42,7 +42,7 @@ def append_item(group, key, value, n_max=int(1e8)):
     raise ValueError("Too many items in group")
 
 
-def fill_values(**kwargs):
+def fill_values(wrap_string=True, **kwargs):
     group = {}
     for k, v in kwargs.items():
         while k.endswith("_"):
@@ -52,7 +52,7 @@ def fill_values(**kwargs):
                 for i, vv in enumerate(v):
                     group = append_item(group, k, vv)
             else:
-                if isinstance(v, str):
+                if isinstance(v, str) and wrap_string:
                     v = wrap_string(v)
                 group = append_item(group, k, v)
     return group
