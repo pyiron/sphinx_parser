@@ -991,6 +991,7 @@ class sphinx:
                 ricQN (dict): (Optional)
                 ric (dict): The ric group defines the parameters for internal coordinate generation. (Optional)
                 ricTS (dict): The ricTS group requests a quasi-Newton optimization for 1st-order saddle points (transition states) using updates [11] of an on-the-fly optimized internal-coordinate based initial guess for the Hessian [10]. An initial guess for the reaction coordinate must be known. Note: This is an experimental feature. The optimization should be started within the saddle point region (one negative eigenvalue of the Hesse matrix), otherwise, the algorithm may converge to a different stationary point (a minimum, or a higher-order saddle point). (Optional)
+                evalForces (dict): The evalForces group is used to calculate forces and write them to a file in sx-format. This is useful for single-point calculations without a structure optimization. It should be used after an electronic loop. (Optional)
             """
             return fill_values(**kwargs)
 
@@ -2305,3 +2306,18 @@ class sphinx:
                                 spinScaling=spinScaling,
                                 dielecConstant=dielecConstant,
                             )
+
+        class evalForces:
+            @staticmethod
+            def create(
+                file: str,
+            ):
+                """
+                The evalForces group is used to calculate forces and write them to a file in sx-format. This is useful for single-point calculations without a structure optimization. It should be used after an electronic loop.
+
+                Args:
+                    file (str): The file to write the forces to.
+                """
+                return fill_values(
+                    file=file,
+                )
