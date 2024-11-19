@@ -42,9 +42,8 @@ def append_item(group, key, value, n_max=int(1e8)):
     raise ValueError("Too many items in group")
 
 
-def fill_values(group=None, **kwargs):
-    if group is None:
-        group = {}
+def fill_values(**kwargs):
+    group = {}
     for k, v in kwargs.items():
         while k.endswith("_"):
             k = k[:-1]
