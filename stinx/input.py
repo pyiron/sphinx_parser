@@ -30,6 +30,7 @@ class sphinx:
         Note: PAW and norm-conserving pseudopotentials cannot be mixed. Using pseudoPot requires to use PWHamiltonian to define the Hamiltonian. (Optional)
                     PWHamiltonian (dict): (Optional)
                     main (dict): (Optional)
+                    wrap_string (bool): Whether to wrap string values in apostrophes.
         """
         return fill_values(
             structure=structure,
@@ -65,6 +66,7 @@ class sphinx:
                 movableZ (bool): Allow atoms to move in the z direction. Default: True. (Optional)
                 species (dict): (Optional)
                 symmetry (dict): (Optional)
+                wrap_string (bool): Whether to wrap string values in apostrophes.
             """
             return fill_values(
                 cell=cell,
@@ -88,6 +90,7 @@ class sphinx:
                 Args:
                     element (str): Element. (Optional)
                     atom (dict): (Optional)
+                    wrap_string (bool): Whether to wrap string values in apostrophes.
                 """
                 return fill_values(
                     element=element,
@@ -118,6 +121,7 @@ class sphinx:
                         movableX (bool): Allow atoms to move in the x direction. Default: True. (Optional)
                         movableY (bool): Allow atoms to move in the y direction. Default: True. (Optional)
                         movableZ (bool): Allow atoms to move in the z direction. Default: True. (Optional)
+                        wrap_string (bool): Whether to wrap string values in apostrophes.
                     """
                     return fill_values(
                         coords=coords,
@@ -140,6 +144,7 @@ class sphinx:
                 """
                 Args:
                     operator (dict): (Optional)
+                    wrap_string (bool): Whether to wrap string values in apostrophes.
                 """
                 return fill_values(
                     operator=operator,
@@ -155,6 +160,7 @@ class sphinx:
                     """
                     Args:
                         S (list): Symmetry operator.
+                        wrap_string (bool): Whether to wrap string values in apostrophes.
                     """
                     return fill_values(
                         S=S,
@@ -184,6 +190,7 @@ class sphinx:
                 saveMemory (bool): Save memory. (Optional)
                 kPoint (dict): (Optional)
                 kPoints (dict): (Optional)
+                wrap_string (bool): Whether to wrap string values in apostrophes.
             """
             return fill_values(
                 eCut=eCut,
@@ -210,6 +217,7 @@ class sphinx:
                     coords (np.ndarray): The k-point coordinates as a 3-vector. Unless the relative tag is employed, the coordinates are Cartesian.
                     relative (bool): The coordinates are given relative to the unit cell vectors. (Optional)
                     weight (float): The weight of the k-point in the sampling. (Optional)
+                    wrap_string (bool): Whether to wrap string values in apostrophes.
                 """
                 return fill_values(
                     coords=coords,
@@ -233,6 +241,7 @@ class sphinx:
                     dK (float): Set the number of intermediate k-points such that the distance is at most dK. (Optional)
                     from_ (dict): The from group (within the kPoints group) adds a single k-point at the desired position. It may be used multiple times. (Optional)
                     to (dict): The to group (within the kPoints group) adds a line of k-points from the previous one to a new position. The number of points is set directly with nPoints or indirectly via dK. (Optional)
+                    wrap_string (bool): Whether to wrap string values in apostrophes.
                 """
                 return fill_values(
                     relative=relative,
@@ -257,6 +266,7 @@ class sphinx:
                         coords (np.ndarray): The k-point coordinates as a 3-vector. If the relative flag is not given.
                         relative (bool): The coordinates are given relative to the unit cell vectors. (Optional)
                         label (str): Assign a label (or rather a tag) to this k-point. If labels are used, k-points with different labels are considered inequivalent. (Optional)
+                        wrap_string (bool): Whether to wrap string values in apostrophes.
                     """
                     return fill_values(
                         coords=coords,
@@ -284,6 +294,7 @@ class sphinx:
                         label (str): Assign a label (or rather a tag) to this k-point. If labels are used, k-points with different labels are considered inequivalent. (Optional)
                         dK (float): Set the number of intermediate k-points such that the distance is at most dK. (Optional)
                         nPoints (int): Specify number of points to add. The final one will be at coords. (Optional)
+                        wrap_string (bool): Whether to wrap string values in apostrophes.
                     """
                     return fill_values(
                         coords=coords,
@@ -305,6 +316,7 @@ class sphinx:
 
             Args:
                 species (dict): (Optional)
+                wrap_string (bool): Whether to wrap string values in apostrophes.
             """
             return fill_values(
                 species=species,
@@ -336,6 +348,7 @@ class sphinx:
                     nRadGrid (int): Interpolate to a different radial grid. (Optional)
                     checkOverlap (bool): Check that PAW norm is garantueed to be positive definite in the limit of large cutoffs. Some problematic PAW potentials may fail the check, but work normally in some circumstances, so you can switch off the check here. Default: True. (Optional)
                     rPAW (float): Change the PAW radius used for atomic quantities "inside the PAW sphere". (Optional)
+                    wrap_string (bool): Whether to wrap string values in apostrophes.
                 """
                 return fill_values(
                     potential=potential,
@@ -383,6 +396,7 @@ class sphinx:
                 xcMesh (dict): Mesh for the exchange-correlation potential. (Optional)
                 vdwCorrection (dict): Van der Waals correction. (Optional)
                 HubbardU (dict): Hubbard U. (Optional)
+                wrap_string (bool): Whether to wrap string values in apostrophes.
             """
             return fill_values(
                 xc=xc,
@@ -412,6 +426,7 @@ class sphinx:
 
                 Args:
                     file (str): The file containing the external potential.
+                    wrap_string (bool): Whether to wrap string values in apostrophes.
                 """
                 return fill_values(
                     file=file,
@@ -433,6 +448,7 @@ class sphinx:
                     eCut (float): The energy cutoff for the mesh.
                     mesh (list): The mesh for the exchange-correlation potential. (Optional)
                     meshAccuracy (float): The accuracy of the mesh. (Optional)
+                    wrap_string (bool): Whether to wrap string values in apostrophes.
                 """
                 return fill_values(
                     eCut=eCut,
@@ -454,6 +470,7 @@ class sphinx:
                 Args:
                     method (str): The method to use for the van der Waals correction.
                     combinationRule (str): The combination rule to use for the van der Waals correction. (Optional)
+                    wrap_string (bool): Whether to wrap string values in apostrophes.
                 """
                 return fill_values(
                     method=method,
@@ -476,6 +493,7 @@ class sphinx:
                     verbose (bool): Verbose output. (Optional)
                     AO (dict): AO. (Optional)
                     MO (dict): The MO group within the HubbardU group defines on-site correlation corrections using MO orbital projectors. The molecular orbitals (MOs) are constructed from atomic orbitals (AOs) of given radial shape. This shape is defined in the orbital group. The MO projectors are constructed from AO projectors such that a normalized MO is projected to unity. The AO projectors include also the atomic PAW normalization. (Optional)
+                    wrap_string (bool): Whether to wrap string values in apostrophes.
                 """
                 return fill_values(
                     verbose=verbose,
@@ -495,6 +513,7 @@ class sphinx:
 
                     Args:
                         orbital (dict): Orbital. (Optional)
+                        wrap_string (bool): Whether to wrap string values in apostrophes.
                     """
                     return fill_values(
                         orbital=orbital,
@@ -518,6 +537,7 @@ class sphinx:
                             iot (int): Which orbital to take. Starts at 0.
                             fromPotential (bool): Get orbital shape from potential. This is not recommended. (Optional)
                             is_ (int): species id within file (starts at 0). If not given, assumes same species ordering in sxb file as in input file. (Optional)
+                            wrap_string (bool): Whether to wrap string values in apostrophes.
                         """
                         return fill_values(
                             file=file,
@@ -564,6 +584,7 @@ class sphinx:
                         sign (int): relative sign of orbitals on both atoms. Can be +1 or -1. (Optional)
                         U (float): The Hubbard U value. (Optional)
                         shift (float): An additional energy shift of the. (Optional)
+                        wrap_string (bool): Whether to wrap string values in apostrophes.
                     """
                     return fill_values(
                         element=element,
@@ -600,6 +621,7 @@ class sphinx:
                             iot (int): Which orbital to take. Starts at 0.
                             fromPotential (bool): Get orbital shape from potential. This is not recommended. (Optional)
                             is_ (int): species id within file (starts at 0). If not given, assumes same species ordering in sxb file as in input file. (Optional)
+                            wrap_string (bool): Whether to wrap string values in apostrophes.
                         """
                         return fill_values(
                             file=file,
@@ -622,6 +644,7 @@ class sphinx:
                 label (str): The present constraint applies to atoms with the given label. (Optional)
                 constraint (float): Value of the desired atomic spin. (Optional)
                 file (str): Read all spin constraints from this file. (Optional)
+                wrap_string (bool): Whether to wrap string values in apostrophes.
             """
             return fill_values(
                 label=label,
@@ -651,6 +674,7 @@ class sphinx:
                 rho (dict): (Optional)
                 occupations (dict): The occupations group within the initialGuess group defines the initial occupations. This makes sense if the density is computed from wave functions, or if the occupations are going to be fixed at these values. (Optional)
                 exchange (dict): Note: hybrid functionals are experimental and slow. The exchange group allows to set waves for the non-local exchange operator at the initialization stage. This is necessary if you want to initialize the waves from an LCAO calculation. The exchange group contains a single parameter, file, which contains the filename of the waves file to be used. (Optional)
+                wrap_string (bool): Whether to wrap string values in apostrophes.
             """
             return fill_values(
                 noWavesStorage=noWavesStorage,
@@ -677,6 +701,7 @@ class sphinx:
                     random (bool): Initialize wave functions randomly. (Optional)
                     keepWavesOnDisk (bool): Keep waves on disk, load only a single k-point at each time. May save a lot of RAM, but can be quite a bottleneck on small systems. (Optional)
                     lcao (dict): (Optional)
+                    wrap_string (bool): Whether to wrap string values in apostrophes.
                 """
                 return fill_values(
                     file=file,
@@ -697,6 +722,7 @@ class sphinx:
                     Args:
                         maxSteps (int): Maximum number of SCF steps. (Optional)
                         dEnergy (float): Energy convergence criterion. (Optional)
+                        wrap_string (bool): Whether to wrap string values in apostrophes.
                     """
                     return fill_values(
                         maxSteps=maxSteps,
@@ -725,6 +751,7 @@ class sphinx:
                     spinMoment (bool): When from atomic densities, apply a global spin polarization. (Optional)
                     atomicSpin (dict): Atomic spin. (Optional)
                     charged (dict): (Optional)
+                    wrap_string (bool): Whether to wrap string values in apostrophes.
                 """
                 return fill_values(
                     file=file,
@@ -752,6 +779,7 @@ class sphinx:
                         spin (float): The spin of the atom. (Optional)
                         label (str): For which atoms to apply this spin. (Optional)
                         file (str): Read atomic spins from this file (one spin per line), one per atom, in sequential order. (Optional)
+                        wrap_string (bool): Whether to wrap string values in apostrophes.
                     """
                     return fill_values(
                         spin=spin,
@@ -775,6 +803,7 @@ class sphinx:
                         beta (float): Gaussian broadening. (Optional)
                         z (float): Request a sheet charge at this z. (Optional)
                         coords (np.ndarray): Request a Gaussian charge at this position. (Optional)
+                        wrap_string (bool): Whether to wrap string values in apostrophes.
                     """
                     return fill_values(
                         charge=charge,
@@ -799,6 +828,7 @@ class sphinx:
                     kPoints (dict): (Optional)
                     spin (dict): (Optional)
                     bands (dict): (Optional)
+                    wrap_string (bool): Whether to wrap string values in apostrophes.
                 """
                 return fill_values(
                     kPoints=kPoints,
@@ -818,6 +848,7 @@ class sphinx:
                     Args:
                         spin (dict): (Optional)
                         bands (dict): (Optional)
+                        wrap_string (bool): Whether to wrap string values in apostrophes.
                     """
                     return fill_values(
                         spin=spin,
@@ -834,6 +865,7 @@ class sphinx:
                         """
                         Args:
                             bands (dict): (Optional)
+                            wrap_string (bool): Whether to wrap string values in apostrophes.
                         """
                         return fill_values(
                             bands=bands,
@@ -853,6 +885,7 @@ class sphinx:
                                 value (list): Specifically list the indices affected.
                                 range (list): Specify start and end index.
                                 focc (int): The occupation value.
+                                wrap_string (bool): Whether to wrap string values in apostrophes.
                             """
                             return fill_values(
                                 value=value,
@@ -874,6 +907,7 @@ class sphinx:
                             value (list): Specifically list the indices affected.
                             range (list): Specify start and end index.
                             focc (int): The occupation value.
+                            wrap_string (bool): Whether to wrap string values in apostrophes.
                         """
                         return fill_values(
                             value=value,
@@ -891,6 +925,7 @@ class sphinx:
                     """
                     Args:
                         bands (dict): (Optional)
+                        wrap_string (bool): Whether to wrap string values in apostrophes.
                     """
                     return fill_values(
                         bands=bands,
@@ -910,6 +945,7 @@ class sphinx:
                             value (list): Specifically list the indices affected.
                             range (list): Specify start and end index.
                             focc (int): The occupation value.
+                            wrap_string (bool): Whether to wrap string values in apostrophes.
                         """
                         return fill_values(
                             value=value,
@@ -931,6 +967,7 @@ class sphinx:
                         value (list): Specifically list the indices affected.
                         range (list): Specify start and end index.
                         focc (int): The occupation value.
+                        wrap_string (bool): Whether to wrap string values in apostrophes.
                     """
                     return fill_values(
                         value=value,
@@ -950,6 +987,7 @@ class sphinx:
 
                 Args:
                     file (str): Read exchange-correlation potential from this file. (Optional)
+                    wrap_string (bool): Whether to wrap string values in apostrophes.
                 """
                 return fill_values(
                     file=file,
@@ -969,6 +1007,7 @@ class sphinx:
 
                         Args:
                             species (dict): (Optional)
+                            wrap_string (bool): Whether to wrap string values in apostrophes.
             """
             return fill_values(
                 species=species,
@@ -1006,6 +1045,7 @@ class sphinx:
                     ionicMass (float): Mass of the ion.
                     element (str): Element. (Optional)
                     lcaoOrbital (int): Which orbitals should be used for lcao initialization. Note: s,p,d, and f are predefined constants in parameters.sx. (Optional)
+                    wrap_string (bool): Whether to wrap string values in apostrophes.
                 """
                 return fill_values(
                     name=name,
@@ -1048,6 +1088,7 @@ class sphinx:
                 spinPolarized (bool): Whether to perform a spin-polarized calculation. (Optional)
                 dipoleCorrection (bool): Use the dipole correction for slab systems. The in-plane lattice must be perpendicular to the z- axis, and the third basis vector must be aligned with the z-axis. For charged calculation, this requests the generalized dipole correction, which may need some care for initializing the charge (see charged in the initialGuess group). (Optional)
                 zField (float): Use an additional electric field along z when using the dipole correction. (Optional)
+                wrap_string (bool): Whether to wrap string values in apostrophes.
             """
             return fill_values(
                 xc=xc,
@@ -1074,6 +1115,7 @@ class sphinx:
                 ric (dict): The ric group defines the parameters for internal coordinate generation. (Optional)
                 ricTS (dict): The ricTS group requests a quasi-Newton optimization for 1st-order saddle points (transition states) using updates [11] of an on-the-fly optimized internal-coordinate based initial guess for the Hessian [10]. An initial guess for the reaction coordinate must be known. Note: This is an experimental feature. The optimization should be started within the saddle point region (one negative eigenvalue of the Hesse matrix), otherwise, the algorithm may converge to a different stationary point (a minimum, or a higher-order saddle point). (Optional)
                 evalForces (dict): The evalForces group is used to calculate forces and write them to a file in sx-format. This is useful for single-point calculations without a structure optimization. It should be used after an electronic loop. (Optional)
+                wrap_string (bool): Whether to wrap string values in apostrophes.
             """
             return fill_values(wrap_string=wrap_string, **kwargs)
 
@@ -1126,6 +1168,7 @@ class sphinx:
                     CCG (dict): The CCG group selects and controls the direct minimization algorithm for the solution of the Kohn-Sham DFT equations. (Optional)
                     blockCCG (dict): The blockCCG group (within the scfDiag group) selects the block-conjugate-gradient algorithm for (inner-loop) iterative diagonalization. After all states have been updated, a subspace diagonalization is performed. This algorithm works best for larger systems (> 5 states). (Optional)
                     preconditioner (dict): The preconditioner group defines the density preconditioner, i.e., a transformation of the observed (or predicted) difference between the input and output density to the applied changes to the input density. An ideal preconditioner models the screening behavior of the system and is able to include the expected screening response into the suggested density change. Selecting an appropriate preconditioner, that rejects the screening properties of the system at hand, is a key to an efficient (i.e. fast) convergence. The preconditioner does not affect the converged result. (Optional)
+                    wrap_string (bool): Whether to wrap string values in apostrophes.
                 """
                 return fill_values(
                     dEnergy=dEnergy,
@@ -1182,6 +1225,7 @@ class sphinx:
                         dipoleCorrection (bool): Override the dipole correction setting in the Hamiltonian group. (Optional)
                         noRhoStorage (bool): Do not write rho.sxb. (Optional)
                         noWavesStorage (bool): Do not write waves.sxb. (Optional)
+                        wrap_string (bool): Whether to wrap string values in apostrophes.
                     """
                     return fill_values(
                         dEnergy=dEnergy,
@@ -1221,6 +1265,7 @@ class sphinx:
                         dEnergy (float): Use these settings until energy change fall below this threshold. (Optional)
                         verbose (bool): Verbose output. (Optional)
                         numericalLimit (float): Stop iterating when approaching the numerical limit. (Optional)
+                        wrap_string (bool): Whether to wrap string values in apostrophes.
                     """
                     return fill_values(
                         dRelEps=dRelEps,
@@ -1250,6 +1295,7 @@ class sphinx:
                         scaling (float): Scaling factor for the preconditioner. Default: 1.0. (Optional)
                         spinScaling (float): Scaling factor for the spin part of the preconditioner. Default: 1.0. (Optional)
                         dielecConstant (float): Dielectric constant for the CSRB preconditioner. (Optional)
+                        wrap_string (bool): Whether to wrap string values in apostrophes.
                     """
                     return fill_values(
                         type=type,
@@ -1284,6 +1330,7 @@ class sphinx:
                     hessian (str): Initialize Hessian from file. (Optional)
                     driftFilter (bool): Project out the average force and displacement. Default: True. (Optional)
                     bornOppenheimer (dict): The bornOppenheimer group defines the electronic loop within a geometry optimization. It contains one or more of the electronic loop groups. If more than one minimizer is used, the complete electronic loop sequence is executed at each ionic step. (Optional)
+                    wrap_string (bool): Whether to wrap string values in apostrophes.
                 """
                 return fill_values(
                     maxSteps=maxSteps,
@@ -1308,6 +1355,7 @@ class sphinx:
 
                     Args:
                         scfDiag (dict): The scfDiag group selects and controls the iterative diagonalization + density mixing algorithm for the solution of the Kohn-Sham DFT equations. (Optional)
+                        wrap_string (bool): Whether to wrap string values in apostrophes.
                     """
                     return fill_values(
                         scfDiag=scfDiag,
@@ -1363,6 +1411,7 @@ class sphinx:
                             CCG (dict): The CCG group selects and controls the direct minimization algorithm for the solution of the Kohn-Sham DFT equations. (Optional)
                             blockCCG (dict): The blockCCG group (within the scfDiag group) selects the block-conjugate-gradient algorithm for (inner-loop) iterative diagonalization. After all states have been updated, a subspace diagonalization is performed. This algorithm works best for larger systems (> 5 states). (Optional)
                             preconditioner (dict): The preconditioner group defines the density preconditioner, i.e., a transformation of the observed (or predicted) difference between the input and output density to the applied changes to the input density. An ideal preconditioner models the screening behavior of the system and is able to include the expected screening response into the suggested density change. Selecting an appropriate preconditioner, that rejects the screening properties of the system at hand, is a key to an efficient (i.e. fast) convergence. The preconditioner does not affect the converged result. (Optional)
+                            wrap_string (bool): Whether to wrap string values in apostrophes.
                         """
                         return fill_values(
                             dEnergy=dEnergy,
@@ -1419,6 +1468,7 @@ class sphinx:
                                 dipoleCorrection (bool): Override the dipole correction setting in the Hamiltonian group. (Optional)
                                 noRhoStorage (bool): Do not write rho.sxb. (Optional)
                                 noWavesStorage (bool): Do not write waves.sxb. (Optional)
+                                wrap_string (bool): Whether to wrap string values in apostrophes.
                             """
                             return fill_values(
                                 dEnergy=dEnergy,
@@ -1458,6 +1508,7 @@ class sphinx:
                                 dEnergy (float): Use these settings until energy change fall below this threshold. (Optional)
                                 verbose (bool): Verbose output. (Optional)
                                 numericalLimit (float): Stop iterating when approaching the numerical limit. (Optional)
+                                wrap_string (bool): Whether to wrap string values in apostrophes.
                             """
                             return fill_values(
                                 dRelEps=dRelEps,
@@ -1487,6 +1538,7 @@ class sphinx:
                                 scaling (float): Scaling factor for the preconditioner. Default: 1.0. (Optional)
                                 spinScaling (float): Scaling factor for the spin part of the preconditioner. Default: 1.0. (Optional)
                                 dielecConstant (float): Dielectric constant for the CSRB preconditioner. (Optional)
+                                wrap_string (bool): Whether to wrap string values in apostrophes.
                             """
                             return fill_values(
                                 type=type,
@@ -1523,6 +1575,7 @@ class sphinx:
                     hessian (str): Initialize Hessian from file. (Optional)
                     driftFilter (bool): Project out the average force and displacement. Default: True. (Optional)
                     bornOppenheimer (dict): The bornOppenheimer group defines the electronic loop within a geometry optimization. It contains one or more of the electronic loop groups. If more than one minimizer is used, the complete electronic loop sequence is executed at each ionic step. (Optional)
+                    wrap_string (bool): Whether to wrap string values in apostrophes.
                 """
                 return fill_values(
                     maxSteps=maxSteps,
@@ -1548,6 +1601,7 @@ class sphinx:
 
                     Args:
                         scfDiag (dict): The scfDiag group selects and controls the iterative diagonalization + density mixing algorithm for the solution of the Kohn-Sham DFT equations. (Optional)
+                        wrap_string (bool): Whether to wrap string values in apostrophes.
                     """
                     return fill_values(
                         scfDiag=scfDiag,
@@ -1603,6 +1657,7 @@ class sphinx:
                             CCG (dict): The CCG group selects and controls the direct minimization algorithm for the solution of the Kohn-Sham DFT equations. (Optional)
                             blockCCG (dict): The blockCCG group (within the scfDiag group) selects the block-conjugate-gradient algorithm for (inner-loop) iterative diagonalization. After all states have been updated, a subspace diagonalization is performed. This algorithm works best for larger systems (> 5 states). (Optional)
                             preconditioner (dict): The preconditioner group defines the density preconditioner, i.e., a transformation of the observed (or predicted) difference between the input and output density to the applied changes to the input density. An ideal preconditioner models the screening behavior of the system and is able to include the expected screening response into the suggested density change. Selecting an appropriate preconditioner, that rejects the screening properties of the system at hand, is a key to an efficient (i.e. fast) convergence. The preconditioner does not affect the converged result. (Optional)
+                            wrap_string (bool): Whether to wrap string values in apostrophes.
                         """
                         return fill_values(
                             dEnergy=dEnergy,
@@ -1659,6 +1714,7 @@ class sphinx:
                                 dipoleCorrection (bool): Override the dipole correction setting in the Hamiltonian group. (Optional)
                                 noRhoStorage (bool): Do not write rho.sxb. (Optional)
                                 noWavesStorage (bool): Do not write waves.sxb. (Optional)
+                                wrap_string (bool): Whether to wrap string values in apostrophes.
                             """
                             return fill_values(
                                 dEnergy=dEnergy,
@@ -1698,6 +1754,7 @@ class sphinx:
                                 dEnergy (float): Use these settings until energy change fall below this threshold. (Optional)
                                 verbose (bool): Verbose output. (Optional)
                                 numericalLimit (float): Stop iterating when approaching the numerical limit. (Optional)
+                                wrap_string (bool): Whether to wrap string values in apostrophes.
                             """
                             return fill_values(
                                 dRelEps=dRelEps,
@@ -1727,6 +1784,7 @@ class sphinx:
                                 scaling (float): Scaling factor for the preconditioner. Default: 1.0. (Optional)
                                 spinScaling (float): Scaling factor for the spin part of the preconditioner. Default: 1.0. (Optional)
                                 dielecConstant (float): Dielectric constant for the CSRB preconditioner. (Optional)
+                                wrap_string (bool): Whether to wrap string values in apostrophes.
                             """
                             return fill_values(
                                 type=type,
@@ -1761,6 +1819,7 @@ class sphinx:
                     softModeDamping (float): Initial value for Hessian shift. This is overriden with the first successful fit of a positive shift parameter. Default: 0.01. (Optional)
                     driftFilter (bool): Project out the average force and displacement. Default: True. (Optional)
                     bornOppenheimer (dict): The bornOppenheimer group defines the electronic loop within a geometry optimization. It contains one or more of the electronic loop groups. If more than one minimizer is used, the complete electronic loop sequence is executed at each ionic step. (Optional)
+                    wrap_string (bool): Whether to wrap string values in apostrophes.
                 """
                 return fill_values(
                     maxSteps=maxSteps,
@@ -1786,6 +1845,7 @@ class sphinx:
 
                     Args:
                         scfDiag (dict): The scfDiag group selects and controls the iterative diagonalization + density mixing algorithm for the solution of the Kohn-Sham DFT equations. (Optional)
+                        wrap_string (bool): Whether to wrap string values in apostrophes.
                     """
                     return fill_values(
                         scfDiag=scfDiag,
@@ -1841,6 +1901,7 @@ class sphinx:
                             CCG (dict): The CCG group selects and controls the direct minimization algorithm for the solution of the Kohn-Sham DFT equations. (Optional)
                             blockCCG (dict): The blockCCG group (within the scfDiag group) selects the block-conjugate-gradient algorithm for (inner-loop) iterative diagonalization. After all states have been updated, a subspace diagonalization is performed. This algorithm works best for larger systems (> 5 states). (Optional)
                             preconditioner (dict): The preconditioner group defines the density preconditioner, i.e., a transformation of the observed (or predicted) difference between the input and output density to the applied changes to the input density. An ideal preconditioner models the screening behavior of the system and is able to include the expected screening response into the suggested density change. Selecting an appropriate preconditioner, that rejects the screening properties of the system at hand, is a key to an efficient (i.e. fast) convergence. The preconditioner does not affect the converged result. (Optional)
+                            wrap_string (bool): Whether to wrap string values in apostrophes.
                         """
                         return fill_values(
                             dEnergy=dEnergy,
@@ -1897,6 +1958,7 @@ class sphinx:
                                 dipoleCorrection (bool): Override the dipole correction setting in the Hamiltonian group. (Optional)
                                 noRhoStorage (bool): Do not write rho.sxb. (Optional)
                                 noWavesStorage (bool): Do not write waves.sxb. (Optional)
+                                wrap_string (bool): Whether to wrap string values in apostrophes.
                             """
                             return fill_values(
                                 dEnergy=dEnergy,
@@ -1936,6 +1998,7 @@ class sphinx:
                                 dEnergy (float): Use these settings until energy change fall below this threshold. (Optional)
                                 verbose (bool): Verbose output. (Optional)
                                 numericalLimit (float): Stop iterating when approaching the numerical limit. (Optional)
+                                wrap_string (bool): Whether to wrap string values in apostrophes.
                             """
                             return fill_values(
                                 dRelEps=dRelEps,
@@ -1965,6 +2028,7 @@ class sphinx:
                                 scaling (float): Scaling factor for the preconditioner. Default: 1.0. (Optional)
                                 spinScaling (float): Scaling factor for the spin part of the preconditioner. Default: 1.0. (Optional)
                                 dielecConstant (float): Dielectric constant for the CSRB preconditioner. (Optional)
+                                wrap_string (bool): Whether to wrap string values in apostrophes.
                             """
                             return fill_values(
                                 type=type,
@@ -1997,6 +2061,7 @@ class sphinx:
                     withAngles (bool): add bond angle coordinates for all bonds. (Optional)
                     bvkAtoms (str): (experimental) List of atom ids (starting from 1) for which born-von-Karman transversal force constants are added. The comma-separated list must be enclosed by square brackets []. This adds a bond-directional coordinate to each bond of the atoms in the list. (Optional)
                     bornOppenheimer (dict): The bornOppenheimer group defines the electronic loop within a geometry optimization. It contains one or more of the electronic loop groups. If more than one minimizer is used, the complete electronic loop sequence is executed at each ionic step. (Optional)
+                    wrap_string (bool): Whether to wrap string values in apostrophes.
                 """
                 return fill_values(
                     maxDist=maxDist,
@@ -2020,6 +2085,7 @@ class sphinx:
 
                     Args:
                         scfDiag (dict): The scfDiag group selects and controls the iterative diagonalization + density mixing algorithm for the solution of the Kohn-Sham DFT equations. (Optional)
+                        wrap_string (bool): Whether to wrap string values in apostrophes.
                     """
                     return fill_values(
                         scfDiag=scfDiag,
@@ -2075,6 +2141,7 @@ class sphinx:
                             CCG (dict): The CCG group selects and controls the direct minimization algorithm for the solution of the Kohn-Sham DFT equations. (Optional)
                             blockCCG (dict): The blockCCG group (within the scfDiag group) selects the block-conjugate-gradient algorithm for (inner-loop) iterative diagonalization. After all states have been updated, a subspace diagonalization is performed. This algorithm works best for larger systems (> 5 states). (Optional)
                             preconditioner (dict): The preconditioner group defines the density preconditioner, i.e., a transformation of the observed (or predicted) difference between the input and output density to the applied changes to the input density. An ideal preconditioner models the screening behavior of the system and is able to include the expected screening response into the suggested density change. Selecting an appropriate preconditioner, that rejects the screening properties of the system at hand, is a key to an efficient (i.e. fast) convergence. The preconditioner does not affect the converged result. (Optional)
+                            wrap_string (bool): Whether to wrap string values in apostrophes.
                         """
                         return fill_values(
                             dEnergy=dEnergy,
@@ -2131,6 +2198,7 @@ class sphinx:
                                 dipoleCorrection (bool): Override the dipole correction setting in the Hamiltonian group. (Optional)
                                 noRhoStorage (bool): Do not write rho.sxb. (Optional)
                                 noWavesStorage (bool): Do not write waves.sxb. (Optional)
+                                wrap_string (bool): Whether to wrap string values in apostrophes.
                             """
                             return fill_values(
                                 dEnergy=dEnergy,
@@ -2170,6 +2238,7 @@ class sphinx:
                                 dEnergy (float): Use these settings until energy change fall below this threshold. (Optional)
                                 verbose (bool): Verbose output. (Optional)
                                 numericalLimit (float): Stop iterating when approaching the numerical limit. (Optional)
+                                wrap_string (bool): Whether to wrap string values in apostrophes.
                             """
                             return fill_values(
                                 dRelEps=dRelEps,
@@ -2199,6 +2268,7 @@ class sphinx:
                                 scaling (float): Scaling factor for the preconditioner. Default: 1.0. (Optional)
                                 spinScaling (float): Scaling factor for the spin part of the preconditioner. Default: 1.0. (Optional)
                                 dielecConstant (float): Dielectric constant for the CSRB preconditioner. (Optional)
+                                wrap_string (bool): Whether to wrap string values in apostrophes.
                             """
                             return fill_values(
                                 type=type,
@@ -2241,6 +2311,7 @@ class sphinx:
                     scheme (int): Hesse update scheme (0=Murtagh-Sargent, 1=Powell symmetric Broyden, 2=Borrell, 3=Farkas-Schlegel, see [11], Eqs. 6-10). Default: 1. (Optional)
                     driftFilter (bool): Drift filter. (Optional)
                     bornOppenheimer (dict): The bornOppenheimer group defines the electronic loop within a geometry optimization. It contains one or more of the electronic loop groups. If more than one minimizer is used, the complete electronic loop sequence is executed at each ionic step. (Optional)
+                    wrap_string (bool): Whether to wrap string values in apostrophes.
                 """
                 return fill_values(
                     maxSteps=maxSteps,
@@ -2269,6 +2340,7 @@ class sphinx:
 
                     Args:
                         scfDiag (dict): The scfDiag group selects and controls the iterative diagonalization + density mixing algorithm for the solution of the Kohn-Sham DFT equations. (Optional)
+                        wrap_string (bool): Whether to wrap string values in apostrophes.
                     """
                     return fill_values(
                         scfDiag=scfDiag,
@@ -2324,6 +2396,7 @@ class sphinx:
                             CCG (dict): The CCG group selects and controls the direct minimization algorithm for the solution of the Kohn-Sham DFT equations. (Optional)
                             blockCCG (dict): The blockCCG group (within the scfDiag group) selects the block-conjugate-gradient algorithm for (inner-loop) iterative diagonalization. After all states have been updated, a subspace diagonalization is performed. This algorithm works best for larger systems (> 5 states). (Optional)
                             preconditioner (dict): The preconditioner group defines the density preconditioner, i.e., a transformation of the observed (or predicted) difference between the input and output density to the applied changes to the input density. An ideal preconditioner models the screening behavior of the system and is able to include the expected screening response into the suggested density change. Selecting an appropriate preconditioner, that rejects the screening properties of the system at hand, is a key to an efficient (i.e. fast) convergence. The preconditioner does not affect the converged result. (Optional)
+                            wrap_string (bool): Whether to wrap string values in apostrophes.
                         """
                         return fill_values(
                             dEnergy=dEnergy,
@@ -2380,6 +2453,7 @@ class sphinx:
                                 dipoleCorrection (bool): Override the dipole correction setting in the Hamiltonian group. (Optional)
                                 noRhoStorage (bool): Do not write rho.sxb. (Optional)
                                 noWavesStorage (bool): Do not write waves.sxb. (Optional)
+                                wrap_string (bool): Whether to wrap string values in apostrophes.
                             """
                             return fill_values(
                                 dEnergy=dEnergy,
@@ -2419,6 +2493,7 @@ class sphinx:
                                 dEnergy (float): Use these settings until energy change fall below this threshold. (Optional)
                                 verbose (bool): Verbose output. (Optional)
                                 numericalLimit (float): Stop iterating when approaching the numerical limit. (Optional)
+                                wrap_string (bool): Whether to wrap string values in apostrophes.
                             """
                             return fill_values(
                                 dRelEps=dRelEps,
@@ -2448,6 +2523,7 @@ class sphinx:
                                 scaling (float): Scaling factor for the preconditioner. Default: 1.0. (Optional)
                                 spinScaling (float): Scaling factor for the spin part of the preconditioner. Default: 1.0. (Optional)
                                 dielecConstant (float): Dielectric constant for the CSRB preconditioner. (Optional)
+                                wrap_string (bool): Whether to wrap string values in apostrophes.
                             """
                             return fill_values(
                                 type=type,
@@ -2468,6 +2544,7 @@ class sphinx:
 
                 Args:
                     file (str): The file to write the forces to.
+                    wrap_string (bool): Whether to wrap string values in apostrophes.
                 """
                 return fill_values(
                     file=file,

@@ -116,6 +116,9 @@ def get_docstring(all_data, description=None, indent=indent, predefined=predefin
     for key, data in all_data.items():
         if key not in predefined:
             txt.append(2 * indent + _get_docstring_line(data, key))
+    txt.append(
+        2 * indent + "wrap_string (bool): Whether to wrap string values in apostrophes."
+    )
     txt.append(indent + '"""')
     return txt
 
