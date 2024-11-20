@@ -53,10 +53,10 @@ def fill_values(wrap_string=True, **kwargs):
                     group = append_item(group, k, vv)
             else:
                 if isinstance(v, str) and wrap_string:
-                    v = wrap_string(v)
+                    v = _wrap_string(v)
                 group = append_item(group, k, v)
     return group
 
 
-def wrap_string(string: str):
+def _wrap_string(string: str):
     return f'"{string}"'

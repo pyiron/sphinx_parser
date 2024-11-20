@@ -15,6 +15,7 @@ class sphinx:
         pseudoPot: Optional[dict] = None,
         PWHamiltonian: Optional[dict] = None,
         main: Optional[dict] = None,
+        wrap_string: bool = True,
     ):
         """
                 Args:
@@ -40,6 +41,7 @@ class sphinx:
             pseudoPot=pseudoPot,
             PWHamiltonian=PWHamiltonian,
             main=main,
+            wrap_string=wrap_string,
         )
 
     class structure:
@@ -52,6 +54,7 @@ class sphinx:
             movableZ: Optional[bool] = None,
             species: Optional[dict] = None,
             symmetry: Optional[dict] = None,
+            wrap_string: bool = True,
         ):
             """
             Args:
@@ -71,6 +74,7 @@ class sphinx:
                 movableZ=movableZ,
                 species=species,
                 symmetry=symmetry,
+                wrap_string=wrap_string,
             )
 
         class species:
@@ -78,6 +82,7 @@ class sphinx:
             def create(
                 element: Optional[str] = None,
                 atom: Optional[dict] = None,
+                wrap_string: bool = True,
             ):
                 """
                 Args:
@@ -87,6 +92,7 @@ class sphinx:
                 return fill_values(
                     element=element,
                     atom=atom,
+                    wrap_string=wrap_string,
                 )
 
             class atom:
@@ -100,6 +106,7 @@ class sphinx:
                     movableX: Optional[bool] = None,
                     movableY: Optional[bool] = None,
                     movableZ: Optional[bool] = None,
+                    wrap_string: bool = True,
                 ):
                     """
                     Args:
@@ -121,12 +128,14 @@ class sphinx:
                         movableX=movableX,
                         movableY=movableY,
                         movableZ=movableZ,
+                        wrap_string=wrap_string,
                     )
 
         class symmetry:
             @staticmethod
             def create(
                 operator: Optional[dict] = None,
+                wrap_string: bool = True,
             ):
                 """
                 Args:
@@ -134,12 +143,14 @@ class sphinx:
                 """
                 return fill_values(
                     operator=operator,
+                    wrap_string=wrap_string,
                 )
 
             class operator:
                 @staticmethod
                 def create(
                     S: list,
+                    wrap_string: bool = True,
                 ):
                     """
                     Args:
@@ -147,6 +158,7 @@ class sphinx:
                     """
                     return fill_values(
                         S=S,
+                        wrap_string=wrap_string,
                     )
 
     class basis:
@@ -160,6 +172,7 @@ class sphinx:
             saveMemory: Optional[bool] = None,
             kPoint: Optional[dict] = None,
             kPoints: Optional[dict] = None,
+            wrap_string: bool = True,
         ):
             """
             Args:
@@ -181,6 +194,7 @@ class sphinx:
                 saveMemory=saveMemory,
                 kPoint=kPoint,
                 kPoints=kPoints,
+                wrap_string=wrap_string,
             )
 
         class kPoint:
@@ -189,6 +203,7 @@ class sphinx:
                 coords: np.ndarray,
                 relative: Optional[bool] = None,
                 weight: Optional[float] = None,
+                wrap_string: bool = True,
             ):
                 """
                 Args:
@@ -200,6 +215,7 @@ class sphinx:
                     coords=coords,
                     relative=relative,
                     weight=weight,
+                    wrap_string=wrap_string,
                 )
 
         class kPoints:
@@ -209,6 +225,7 @@ class sphinx:
                 dK: Optional[float] = None,
                 from_: Optional[dict] = None,
                 to: Optional[dict] = None,
+                wrap_string: bool = True,
             ):
                 """
                 Args:
@@ -222,6 +239,7 @@ class sphinx:
                     dK=dK,
                     from_=from_,
                     to=to,
+                    wrap_string=wrap_string,
                 )
 
             class from_:
@@ -230,6 +248,7 @@ class sphinx:
                     coords: np.ndarray,
                     relative: Optional[bool] = None,
                     label: Optional[str] = None,
+                    wrap_string: bool = True,
                 ):
                     """
                     The from group (within the kPoints group) adds a single k-point at the desired position. It may be used multiple times.
@@ -243,6 +262,7 @@ class sphinx:
                         coords=coords,
                         relative=relative,
                         label=label,
+                        wrap_string=wrap_string,
                     )
 
             class to:
@@ -253,6 +273,7 @@ class sphinx:
                     label: Optional[str] = None,
                     dK: Optional[float] = None,
                     nPoints: Optional[int] = None,
+                    wrap_string: bool = True,
                 ):
                     """
                     The to group (within the kPoints group) adds a line of k-points from the previous one to a new position. The number of points is set directly with nPoints or indirectly via dK.
@@ -270,12 +291,14 @@ class sphinx:
                         label=label,
                         dK=dK,
                         nPoints=nPoints,
+                        wrap_string=wrap_string,
                     )
 
     class pawPot:
         @staticmethod
         def create(
             species: Optional[dict] = None,
+            wrap_string: bool = True,
         ):
             """
             The pawPot group defines the PAW potentials, by a sequence of species groups. The order of species must agree with the structure group.
@@ -285,6 +308,7 @@ class sphinx:
             """
             return fill_values(
                 species=species,
+                wrap_string=wrap_string,
             )
 
         class species:
@@ -299,6 +323,7 @@ class sphinx:
                 nRadGrid: Optional[int] = None,
                 checkOverlap: Optional[bool] = None,
                 rPAW: Optional[float] = None,
+                wrap_string: bool = True,
             ):
                 """
                 Args:
@@ -322,6 +347,7 @@ class sphinx:
                     nRadGrid=nRadGrid,
                     checkOverlap=checkOverlap,
                     rPAW=rPAW,
+                    wrap_string=wrap_string,
                 )
 
     class PAWHamiltonian:
@@ -340,6 +366,7 @@ class sphinx:
             xcMesh: Optional[dict] = None,
             vdwCorrection: Optional[dict] = None,
             HubbardU: Optional[dict] = None,
+            wrap_string: bool = True,
         ):
             """
             Args:
@@ -371,12 +398,14 @@ class sphinx:
                 xcMesh=xcMesh,
                 vdwCorrection=vdwCorrection,
                 HubbardU=HubbardU,
+                wrap_string=wrap_string,
             )
 
         class vExt:
             @staticmethod
             def create(
                 file: str,
+                wrap_string: bool = True,
             ):
                 """
                 External potential
@@ -386,6 +415,7 @@ class sphinx:
                 """
                 return fill_values(
                     file=file,
+                    wrap_string=wrap_string,
                 )
 
         class xcMesh:
@@ -394,6 +424,7 @@ class sphinx:
                 eCut: float,
                 mesh: Optional[list] = None,
                 meshAccuracy: Optional[float] = None,
+                wrap_string: bool = True,
             ):
                 """
                 Mesh for the exchange-correlation potential
@@ -407,6 +438,7 @@ class sphinx:
                     eCut=eCut,
                     mesh=mesh,
                     meshAccuracy=meshAccuracy,
+                    wrap_string=wrap_string,
                 )
 
         class vdwCorrection:
@@ -414,6 +446,7 @@ class sphinx:
             def create(
                 method: str,
                 combinationRule: Optional[str] = None,
+                wrap_string: bool = True,
             ):
                 """
                 Van der Waals correction
@@ -425,6 +458,7 @@ class sphinx:
                 return fill_values(
                     method=method,
                     combinationRule=combinationRule,
+                    wrap_string=wrap_string,
                 )
 
         class HubbardU:
@@ -433,6 +467,7 @@ class sphinx:
                 verbose: Optional[bool] = None,
                 AO: Optional[dict] = None,
                 MO: Optional[dict] = None,
+                wrap_string: bool = True,
             ):
                 """
                 Hubbard U
@@ -446,12 +481,14 @@ class sphinx:
                     verbose=verbose,
                     AO=AO,
                     MO=MO,
+                    wrap_string=wrap_string,
                 )
 
             class AO:
                 @staticmethod
                 def create(
                     orbital: Optional[dict] = None,
+                    wrap_string: bool = True,
                 ):
                     """
                     AO
@@ -461,6 +498,7 @@ class sphinx:
                     """
                     return fill_values(
                         orbital=orbital,
+                        wrap_string=wrap_string,
                     )
 
                 class orbital:
@@ -470,6 +508,7 @@ class sphinx:
                         iot: int,
                         fromPotential: Optional[bool] = None,
                         is_: Optional[int] = None,
+                        wrap_string: bool = True,
                     ):
                         """
                         Orbital
@@ -485,6 +524,7 @@ class sphinx:
                             iot=iot,
                             fromPotential=fromPotential,
                             is_=is_,
+                            wrap_string=wrap_string,
                         )
 
             class MO:
@@ -504,6 +544,7 @@ class sphinx:
                     sign: Optional[int] = None,
                     U: Optional[float] = None,
                     shift: Optional[float] = None,
+                    wrap_string: bool = True,
                 ):
                     """
                     The MO group within the HubbardU group defines on-site correlation corrections using MO orbital projectors. The molecular orbitals (MOs) are constructed from atomic orbitals (AOs) of given radial shape. This shape is defined in the orbital group. The MO projectors are constructed from AO projectors such that a normalized MO is projected to unity. The AO projectors include also the atomic PAW normalization.
@@ -539,6 +580,7 @@ class sphinx:
                         sign=sign,
                         U=U,
                         shift=shift,
+                        wrap_string=wrap_string,
                     )
 
                 class orbital:
@@ -548,6 +590,7 @@ class sphinx:
                         iot: int,
                         fromPotential: Optional[bool] = None,
                         is_: Optional[int] = None,
+                        wrap_string: bool = True,
                     ):
                         """
                         Orbital
@@ -563,6 +606,7 @@ class sphinx:
                             iot=iot,
                             fromPotential=fromPotential,
                             is_=is_,
+                            wrap_string=wrap_string,
                         )
 
     class spinConstraint:
@@ -571,6 +615,7 @@ class sphinx:
             label: Optional[str] = None,
             constraint: Optional[float] = None,
             file: Optional[str] = None,
+            wrap_string: bool = True,
         ):
             """
             Args:
@@ -582,6 +627,7 @@ class sphinx:
                 label=label,
                 constraint=constraint,
                 file=file,
+                wrap_string=wrap_string,
             )
 
     class initialGuess:
@@ -593,6 +639,7 @@ class sphinx:
             rho: Optional[dict] = None,
             occupations: Optional[dict] = None,
             exchange: Optional[dict] = None,
+            wrap_string: bool = True,
         ):
             """
             In order to start a DFT calculations, one must set up an initial guess for the density and for the wave functions. The initialGuess group defines how this is done, as well as a few other settings (such as keeping the waves on disk to save RAM). The default is to set up the density from a superposition of atomic densities, and the wave-functions from a single-step LCAO calculation, using the atomic valence orbitals. This works exceptionally well. If you want to finetune the behavior, the initialGuess group must contain a waves or a rho group. Otherwise, you may omit the waves and rho groups to get the default behavior. Additionally, the initialGuess group may contain an occupations group to set up initial occupations (notably when keeping them fixed), and an exchange group for hybrid functionals.
@@ -612,6 +659,7 @@ class sphinx:
                 rho=rho,
                 occupations=occupations,
                 exchange=exchange,
+                wrap_string=wrap_string,
             )
 
         class waves:
@@ -621,6 +669,7 @@ class sphinx:
                 random: Optional[bool] = None,
                 keepWavesOnDisk: Optional[bool] = None,
                 lcao: Optional[dict] = None,
+                wrap_string: bool = True,
             ):
                 """
                 Args:
@@ -634,6 +683,7 @@ class sphinx:
                     random=random,
                     keepWavesOnDisk=keepWavesOnDisk,
                     lcao=lcao,
+                    wrap_string=wrap_string,
                 )
 
             class lcao:
@@ -641,6 +691,7 @@ class sphinx:
                 def create(
                     maxSteps: Optional[int] = None,
                     dEnergy: Optional[float] = None,
+                    wrap_string: bool = True,
                 ):
                     """
                     Args:
@@ -650,6 +701,7 @@ class sphinx:
                     return fill_values(
                         maxSteps=maxSteps,
                         dEnergy=dEnergy,
+                        wrap_string=wrap_string,
                     )
 
         class rho:
@@ -662,6 +714,7 @@ class sphinx:
                 spinMoment: Optional[bool] = None,
                 atomicSpin: Optional[dict] = None,
                 charged: Optional[dict] = None,
+                wrap_string: bool = True,
             ):
                 """
                 Args:
@@ -681,6 +734,7 @@ class sphinx:
                     spinMoment=spinMoment,
                     atomicSpin=atomicSpin,
                     charged=charged,
+                    wrap_string=wrap_string,
                 )
 
             class atomicSpin:
@@ -689,6 +743,7 @@ class sphinx:
                     spin: Optional[float] = None,
                     label: Optional[str] = None,
                     file: Optional[str] = None,
+                    wrap_string: bool = True,
                 ):
                     """
                     Atomic spin
@@ -702,6 +757,7 @@ class sphinx:
                         spin=spin,
                         label=label,
                         file=file,
+                        wrap_string=wrap_string,
                     )
 
             class charged:
@@ -711,6 +767,7 @@ class sphinx:
                     beta: Optional[float] = None,
                     z: Optional[float] = None,
                     coords: Optional[np.ndarray] = None,
+                    wrap_string: bool = True,
                 ):
                     """
                     Args:
@@ -724,6 +781,7 @@ class sphinx:
                         beta=beta,
                         z=z,
                         coords=coords,
+                        wrap_string=wrap_string,
                     )
 
         class occupations:
@@ -732,6 +790,7 @@ class sphinx:
                 kPoints: Optional[dict] = None,
                 spin: Optional[dict] = None,
                 bands: Optional[dict] = None,
+                wrap_string: bool = True,
             ):
                 """
                 The occupations group within the initialGuess group defines the initial occupations. This makes sense if the density is computed from wave functions, or if the occupations are going to be fixed at these values.
@@ -745,6 +804,7 @@ class sphinx:
                     kPoints=kPoints,
                     spin=spin,
                     bands=bands,
+                    wrap_string=wrap_string,
                 )
 
             class kPoints:
@@ -752,6 +812,7 @@ class sphinx:
                 def create(
                     spin: Optional[dict] = None,
                     bands: Optional[dict] = None,
+                    wrap_string: bool = True,
                 ):
                     """
                     Args:
@@ -761,12 +822,14 @@ class sphinx:
                     return fill_values(
                         spin=spin,
                         bands=bands,
+                        wrap_string=wrap_string,
                     )
 
                 class spin:
                     @staticmethod
                     def create(
                         bands: Optional[dict] = None,
+                        wrap_string: bool = True,
                     ):
                         """
                         Args:
@@ -774,6 +837,7 @@ class sphinx:
                         """
                         return fill_values(
                             bands=bands,
+                            wrap_string=wrap_string,
                         )
 
                     class bands:
@@ -782,6 +846,7 @@ class sphinx:
                             value: list,
                             range: list,
                             focc: int,
+                            wrap_string: bool = True,
                         ):
                             """
                             Args:
@@ -793,6 +858,7 @@ class sphinx:
                                 value=value,
                                 range=range,
                                 focc=focc,
+                                wrap_string=wrap_string,
                             )
 
                 class bands:
@@ -801,6 +867,7 @@ class sphinx:
                         value: list,
                         range: list,
                         focc: int,
+                        wrap_string: bool = True,
                     ):
                         """
                         Args:
@@ -812,12 +879,14 @@ class sphinx:
                             value=value,
                             range=range,
                             focc=focc,
+                            wrap_string=wrap_string,
                         )
 
             class spin:
                 @staticmethod
                 def create(
                     bands: Optional[dict] = None,
+                    wrap_string: bool = True,
                 ):
                     """
                     Args:
@@ -825,6 +894,7 @@ class sphinx:
                     """
                     return fill_values(
                         bands=bands,
+                        wrap_string=wrap_string,
                     )
 
                 class bands:
@@ -833,6 +903,7 @@ class sphinx:
                         value: list,
                         range: list,
                         focc: int,
+                        wrap_string: bool = True,
                     ):
                         """
                         Args:
@@ -844,6 +915,7 @@ class sphinx:
                             value=value,
                             range=range,
                             focc=focc,
+                            wrap_string=wrap_string,
                         )
 
             class bands:
@@ -852,6 +924,7 @@ class sphinx:
                     value: list,
                     range: list,
                     focc: int,
+                    wrap_string: bool = True,
                 ):
                     """
                     Args:
@@ -863,12 +936,14 @@ class sphinx:
                         value=value,
                         range=range,
                         focc=focc,
+                        wrap_string=wrap_string,
                     )
 
         class exchange:
             @staticmethod
             def create(
                 file: Optional[str] = None,
+                wrap_string: bool = True,
             ):
                 """
                 Note: hybrid functionals are experimental and slow. The exchange group allows to set waves for the non-local exchange operator at the initialization stage. This is necessary if you want to initialize the waves from an LCAO calculation. The exchange group contains a single parameter, file, which contains the filename of the waves file to be used.
@@ -878,12 +953,14 @@ class sphinx:
                 """
                 return fill_values(
                     file=file,
+                    wrap_string=wrap_string,
                 )
 
     class pseudoPot:
         @staticmethod
         def create(
             species: Optional[dict] = None,
+            wrap_string: bool = True,
         ):
             """
                         The pseudoPot group defines the norm-conserving pseudopotentials by a sequence of species groups. The order of species must agree with the structure group.
@@ -895,6 +972,7 @@ class sphinx:
             """
             return fill_values(
                 species=species,
+                wrap_string=wrap_string,
             )
 
         class species:
@@ -912,6 +990,7 @@ class sphinx:
                 ionicMass: float,
                 element: Optional[str] = None,
                 lcaoOrbital: Optional[int] = None,
+                wrap_string: bool = True,
             ):
                 """
                 Args:
@@ -941,6 +1020,7 @@ class sphinx:
                     ionicMass=ionicMass,
                     element=element,
                     lcaoOrbital=lcaoOrbital,
+                    wrap_string=wrap_string,
                 )
 
     class PWHamiltonian:
@@ -955,6 +1035,7 @@ class sphinx:
             spinPolarized: Optional[bool] = None,
             dipoleCorrection: Optional[bool] = None,
             zField: Optional[float] = None,
+            wrap_string: bool = True,
         ):
             """
             Args:
@@ -978,11 +1059,12 @@ class sphinx:
                 spinPolarized=spinPolarized,
                 dipoleCorrection=dipoleCorrection,
                 zField=zField,
+                wrap_string=wrap_string,
             )
 
     class main:
         @staticmethod
-        def create(**kwargs):
+        def create(wrap_string: bool = True, **kwargs):
             """
             Args:
                 scfDiag (dict): The scfDiag group selects and controls the iterative diagonalization + density mixing algorithm for the solution of the Kohn-Sham DFT equations. (Optional)
@@ -993,7 +1075,7 @@ class sphinx:
                 ricTS (dict): The ricTS group requests a quasi-Newton optimization for 1st-order saddle points (transition states) using updates [11] of an on-the-fly optimized internal-coordinate based initial guess for the Hessian [10]. An initial guess for the reaction coordinate must be known. Note: This is an experimental feature. The optimization should be started within the saddle point region (one negative eigenvalue of the Hesse matrix), otherwise, the algorithm may converge to a different stationary point (a minimum, or a higher-order saddle point). (Optional)
                 evalForces (dict): The evalForces group is used to calculate forces and write them to a file in sx-format. This is useful for single-point calculations without a structure optimization. It should be used after an electronic loop. (Optional)
             """
-            return fill_values(**kwargs)
+            return fill_values(wrap_string=wrap_string, **kwargs)
 
         class scfDiag:
             @staticmethod
@@ -1018,6 +1100,7 @@ class sphinx:
                 CCG: Optional[dict] = None,
                 blockCCG: Optional[dict] = None,
                 preconditioner: Optional[dict] = None,
+                wrap_string: bool = True,
             ):
                 """
                 The scfDiag group selects and controls the iterative diagonalization + density mixing algorithm for the solution of the Kohn-Sham DFT equations.
@@ -1065,6 +1148,7 @@ class sphinx:
                     CCG=CCG,
                     blockCCG=blockCCG,
                     preconditioner=preconditioner,
+                    wrap_string=wrap_string,
                 )
 
             class CCG:
@@ -1081,6 +1165,7 @@ class sphinx:
                     dipoleCorrection: Optional[bool] = None,
                     noRhoStorage: Optional[bool] = None,
                     noWavesStorage: Optional[bool] = None,
+                    wrap_string: bool = True,
                 ):
                     """
                     The CCG group selects and controls the direct minimization algorithm for the solution of the Kohn-Sham DFT equations
@@ -1110,6 +1195,7 @@ class sphinx:
                         dipoleCorrection=dipoleCorrection,
                         noRhoStorage=noRhoStorage,
                         noWavesStorage=noWavesStorage,
+                        wrap_string=wrap_string,
                     )
 
             class blockCCG:
@@ -1122,6 +1208,7 @@ class sphinx:
                     dEnergy: Optional[float] = None,
                     verbose: Optional[bool] = None,
                     numericalLimit: Optional[float] = None,
+                    wrap_string: bool = True,
                 ):
                     """
                     The blockCCG group (within the scfDiag group) selects the block-conjugate-gradient algorithm for (inner-loop) iterative diagonalization. After all states have been updated, a subspace diagonalization is performed. This algorithm works best for larger systems (> 5 states).
@@ -1143,6 +1230,7 @@ class sphinx:
                         dEnergy=dEnergy,
                         verbose=verbose,
                         numericalLimit=numericalLimit,
+                        wrap_string=wrap_string,
                     )
 
             class preconditioner:
@@ -1152,6 +1240,7 @@ class sphinx:
                     scaling: Optional[float] = None,
                     spinScaling: Optional[float] = None,
                     dielecConstant: Optional[float] = None,
+                    wrap_string: bool = True,
                 ):
                     """
                     The preconditioner group defines the density preconditioner, i.e., a transformation of the observed (or predicted) difference between the input and output density to the applied changes to the input density. An ideal preconditioner models the screening behavior of the system and is able to include the expected screening response into the suggested density change. Selecting an appropriate preconditioner, that rejects the screening properties of the system at hand, is a key to an efficient (i.e. fast) convergence. The preconditioner does not affect the converged result.
@@ -1167,6 +1256,7 @@ class sphinx:
                         scaling=scaling,
                         spinScaling=spinScaling,
                         dielecConstant=dielecConstant,
+                        wrap_string=wrap_string,
                     )
 
         class QN:
@@ -1180,6 +1270,7 @@ class sphinx:
                 hessian: Optional[str] = None,
                 driftFilter: Optional[bool] = None,
                 bornOppenheimer: Optional[dict] = None,
+                wrap_string: bool = True,
             ):
                 """
                 The QN group selects and controls the geometry optimization via quasi-Newton scheme with BFGS updates. Note: In general, ricQN is the faster algorithm.
@@ -1203,12 +1294,14 @@ class sphinx:
                     hessian=hessian,
                     driftFilter=driftFilter,
                     bornOppenheimer=bornOppenheimer,
+                    wrap_string=wrap_string,
                 )
 
             class bornOppenheimer:
                 @staticmethod
                 def create(
                     scfDiag: Optional[dict] = None,
+                    wrap_string: bool = True,
                 ):
                     """
                     The bornOppenheimer group defines the electronic loop within a geometry optimization. It contains one or more of the electronic loop groups. If more than one minimizer is used, the complete electronic loop sequence is executed at each ionic step.
@@ -1218,6 +1311,7 @@ class sphinx:
                     """
                     return fill_values(
                         scfDiag=scfDiag,
+                        wrap_string=wrap_string,
                     )
 
                 class scfDiag:
@@ -1243,6 +1337,7 @@ class sphinx:
                         CCG: Optional[dict] = None,
                         blockCCG: Optional[dict] = None,
                         preconditioner: Optional[dict] = None,
+                        wrap_string: bool = True,
                     ):
                         """
                         The scfDiag group selects and controls the iterative diagonalization + density mixing algorithm for the solution of the Kohn-Sham DFT equations.
@@ -1290,6 +1385,7 @@ class sphinx:
                             CCG=CCG,
                             blockCCG=blockCCG,
                             preconditioner=preconditioner,
+                            wrap_string=wrap_string,
                         )
 
                     class CCG:
@@ -1306,6 +1402,7 @@ class sphinx:
                             dipoleCorrection: Optional[bool] = None,
                             noRhoStorage: Optional[bool] = None,
                             noWavesStorage: Optional[bool] = None,
+                            wrap_string: bool = True,
                         ):
                             """
                             The CCG group selects and controls the direct minimization algorithm for the solution of the Kohn-Sham DFT equations
@@ -1335,6 +1432,7 @@ class sphinx:
                                 dipoleCorrection=dipoleCorrection,
                                 noRhoStorage=noRhoStorage,
                                 noWavesStorage=noWavesStorage,
+                                wrap_string=wrap_string,
                             )
 
                     class blockCCG:
@@ -1347,6 +1445,7 @@ class sphinx:
                             dEnergy: Optional[float] = None,
                             verbose: Optional[bool] = None,
                             numericalLimit: Optional[float] = None,
+                            wrap_string: bool = True,
                         ):
                             """
                             The blockCCG group (within the scfDiag group) selects the block-conjugate-gradient algorithm for (inner-loop) iterative diagonalization. After all states have been updated, a subspace diagonalization is performed. This algorithm works best for larger systems (> 5 states).
@@ -1368,6 +1467,7 @@ class sphinx:
                                 dEnergy=dEnergy,
                                 verbose=verbose,
                                 numericalLimit=numericalLimit,
+                                wrap_string=wrap_string,
                             )
 
                     class preconditioner:
@@ -1377,6 +1477,7 @@ class sphinx:
                             scaling: Optional[float] = None,
                             spinScaling: Optional[float] = None,
                             dielecConstant: Optional[float] = None,
+                            wrap_string: bool = True,
                         ):
                             """
                             The preconditioner group defines the density preconditioner, i.e., a transformation of the observed (or predicted) difference between the input and output density to the applied changes to the input density. An ideal preconditioner models the screening behavior of the system and is able to include the expected screening response into the suggested density change. Selecting an appropriate preconditioner, that rejects the screening properties of the system at hand, is a key to an efficient (i.e. fast) convergence. The preconditioner does not affect the converged result.
@@ -1392,6 +1493,7 @@ class sphinx:
                                 scaling=scaling,
                                 spinScaling=spinScaling,
                                 dielecConstant=dielecConstant,
+                                wrap_string=wrap_string,
                             )
 
         class linQN:
@@ -1406,6 +1508,7 @@ class sphinx:
                 hessian: Optional[str] = None,
                 driftFilter: Optional[bool] = None,
                 bornOppenheimer: Optional[dict] = None,
+                wrap_string: bool = True,
             ):
                 """
                 The linQN group selects and controls the geometry optimization via linear quasi-Newton scheme with BFGS updates. Note: In general, ricQN is the faster algorithm.
@@ -1431,12 +1534,14 @@ class sphinx:
                     hessian=hessian,
                     driftFilter=driftFilter,
                     bornOppenheimer=bornOppenheimer,
+                    wrap_string=wrap_string,
                 )
 
             class bornOppenheimer:
                 @staticmethod
                 def create(
                     scfDiag: Optional[dict] = None,
+                    wrap_string: bool = True,
                 ):
                     """
                     The bornOppenheimer group defines the electronic loop within a geometry optimization. It contains one or more of the electronic loop groups. If more than one minimizer is used, the complete electronic loop sequence is executed at each ionic step.
@@ -1446,6 +1551,7 @@ class sphinx:
                     """
                     return fill_values(
                         scfDiag=scfDiag,
+                        wrap_string=wrap_string,
                     )
 
                 class scfDiag:
@@ -1471,6 +1577,7 @@ class sphinx:
                         CCG: Optional[dict] = None,
                         blockCCG: Optional[dict] = None,
                         preconditioner: Optional[dict] = None,
+                        wrap_string: bool = True,
                     ):
                         """
                         The scfDiag group selects and controls the iterative diagonalization + density mixing algorithm for the solution of the Kohn-Sham DFT equations.
@@ -1518,6 +1625,7 @@ class sphinx:
                             CCG=CCG,
                             blockCCG=blockCCG,
                             preconditioner=preconditioner,
+                            wrap_string=wrap_string,
                         )
 
                     class CCG:
@@ -1534,6 +1642,7 @@ class sphinx:
                             dipoleCorrection: Optional[bool] = None,
                             noRhoStorage: Optional[bool] = None,
                             noWavesStorage: Optional[bool] = None,
+                            wrap_string: bool = True,
                         ):
                             """
                             The CCG group selects and controls the direct minimization algorithm for the solution of the Kohn-Sham DFT equations
@@ -1563,6 +1672,7 @@ class sphinx:
                                 dipoleCorrection=dipoleCorrection,
                                 noRhoStorage=noRhoStorage,
                                 noWavesStorage=noWavesStorage,
+                                wrap_string=wrap_string,
                             )
 
                     class blockCCG:
@@ -1575,6 +1685,7 @@ class sphinx:
                             dEnergy: Optional[float] = None,
                             verbose: Optional[bool] = None,
                             numericalLimit: Optional[float] = None,
+                            wrap_string: bool = True,
                         ):
                             """
                             The blockCCG group (within the scfDiag group) selects the block-conjugate-gradient algorithm for (inner-loop) iterative diagonalization. After all states have been updated, a subspace diagonalization is performed. This algorithm works best for larger systems (> 5 states).
@@ -1596,6 +1707,7 @@ class sphinx:
                                 dEnergy=dEnergy,
                                 verbose=verbose,
                                 numericalLimit=numericalLimit,
+                                wrap_string=wrap_string,
                             )
 
                     class preconditioner:
@@ -1605,6 +1717,7 @@ class sphinx:
                             scaling: Optional[float] = None,
                             spinScaling: Optional[float] = None,
                             dielecConstant: Optional[float] = None,
+                            wrap_string: bool = True,
                         ):
                             """
                             The preconditioner group defines the density preconditioner, i.e., a transformation of the observed (or predicted) difference between the input and output density to the applied changes to the input density. An ideal preconditioner models the screening behavior of the system and is able to include the expected screening response into the suggested density change. Selecting an appropriate preconditioner, that rejects the screening properties of the system at hand, is a key to an efficient (i.e. fast) convergence. The preconditioner does not affect the converged result.
@@ -1620,6 +1733,7 @@ class sphinx:
                                 scaling=scaling,
                                 spinScaling=spinScaling,
                                 dielecConstant=dielecConstant,
+                                wrap_string=wrap_string,
                             )
 
         class ricQN:
@@ -1634,6 +1748,7 @@ class sphinx:
                 softModeDamping: Optional[float] = None,
                 driftFilter: Optional[bool] = None,
                 bornOppenheimer: Optional[dict] = None,
+                wrap_string: bool = True,
             ):
                 """
                 Args:
@@ -1657,12 +1772,14 @@ class sphinx:
                     softModeDamping=softModeDamping,
                     driftFilter=driftFilter,
                     bornOppenheimer=bornOppenheimer,
+                    wrap_string=wrap_string,
                 )
 
             class bornOppenheimer:
                 @staticmethod
                 def create(
                     scfDiag: Optional[dict] = None,
+                    wrap_string: bool = True,
                 ):
                     """
                     The bornOppenheimer group defines the electronic loop within a geometry optimization. It contains one or more of the electronic loop groups. If more than one minimizer is used, the complete electronic loop sequence is executed at each ionic step.
@@ -1672,6 +1789,7 @@ class sphinx:
                     """
                     return fill_values(
                         scfDiag=scfDiag,
+                        wrap_string=wrap_string,
                     )
 
                 class scfDiag:
@@ -1697,6 +1815,7 @@ class sphinx:
                         CCG: Optional[dict] = None,
                         blockCCG: Optional[dict] = None,
                         preconditioner: Optional[dict] = None,
+                        wrap_string: bool = True,
                     ):
                         """
                         The scfDiag group selects and controls the iterative diagonalization + density mixing algorithm for the solution of the Kohn-Sham DFT equations.
@@ -1744,6 +1863,7 @@ class sphinx:
                             CCG=CCG,
                             blockCCG=blockCCG,
                             preconditioner=preconditioner,
+                            wrap_string=wrap_string,
                         )
 
                     class CCG:
@@ -1760,6 +1880,7 @@ class sphinx:
                             dipoleCorrection: Optional[bool] = None,
                             noRhoStorage: Optional[bool] = None,
                             noWavesStorage: Optional[bool] = None,
+                            wrap_string: bool = True,
                         ):
                             """
                             The CCG group selects and controls the direct minimization algorithm for the solution of the Kohn-Sham DFT equations
@@ -1789,6 +1910,7 @@ class sphinx:
                                 dipoleCorrection=dipoleCorrection,
                                 noRhoStorage=noRhoStorage,
                                 noWavesStorage=noWavesStorage,
+                                wrap_string=wrap_string,
                             )
 
                     class blockCCG:
@@ -1801,6 +1923,7 @@ class sphinx:
                             dEnergy: Optional[float] = None,
                             verbose: Optional[bool] = None,
                             numericalLimit: Optional[float] = None,
+                            wrap_string: bool = True,
                         ):
                             """
                             The blockCCG group (within the scfDiag group) selects the block-conjugate-gradient algorithm for (inner-loop) iterative diagonalization. After all states have been updated, a subspace diagonalization is performed. This algorithm works best for larger systems (> 5 states).
@@ -1822,6 +1945,7 @@ class sphinx:
                                 dEnergy=dEnergy,
                                 verbose=verbose,
                                 numericalLimit=numericalLimit,
+                                wrap_string=wrap_string,
                             )
 
                     class preconditioner:
@@ -1831,6 +1955,7 @@ class sphinx:
                             scaling: Optional[float] = None,
                             spinScaling: Optional[float] = None,
                             dielecConstant: Optional[float] = None,
+                            wrap_string: bool = True,
                         ):
                             """
                             The preconditioner group defines the density preconditioner, i.e., a transformation of the observed (or predicted) difference between the input and output density to the applied changes to the input density. An ideal preconditioner models the screening behavior of the system and is able to include the expected screening response into the suggested density change. Selecting an appropriate preconditioner, that rejects the screening properties of the system at hand, is a key to an efficient (i.e. fast) convergence. The preconditioner does not affect the converged result.
@@ -1846,6 +1971,7 @@ class sphinx:
                                 scaling=scaling,
                                 spinScaling=spinScaling,
                                 dielecConstant=dielecConstant,
+                                wrap_string=wrap_string,
                             )
 
         class ric:
@@ -1858,6 +1984,7 @@ class sphinx:
                 withAngles: Optional[bool] = None,
                 bvkAtoms: Optional[str] = None,
                 bornOppenheimer: Optional[dict] = None,
+                wrap_string: bool = True,
             ):
                 """
                 The ric group defines the parameters for internal coordinate generation.
@@ -1879,12 +2006,14 @@ class sphinx:
                     withAngles=withAngles,
                     bvkAtoms=bvkAtoms,
                     bornOppenheimer=bornOppenheimer,
+                    wrap_string=wrap_string,
                 )
 
             class bornOppenheimer:
                 @staticmethod
                 def create(
                     scfDiag: Optional[dict] = None,
+                    wrap_string: bool = True,
                 ):
                     """
                     The bornOppenheimer group defines the electronic loop within a geometry optimization. It contains one or more of the electronic loop groups. If more than one minimizer is used, the complete electronic loop sequence is executed at each ionic step.
@@ -1894,6 +2023,7 @@ class sphinx:
                     """
                     return fill_values(
                         scfDiag=scfDiag,
+                        wrap_string=wrap_string,
                     )
 
                 class scfDiag:
@@ -1919,6 +2049,7 @@ class sphinx:
                         CCG: Optional[dict] = None,
                         blockCCG: Optional[dict] = None,
                         preconditioner: Optional[dict] = None,
+                        wrap_string: bool = True,
                     ):
                         """
                         The scfDiag group selects and controls the iterative diagonalization + density mixing algorithm for the solution of the Kohn-Sham DFT equations.
@@ -1966,6 +2097,7 @@ class sphinx:
                             CCG=CCG,
                             blockCCG=blockCCG,
                             preconditioner=preconditioner,
+                            wrap_string=wrap_string,
                         )
 
                     class CCG:
@@ -1982,6 +2114,7 @@ class sphinx:
                             dipoleCorrection: Optional[bool] = None,
                             noRhoStorage: Optional[bool] = None,
                             noWavesStorage: Optional[bool] = None,
+                            wrap_string: bool = True,
                         ):
                             """
                             The CCG group selects and controls the direct minimization algorithm for the solution of the Kohn-Sham DFT equations
@@ -2011,6 +2144,7 @@ class sphinx:
                                 dipoleCorrection=dipoleCorrection,
                                 noRhoStorage=noRhoStorage,
                                 noWavesStorage=noWavesStorage,
+                                wrap_string=wrap_string,
                             )
 
                     class blockCCG:
@@ -2023,6 +2157,7 @@ class sphinx:
                             dEnergy: Optional[float] = None,
                             verbose: Optional[bool] = None,
                             numericalLimit: Optional[float] = None,
+                            wrap_string: bool = True,
                         ):
                             """
                             The blockCCG group (within the scfDiag group) selects the block-conjugate-gradient algorithm for (inner-loop) iterative diagonalization. After all states have been updated, a subspace diagonalization is performed. This algorithm works best for larger systems (> 5 states).
@@ -2044,6 +2179,7 @@ class sphinx:
                                 dEnergy=dEnergy,
                                 verbose=verbose,
                                 numericalLimit=numericalLimit,
+                                wrap_string=wrap_string,
                             )
 
                     class preconditioner:
@@ -2053,6 +2189,7 @@ class sphinx:
                             scaling: Optional[float] = None,
                             spinScaling: Optional[float] = None,
                             dielecConstant: Optional[float] = None,
+                            wrap_string: bool = True,
                         ):
                             """
                             The preconditioner group defines the density preconditioner, i.e., a transformation of the observed (or predicted) difference between the input and output density to the applied changes to the input density. An ideal preconditioner models the screening behavior of the system and is able to include the expected screening response into the suggested density change. Selecting an appropriate preconditioner, that rejects the screening properties of the system at hand, is a key to an efficient (i.e. fast) convergence. The preconditioner does not affect the converged result.
@@ -2068,6 +2205,7 @@ class sphinx:
                                 scaling=scaling,
                                 spinScaling=spinScaling,
                                 dielecConstant=dielecConstant,
+                                wrap_string=wrap_string,
                             )
 
         class ricTS:
@@ -2085,6 +2223,7 @@ class sphinx:
                 scheme: Optional[int] = None,
                 driftFilter: Optional[bool] = None,
                 bornOppenheimer: Optional[dict] = None,
+                wrap_string: bool = True,
             ):
                 """
                 The ricTS group requests a quasi-Newton optimization for 1st-order saddle points (transition states) using updates [11] of an on-the-fly optimized internal-coordinate based initial guess for the Hessian [10]. An initial guess for the reaction coordinate must be known. Note: This is an experimental feature. The optimization should be started within the saddle point region (one negative eigenvalue of the Hesse matrix), otherwise, the algorithm may converge to a different stationary point (a minimum, or a higher-order saddle point).
@@ -2116,12 +2255,14 @@ class sphinx:
                     scheme=scheme,
                     driftFilter=driftFilter,
                     bornOppenheimer=bornOppenheimer,
+                    wrap_string=wrap_string,
                 )
 
             class bornOppenheimer:
                 @staticmethod
                 def create(
                     scfDiag: Optional[dict] = None,
+                    wrap_string: bool = True,
                 ):
                     """
                     The bornOppenheimer group defines the electronic loop within a geometry optimization. It contains one or more of the electronic loop groups. If more than one minimizer is used, the complete electronic loop sequence is executed at each ionic step.
@@ -2131,6 +2272,7 @@ class sphinx:
                     """
                     return fill_values(
                         scfDiag=scfDiag,
+                        wrap_string=wrap_string,
                     )
 
                 class scfDiag:
@@ -2156,6 +2298,7 @@ class sphinx:
                         CCG: Optional[dict] = None,
                         blockCCG: Optional[dict] = None,
                         preconditioner: Optional[dict] = None,
+                        wrap_string: bool = True,
                     ):
                         """
                         The scfDiag group selects and controls the iterative diagonalization + density mixing algorithm for the solution of the Kohn-Sham DFT equations.
@@ -2203,6 +2346,7 @@ class sphinx:
                             CCG=CCG,
                             blockCCG=blockCCG,
                             preconditioner=preconditioner,
+                            wrap_string=wrap_string,
                         )
 
                     class CCG:
@@ -2219,6 +2363,7 @@ class sphinx:
                             dipoleCorrection: Optional[bool] = None,
                             noRhoStorage: Optional[bool] = None,
                             noWavesStorage: Optional[bool] = None,
+                            wrap_string: bool = True,
                         ):
                             """
                             The CCG group selects and controls the direct minimization algorithm for the solution of the Kohn-Sham DFT equations
@@ -2248,6 +2393,7 @@ class sphinx:
                                 dipoleCorrection=dipoleCorrection,
                                 noRhoStorage=noRhoStorage,
                                 noWavesStorage=noWavesStorage,
+                                wrap_string=wrap_string,
                             )
 
                     class blockCCG:
@@ -2260,6 +2406,7 @@ class sphinx:
                             dEnergy: Optional[float] = None,
                             verbose: Optional[bool] = None,
                             numericalLimit: Optional[float] = None,
+                            wrap_string: bool = True,
                         ):
                             """
                             The blockCCG group (within the scfDiag group) selects the block-conjugate-gradient algorithm for (inner-loop) iterative diagonalization. After all states have been updated, a subspace diagonalization is performed. This algorithm works best for larger systems (> 5 states).
@@ -2281,6 +2428,7 @@ class sphinx:
                                 dEnergy=dEnergy,
                                 verbose=verbose,
                                 numericalLimit=numericalLimit,
+                                wrap_string=wrap_string,
                             )
 
                     class preconditioner:
@@ -2290,6 +2438,7 @@ class sphinx:
                             scaling: Optional[float] = None,
                             spinScaling: Optional[float] = None,
                             dielecConstant: Optional[float] = None,
+                            wrap_string: bool = True,
                         ):
                             """
                             The preconditioner group defines the density preconditioner, i.e., a transformation of the observed (or predicted) difference between the input and output density to the applied changes to the input density. An ideal preconditioner models the screening behavior of the system and is able to include the expected screening response into the suggested density change. Selecting an appropriate preconditioner, that rejects the screening properties of the system at hand, is a key to an efficient (i.e. fast) convergence. The preconditioner does not affect the converged result.
@@ -2305,12 +2454,14 @@ class sphinx:
                                 scaling=scaling,
                                 spinScaling=spinScaling,
                                 dielecConstant=dielecConstant,
+                                wrap_string=wrap_string,
                             )
 
         class evalForces:
             @staticmethod
             def create(
                 file: str,
+                wrap_string: bool = True,
             ):
                 """
                 The evalForces group is used to calculate forces and write them to a file in sx-format. This is useful for single-point calculations without a structure optimization. It should be used after an electronic loop.
@@ -2320,4 +2471,5 @@ class sphinx:
                 """
                 return fill_values(
                     file=file,
+                    wrap_string=wrap_string,
                 )

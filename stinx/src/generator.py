@@ -150,6 +150,7 @@ def get_function(
     d = _rename_keys(data)
     func = ["@staticmethod", f"def {function_name}("]
     if is_kwarg:
+        func.append(f"{indent}wrap_string: bool = True,")
         func.append(f"{indent}**kwargs")
     else:
         func.extend(
@@ -159,15 +160,18 @@ def get_function(
                 if key not in predefined
             ]
         )
+        func.append(f"{indent}wrap_string: bool = True,")
     func.append("):")
     docstring = get_docstring(d, d.get("description", None))
     output = [indent + "return fill_values("]
     if is_kwarg:
+        output.append(2 * indent + "wrap_string=wrap_string,")
         output.append(2 * indent + "**kwargs")
     else:
         output.extend(
             [2 * indent + f"{key}={key}," for key in d.keys() if key not in predefined]
         )
+        output.append(2 * indent + "wrap_string=wrap_string,")
     output.append(indent + ")")
     result = func + docstring + output
     return "\n".join([indent * n_indent + line for line in result])
