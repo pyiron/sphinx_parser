@@ -116,6 +116,9 @@ def get_docstring(all_data, description=None, indent=indent, predefined=predefin
     for key, data in all_data.items():
         if key not in predefined:
             txt.append(2 * indent + _get_docstring_line(data, key))
+    txt.append(
+        2 * indent + "wrap_string (bool): Whether to wrap string values in apostrophes."
+    )
     txt.append(indent + '"""')
     return txt
 
@@ -150,6 +153,7 @@ def get_function(
     d = _rename_keys(data)
     func = ["@staticmethod", f"def {function_name}("]
     if is_kwarg:
+        func.append(f"{indent}wrap_string: bool = True,")
         func.append(f"{indent}**kwargs")
     else:
         func.extend(
@@ -159,15 +163,18 @@ def get_function(
                 if key not in predefined
             ]
         )
+        func.append(f"{indent}wrap_string: bool = True,")
     func.append("):")
     docstring = get_docstring(d, d.get("description", None))
     output = [indent + "return fill_values("]
     if is_kwarg:
+        output.append(2 * indent + "wrap_string=wrap_string,")
         output.append(2 * indent + "**kwargs")
     else:
         output.extend(
             [2 * indent + f"{key}={key}," for key in d.keys() if key not in predefined]
         )
+        output.append(2 * indent + "wrap_string=wrap_string,")
     output.append(indent + ")")
     result = func + docstring + output
     return "\n".join([indent * n_indent + line for line in result])

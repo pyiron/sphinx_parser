@@ -48,7 +48,7 @@ def get_structure_group(structure, use_symmetry=True):
         ):
             atom_group = {
                 "coords": np.array(elm_pos),
-                "label": f'"spin_{elm_magmom}"',
+                "label": "spin_{elm_magmom}",
             }
             if all(selective):
                 atom_group["movable"] = True
@@ -57,7 +57,7 @@ def get_structure_group(structure, use_symmetry=True):
                     atom_group["movable" + xx] = True
             atom_list.append(sphinx.structure.species.atom.create(**atom_group))
         species.append(
-            sphinx.structure.species.create(element=f'"{elm_species}"', atom=atom_list)
+            sphinx.structure.species.create(element=elm_species, atom=atom_list)
         )
     symmetry = None
     if not use_symmetry:

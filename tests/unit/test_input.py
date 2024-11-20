@@ -1,21 +1,21 @@
 import unittest
-from stinx.src import generator
-import yaml
-import os
+from stinx.input import sphinx
 
 
 class TestStinx(unittest.TestCase):
-    @classmethod
-    def setUpClass(cls):
-        cls.current_dir = os.path.dirname(os.path.abspath(__file__)).replace("\\", "/")
-        cls.file_name = cls.current_dir + "/../../stinx/src/input_data.yml"
 
-    def test_stinx(self):
-        with open(self.file_name, "r") as f:
-            file_content = f.read()
-        all_data = yaml.safe_load(file_content)
-        all_data = generator.replace_alias(all_data)
-        self.assertTrue("def create" in generator.get_class(all_data))
+    def test_wrap_string(self):
+        with_wrap_string = sphinx.pawPot.species.create(
+            potential="my_potential_path",
+            potType="AtomPAW",
+        )
+        self.assertEqual(with_wrap_string, {'potential': '"my_potential_path"', 'potType': '"AtomPAW"'})
+        without_wrap_string = sphinx.pawPot.species.create(
+            potential="my_potential_path",
+            potType="AtomPAW",
+            wrap_string=False,
+        )
+        self.assertEqual(without_wrap_string, {'potential': 'my_potential_path', 'potType': 'AtomPAW'})
 
 
 if __name__ == "__main__":
