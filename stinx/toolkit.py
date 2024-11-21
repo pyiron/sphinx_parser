@@ -11,15 +11,25 @@ def format_value(v, indent=0):
         if len(v) == 0:
             return " {}"
         else:
-            return " {\n" + to_sphinx(v, indent + 1) + indent * "\t" + "}"
+            return (
+                " {\n"
+                + to_sphinx(v, indent + 1, include_format=False)
+                + indent * "\t"
+                + "}"
+            )
     else:
         if isinstance(v, np.ndarray):
             v = v.tolist()
         return " = {!s};".format(v)
 
 
-def to_sphinx(obj, indent=0):
-    line = ""
+def to_sphinx(obj, indent=0, include_format=True):
+    if include_format and "PAWHamiltonian" in obj:
+        line = "format paw;\n\n"
+    elif include_format and "PWHamiltonian" in obj and "pseudoPot" in obj:
+        line = "format sphinx;\n\n"
+    else:
+        line = ""
     for k, v in obj.items():
         current_line = indent * "\t" + k.split("___")[0]
         if isinstance(v, list) and isinstance(v[0], dict):
