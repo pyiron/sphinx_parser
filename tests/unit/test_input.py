@@ -28,7 +28,7 @@ class TestStinx(unittest.TestCase):
         self.assertFalse("format paw;" in to_sphinx(input_sx))
         pw = sphinx.PWHamiltonian.create(xc="PBE")
         pseudo = sphinx.pseudoPot.create()
-        input_sx = sphinx.create(PWHamiltonian=pwp, pseudoPot=pseudo)
+        input_sx = sphinx.create(PWHamiltonian=pw, pseudoPot=pseudo)
         self.assertTrue("format sphinx;" in to_sphinx(input_sx))
 
 
