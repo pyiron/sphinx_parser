@@ -12,4 +12,4 @@ def get_potential_path(element: str):
         str: The path to the potential file.
     """
     path = os.path.join(os.getenv("CONDA_PREFIX"), "share", "sphinxdft", "jth-gga-pbe")
-    return os.path.join(path,  f"{element}_GGA.atomicdata")
+    return os.path.join(path, f"{element}_GGA.atomicdata")
