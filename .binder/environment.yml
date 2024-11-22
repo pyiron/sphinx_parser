@@ -7,3 +7,4 @@ dependencies:
 - black =24.8.0
 - h5py =3.12.1
 - ase =3.23.0
+- sphinxdft-data =0.0.1
