@@ -68,3 +68,15 @@ def get_structure_group(structure, use_symmetry=True):
         cell=np.array(cell), species=species, symmetry=symmetry
     )
     return structure_group
+
+
+def id_ase_to_spx(structure):
+    # Translate the chemical symbols into indices
+    indices = np.unique(structure.get_chemical_symbols(), return_inverse=True)[1]
+    # Add small ramp to ensure order uniqueness
+    indices = indices + np.arange(len(indices)) / len(indices)
+    return np.argsort(indices)
+
+
+def id_spx_to_ase(structure):
+    return np.argsort(id_ase_to_spx(structure))
