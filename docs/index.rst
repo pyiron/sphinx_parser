@@ -1,4 +1,4 @@
-.. stinx documentation master file
+.. sphinx_parser documentation master file
 
 .. _index:
 

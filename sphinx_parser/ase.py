@@ -1,6 +1,6 @@
 import numpy as np
 import scipy.constants as sc
-from stinx.input import sphinx
+from sphinx_parser.input import sphinx
 from ase.io.vasp import _handle_ase_constraints
 
 

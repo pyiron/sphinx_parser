@@ -1,6 +1,6 @@
 import numpy as np
 from typing import Optional
-from stinx.toolkit import fill_values
+from sphinx_parser.toolkit import fill_values
 
 
 class sphinx:

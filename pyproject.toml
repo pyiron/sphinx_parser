@@ -6,8 +6,8 @@ requires = [
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "stinx"
-description = "stinx - Your pyiron-like module."
+name = "sphinx_parser"
+description = "sphinx_parser - Your pyiron-like module."
 readme = "docs/README.md"
 keywords = [ "pyiron",]
 requires-python = ">=3.9, <3.13"
@@ -34,18 +34,18 @@ file = "LICENSE"
 
 [project.urls]
 Homepage = "https://pyiron.org/"
-Documentation = "https://stinx.readthedocs.io"
-Repository = "https://github.com/pyiron/stinx"
+Documentation = "https://sphinx_parser.readthedocs.io"
+Repository = "https://github.com/pyiron/sphinx_parser"
 
 [tool.versioneer]
 VCS = "git"
 style = "pep440-pre"
-versionfile_source = "stinx/_version.py"
-parentdir_prefix = "stinx"
-tag_prefix = "stinx-"
+versionfile_source = "sphinx_parser/_version.py"
+parentdir_prefix = "sphinx_parser"
+tag_prefix = "sphinx_parser-"
 
 [tool.setuptools.packages.find]
-include = [ "stinx*",]
+include = [ "sphinx_parser*",]
 
 [tool.setuptools.dynamic.version]
-attr = "stinx.__version__"
+attr = "sphinx_parser.__version__"

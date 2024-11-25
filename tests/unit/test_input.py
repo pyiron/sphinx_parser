@@ -1,6 +1,6 @@
 import unittest
-from stinx.input import sphinx
-from stinx.toolkit import to_sphinx
+from sphinx_parser.input import sphinx
+from sphinx_parser.toolkit import to_sphinx
 
 
 class TestStinx(unittest.TestCase):

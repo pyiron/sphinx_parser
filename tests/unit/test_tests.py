@@ -1,9 +1,9 @@
 import unittest
-import stinx
+import sphinx_parser
 
 
 class TestVersion(unittest.TestCase):
     def test_version(self):
-        version = stinx.__version__
+        version = sphinx_parser.__version__
         print(version)
         self.assertTrue(version.startswith('0'))

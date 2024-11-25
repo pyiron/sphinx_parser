@@ -1,5 +1,5 @@
 import unittest
-from stinx.potential import get_potential_path
+from sphinx_parser.potential import get_potential_path
 import os
 
 
