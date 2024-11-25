@@ -1,6 +1,6 @@
 import unittest
 from ase.build import bulk
-from stinx.ase import get_structure_group
+from stinx.ase import get_structure_group, id_ase_to_spx, id_spx_to_ase
 from stinx.toolkit import to_sphinx
 import re
 from ase.constraints import FixedPlane
@@ -47,6 +47,15 @@ class TestStinx(unittest.TestCase):
         self.assertTrue(
             "movable" in struct_group["species"]["atom___0"],
             msg="Must be globally movable",
+        )
+
+    def test_id_conversion(self):
+        structure = bulk("Al", cubic=True)
+        structure[0].symbol = "Ni"
+        self.assertEqual(id_ase_to_spx(structure).tolist(), [1, 2, 3, 0])
+        self.assertEqual(
+            id_spx_to_ase(structure)[id_ase_to_spx(structure)].tolist(),
+            [0, 1, 2, 3]
         )
 
 
