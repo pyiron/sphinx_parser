@@ -234,7 +234,7 @@ def export_class(yml_file_name="input_data.yml", py_file_name="input.py"):
     imports = [
         "import numpy as np",
         "from typing import Optional",
-        "from stinx.toolkit import fill_values",
+        "from sphinx_parser.toolkit import fill_values",
     ]
     file_content = "\n".join(imports) + "\n\n\n" + file_content
     file_content = format_str(file_content, mode=FileMode())

@@ -1,6 +1,6 @@
 import unittest
 import os
-from stinx import output
+from sphinx_parser import output
 import numpy as np
 
 
