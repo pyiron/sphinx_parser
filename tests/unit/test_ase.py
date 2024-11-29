@@ -25,6 +25,11 @@ class TestStinx(unittest.TestCase):
             msg="There must be exactly four atoms in cubic fcc",
         )
 
+    def test_magmom(self):
+        structure = bulk("Fe", cubic=True)
+        struct_group = get_structure_group(structure)
+        self.assertEqual(struct_group["species"]["atom"]["label"][1:-1], "spin_2.3")
+
     def test_constraint_bulk(self):
         structure = bulk("Al", cubic=True)
         c = FixedPlane([0], [1, 0, 0])
