@@ -48,7 +48,7 @@ def get_structure_group(structure, use_symmetry=True):
         ):
             atom_group = {
                 "coords": np.array(elm_pos),
-                "label": "spin_{elm_magmom}",
+                "label": f"spin_{elm_magmom}",
             }
             if all(selective):
                 atom_group["movable"] = True
