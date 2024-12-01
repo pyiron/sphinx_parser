@@ -1,5 +1,6 @@
 import os
 import warnings
+import re
 
 
 def get_potential_path(element: str):

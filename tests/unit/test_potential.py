@@ -18,10 +18,10 @@ class TestStinx(unittest.TestCase):
         self.assertTrue(os.path.exists(get_potential_path("Ag")))
 
     def test_is_vasp_potential(self):
-        with open(os.join(self.file_path, "potentials", "Ag_POTCAR"), "r") as f:
+        with open(os.path.join(self.file_path, "potentials", "Ag_POTCAR"), "r") as f:
             file_content = f.read()
             file_content = _remove_hash_tag(file_content)
-        self.assertTrue(_is_vasp_potential("Ag"))
+        self.assertTrue(_is_vasp_potential(file_content))
 
 
 if __name__ == "__main__":
