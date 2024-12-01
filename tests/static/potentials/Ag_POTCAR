@@ -1,0 +1,29 @@
+# The file content is intentionally changed
+  PAW_PBE Ag 19Dec2001
+   13.0000000000000
+ parameters from PSCTR are: 
+   SHA256 =  6550cfa3543261e132c169e1b98a529204624d72be14e2da2e0242bcb74a174d Ag/POTCAR
+   COPYR  = (c) Copyright 19Dec2001 Georg Kresse
+   COPYR  = This file is part of the software VASP. Any use, copying, and all other rights are regulated by the VASP license agreement.
+   COPYR  = If you do not have a valid VASP license, you may not use, copy or distribute this file.
+   VRHFIN =Ag : s1 d10
+   LEXCH  = PE 
+   EATOM  =  1175.1623 eV,   77.6312 Ry
+
+   TITEL  = PAW_PBE Ag 19Dec2001
+   LULTRA =        F    use ultrasoft PP ?
+   IUNSCR =        1    unscreen: 0-lin 1-nonlin 2-no
+   RPACOR =    2.000    partial core radius
+   POMASS =  123.456; ZVAL   =   13.000    mass and valenz
+   RCORE  =    2.500    outmost cutoff radius
+   RWIGS  =    2.840; RWIGS  =    1.503    wigner-seitz radius (au A)
+   ENMAX  =  234.567; ENMIN  =  123.456 eV
+   ICORE  =        3    local potential
+   LCOR   =        T    correct aug charges
+   LPAW   =        T    paw PP
+   EAUG   =  456.789
+   DEXC   =    0.000
+   RMAX   =    2.560    core radius for proj-oper
+   RAUG   =    1.300    factor for augmentation sphere
+   RDEP   =    2.345    radius for radial grids
+   RDEPT  =    2.345    core radius for aug-charge
