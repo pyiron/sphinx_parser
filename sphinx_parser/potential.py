@@ -26,8 +26,8 @@ def _remove_hash_tag(text):
     Returns:
         str: The processed text.
     """
-    result = re.sub(r'^#.*$', '', text, flags=re.MULTILINE)
-    return re.sub(r'\n+', '\n', result).strip()
+    result = re.sub(r"^#.*$", "", text, flags=re.MULTILINE)
+    return re.sub(r"\n+", "\n", result).strip()
 
 
 def _is_vasp_potential(file_content, min_hits=2):

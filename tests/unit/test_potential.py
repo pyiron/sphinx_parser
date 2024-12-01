@@ -1,5 +1,9 @@
 import unittest
-from sphinx_parser.potential import get_potential_path, _is_vasp_potential, _remove_hash_tag
+from sphinx_parser.potential import (
+    get_potential_path,
+    _is_vasp_potential,
+    _remove_hash_tag,
+)
 import os
 
 
