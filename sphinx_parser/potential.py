@@ -52,3 +52,32 @@ def _is_vasp_potential(file_content, min_hits=2):
         )
         return True
     return False
+
+
+def _is_jth_potential(file_content, min_hits=9):
+    """
+    Check if the file content is a JTH potential.
+
+    Args:
+        file_content (str): The content of the file.
+
+    Returns:
+        bool: True if the file content is a JTH potential.
+    """
+    exp_terms = [
+        "ORBITALS",
+        "ATOMIC_CHARGE",
+        "OVERLAP_MATRIX",
+        "INITOCC",
+        "TPHI",
+        "ATOMXCTYPE",
+        "Ryd",
+        "V_HARTREE",
+        "EAION",
+        "CORE_DENSITY",
+        "DENVHAT_SIZE",
+    ]
+    terms_404 = [term for term in exp_terms if term not in file_content]
+    if len(terms_404) == 0:
+        return True
+    return False
