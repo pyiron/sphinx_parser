@@ -1,8 +1,8 @@
-# Stinx
+# Sphinx
 
 ## Overview
 
-Stinx is a sibling repository of the DFT code [Sphinx](https://sxrepo.mpie.de). It provides the python parser to generate the input files for the Sphinx code.
+This hosts the python binder of the DFT code [Sphinx](https://sxrepo.mpie.de).
 
 ## How to use
 
@@ -37,4 +37,53 @@ You can then write it to a file via:
 ```python
 with open('sphinx.in', 'w') as f:
     f.write(sphinx_input)
+```
+
+
+## Minimum working example
+
+```python
+import numpy as np
+from ase.build import bulk
+import os
+
+
+cwd = "TEST"
+# cwd.mkdir(exist_ok=True)
+if not os.path.exists(cwd):
+    os.mkdir(cwd)
+
+from sphinx_parser.input import sphinx
+from sphinx_parser.ase import get_structure_group
+from sphinx_parser.toolkit import to_sphinx
+from sphinx_parser.potential import get_paw_from_structure
+
+
+structure = bulk("Al", cubic=True)
+structure[1].symbol = "Ni"
+
+struct_group = get_structure_group(structure)
+main_group = sphinx.main.create(scfDiag=sphinx.main.scfDiag.create(maxSteps=10, blockCCG={}))
+pawPot_group = get_paw_from_structure(structure)
+basis_group = sphinx.basis.create(eCut=25, kPoint=sphinx.basis.kPoint.create(coords=3 * [0.5]))
+paw_group = sphinx.PAWHamiltonian.create(xc=1, spinPolarized=False, ekt=0.2)
+initial_guess_group = sphinx.initialGuess.create(
+    waves=sphinx.initialGuess.waves.create(lcao=sphinx.initialGuess.waves.lcao.create()), rho=sphinx.initialGuess.rho.create(atomicOrbitals=True)
+)
+
+input_sx = sphinx.create(
+    pawPot=pawPot_group, structure=struct_group, main=main_group, basis=basis_group, PAWHamiltonian=paw_group, initialGuess=initial_guess_group
+)
+
+with open(os.path.join(cwd, "input.sx"), "w") as f:
+    f.write(to_sphinx(input_sx))
+
+import subprocess
+
+command = ["sphinx"]
+
+process = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True, cwd=cwd)
+stdout, stderr = process.communicate()
+
+collect_energy_dat(os.path.join(cwd, "energy.dat"))
 ```

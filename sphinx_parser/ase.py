@@ -4,17 +4,6 @@ from sphinx_parser.input import sphinx
 from ase.io.vasp import _handle_ase_constraints
 
 
-def get_constraints(atoms):
-    """
-    Get the constraints of the atoms object. The constraints are returned as a
-    boolean array. True means the atom is movable, False means it is fixed.
-    """
-    if atoms.constraints:
-        return ~_handle_ase_constraints(atoms)
-    else:
-        return np.full(shape=atoms.positions.shape, fill_value=True)
-
-
 def _to_angstrom(cell, positions):
     bohr_to_angstrom = sc.physical_constants["Bohr radius"][0] / sc.angstrom
     cell = np.array(cell) / bohr_to_angstrom
@@ -34,7 +23,7 @@ def get_structure_group(structure, use_symmetry=True):
         (Group): structure group
     """
     cell, positions = _to_angstrom(structure.cell, structure.positions)
-    movable = get_constraints(structure)
+    movable = ~_handle_ase_constraints(structure)
     labels = structure.get_initial_magnetic_moments()
     elements = np.array(structure.get_chemical_symbols())
     species = []
@@ -55,6 +44,8 @@ def get_structure_group(structure, use_symmetry=True):
             elif any(selective):
                 for xx in np.array(["X", "Y", "Z"])[selective]:
                     atom_group["movable" + xx] = True
+            else:
+                atom_group["movable"] = False
             atom_list.append(sphinx.structure.species.atom.create(**atom_group))
         species.append(
             sphinx.structure.species.create(element=elm_species, atom=atom_list)
