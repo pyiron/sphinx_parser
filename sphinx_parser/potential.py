@@ -17,7 +17,7 @@ def get_paw_from_chemical_symbols(chemical_symbols):
                 potType="AtomPAW",
                 element=c,
             )
-            for c in chemical_symbols
+            for c in np.unique(chemical_symbols)
         ]
     )
 
