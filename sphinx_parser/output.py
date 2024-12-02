@@ -189,7 +189,7 @@ def collect_eval_forces(file_name, cwd=None, index_permutation=None):
 
 
 class SphinxLogParser:
-    def __init__(self, file_name="sphinx.log", cwd=None, index_permutation=None):
+    def __init__(self, file_name, cwd=None, index_permutation=None):
         """
         Args:
             file_name (str): file name
