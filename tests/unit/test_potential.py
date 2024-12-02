@@ -2,6 +2,7 @@ import unittest
 from sphinx_parser.potential import (
     get_potential_path,
     _is_vasp_potential,
+    _is_jth_potential,
     _remove_hash_tag,
 )
 import os
@@ -17,11 +18,17 @@ class TestStinx(unittest.TestCase):
     def test_path_exists(self):
         self.assertTrue(os.path.exists(get_potential_path("Ag")))
 
-    def test_is_vasp_potential(self):
+    def test_is_xyz_potential(self):
         with open(os.path.join(self.file_path, "potentials", "Ag_POTCAR"), "r") as f:
             file_content = f.read()
             file_content = _remove_hash_tag(file_content)
         self.assertTrue(_is_vasp_potential(file_content))
+        self.assertFalse(_is_jth_potential(file_content))
+        with open(os.path.join(self.file_path, "potentials", "Ag_GGA.atomicdata"), "r") as f:
+            file_content = f.read()
+            file_content = _remove_hash_tag(file_content)
+        self.assertFalse(_is_vasp_potential(file_content))
+        self.assertTrue(_is_jth_potential(file_content))
 
 
 if __name__ == "__main__":
