@@ -84,4 +84,6 @@ command = ["sphinx"]
 
 process = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True, cwd=cwd)
 stdout, stderr = process.communicate()
+
+collect_energy_dat(os.path.join(cwd, "energy.dat"))
 ```
