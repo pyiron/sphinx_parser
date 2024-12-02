@@ -44,6 +44,8 @@ def get_structure_group(structure, use_symmetry=True):
             elif any(selective):
                 for xx in np.array(["X", "Y", "Z"])[selective]:
                     atom_group["movable" + xx] = True
+            else:
+                atom_group["movable"] = False
             atom_list.append(sphinx.structure.species.atom.create(**atom_group))
         species.append(
             sphinx.structure.species.create(element=elm_species, atom=atom_list)
