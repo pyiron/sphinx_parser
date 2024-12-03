@@ -198,7 +198,6 @@ class SphinxLogParser:
 
         """
         self.log_file = file_content
-        self._check_enter_scf()
         self._n_atoms = None
         _check_permutation(index_permutation)
         self._index_permutation = index_permutation
@@ -259,7 +258,7 @@ class SphinxLogParser:
             warnings.warn("Log file created but first scf loop not reached")
             return None
         log_main = positions[-1][-1] + 1
-        return log_file[log_main :]
+        return log_file[log_main:]
 
     def job_finished(self):
         if (
