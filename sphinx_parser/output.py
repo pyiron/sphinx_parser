@@ -189,7 +189,7 @@ def collect_eval_forces(file_name, cwd=None, index_permutation=None):
 
 
 class SphinxLogParser:
-    def __init__(self, file_name, cwd=None, index_permutation=None):
+    def __init__(self, file_content, index_permutation=None):
         """
         Args:
             file_name (str): file name
@@ -197,14 +197,7 @@ class SphinxLogParser:
             index_permutation (numpy.ndarray): Indices for the permutation
 
         """
-        path = Path(file_name)
-        if cwd is not None:
-            path = Path(cwd) / path
-        with open(str(path), "r") as sphinx_log_file:
-            self.log_file = sphinx_log_file.read()
-        self._scf_not_entered = False
-        self._check_enter_scf()
-        self._log_main = None
+        self.log_file = file_content
         self._n_atoms = None
         _check_permutation(index_permutation)
         self._index_permutation = index_permutation
@@ -226,6 +219,24 @@ class SphinxLogParser:
             "scf_magnetic_forces": self.get_magnetic_forces,
         }
 
+    @classmethod
+    def load_from_path(cls, path, cwd=None, index_permutation=None):
+        """
+        Args:
+            path (str): file name
+            cwd (str): directory path
+            index_permutation (numpy.ndarray): Indices for the permutation
+
+        Returns:
+            (SphinxLogParser): instance
+
+        """
+        if cwd is not None:
+            path = Path(cwd) / Path(path)
+        with open(str(path), "r") as f:
+            file_content = f.read()
+        return cls(file_content, index_permutation)
+
     @property
     def index_permutation(self):
         return self._index_permutation
@@ -234,12 +245,20 @@ class SphinxLogParser:
     def spin_enabled(self):
         return len(re.findall("Spin moment:", self.log_file)) > 0
 
-    @property
+    @cached_property
     def log_main(self):
-        if self._log_main is None:
-            match = re.search("Enter Main Loop", self.log_file)
-            self._log_main = match.end() + 1
-        return self.log_file[self._log_main :]
+        term = "Enter Main Loop"
+        matches = re.finditer(rf"\b{re.escape(term)}\b", self.log_file)
+        positions = [(match.start(), match.end()) for match in matches]
+        if len(positions) > 1:
+            warnings.warn(
+                "Something is wrong with the log file; maybe stacked together?"
+            )
+        if len(positions) == 0:
+            warnings.warn("Log file created but first scf loop not reached")
+            return None
+        log_main = positions[-1][-1] + 1
+        return self.log_file[log_main:]
 
     def job_finished(self):
         if (
@@ -249,11 +268,6 @@ class SphinxLogParser:
             warnings.warn("scf loops did not converge")
             return False
         return True
-
-    def _check_enter_scf(self):
-        if len(re.findall("Enter Main Loop", self.log_file, re.MULTILINE)) == 0:
-            warnings.warn("Log file created but first scf loop not reached")
-            self._scf_not_entered = True
 
     def get_n_valence(self):
         log = self.log_file.split("\n")
@@ -394,7 +408,7 @@ class SphinxLogParser:
 
     @property
     def results(self):
-        if self._scf_not_entered:
+        if self.log_main is None:
             return {}
         results = {"generic": {}, "dft": {}}
         for key, func in self.generic_dict.items():
