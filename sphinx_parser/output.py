@@ -189,7 +189,7 @@ def collect_eval_forces(file_name, cwd=None, index_permutation=None):
 
 
 class SphinxLogParser:
-    def __init__(self, file_name, cwd=None, index_permutation=None):
+    def __init__(self, file_content, index_permutation=None):
         """
         Args:
             file_name (str): file name
@@ -197,11 +197,7 @@ class SphinxLogParser:
             index_permutation (numpy.ndarray): Indices for the permutation
 
         """
-        path = Path(file_name)
-        if cwd is not None:
-            path = Path(cwd) / path
-        with open(str(path), "r") as sphinx_log_file:
-            self.log_file = sphinx_log_file.read()
+        self.log_file = file_content
         self._check_enter_scf()
         self._n_atoms = None
         _check_permutation(index_permutation)
@@ -223,6 +219,24 @@ class SphinxLogParser:
             "scf_energy_free": self.get_energy_free,
             "scf_magnetic_forces": self.get_magnetic_forces,
         }
+
+    @classmethod
+    def load_from_path(cls, path, cwd=None, index_permutation=None):
+        """
+        Args:
+            path (str): file name
+            cwd (str): directory path
+            index_permutation (numpy.ndarray): Indices for the permutation
+
+        Returns:
+            (SphinxLogParser): instance
+
+        """
+        if cwd is not None:
+            path = Path(cwd) / Path(path)
+        with open(str(path), "r") as f:
+            file_content = f.read()
+        return cls(file_content, index_permutation)
 
     @property
     def index_permutation(self):
