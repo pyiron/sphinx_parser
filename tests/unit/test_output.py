@@ -44,6 +44,11 @@ class TestOutput(unittest.TestCase):
             self.assertGreater(np.min(residue["scf_residue"][-1]), 0)
         self.assertGreater(counter, 0)
 
+    def test_spx_log_parser(self):
+        for file in self._find_file("sphinx.log"):
+            spx_output = output.SphinxLogParser.load_from_path(file)
+            self.assertIsInstance(spx_output.results, dict)
+
 
 if __name__ == "__main__":
     unittest.main()
