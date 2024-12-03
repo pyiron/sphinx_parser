@@ -14,7 +14,7 @@ def _splitter(arr, counter):
     spl_loc = list(np.where(np.array(counter) == min(counter))[0])
     spl_loc.append(None)
     for ii, ll in enumerate(spl_loc[:-1]):
-        arr_new.append(np.array(arr[ll: spl_loc[ii + 1]]).tolist())
+        arr_new.append(np.array(arr[ll : spl_loc[ii + 1]]).tolist())
     return arr_new
 
 
@@ -283,7 +283,7 @@ class SphinxLogParser:
             "-ik-     -x-      -y-       -z-    \|  -weight-    -nG-    -label-",
             self.log_file,
         )
-        log_part = self.log_file[start_match.end() + 1:]
+        log_part = self.log_file[start_match.end() + 1 :]
         log_part = log_part[: re.search("^\n", log_part, re.MULTILINE).start()]
         return log_part.split("\n")[:-2]
 
@@ -487,7 +487,7 @@ class SphinxWavesReader:
         fft_idx = []
         off = 0
         for ngk in self._n_gk:
-            fft_idx.append(self.wfile["fftIdx"][off: off + ngk])
+            fft_idx.append(self.wfile["fftIdx"][off : off + ngk])
             off += ngk
         return fft_idx
 
@@ -509,8 +509,8 @@ class SphinxWavesReader:
         ispin = np.arange(self.n_spin)[ispin]
 
         off = self._n_gk[ik] * (i + ispin * self.n_states)
-        psire = self.wfile[f"psi-{ik+1}.re"][off: off + self._n_gk[ik]]
-        psiim = self.wfile[f"psi-{ik+1}.im"][off: off + self._n_gk[ik]]
+        psire = self.wfile[f"psi-{ik+1}.re"][off : off + self._n_gk[ik]]
+        psiim = self.wfile[f"psi-{ik+1}.im"][off : off + self._n_gk[ik]]
         compact_wave = psire + 1j * psiim
         if compact:
             return compact_wave

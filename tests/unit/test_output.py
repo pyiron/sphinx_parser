@@ -23,12 +23,10 @@ class TestOutput(unittest.TestCase):
             self.assertTrue("scf_energy_free" in energy)
             self.assertIsInstance(energy["scf_energy_free"], list)
             self.assertLess(
-                energy["scf_energy_free"][-1][-1],
-                energy["scf_energy_zero"][-1][-1]
+                energy["scf_energy_free"][-1][-1], energy["scf_energy_zero"][-1][-1]
             )
             self.assertLess(
-                energy["scf_energy_zero"][-1][-1],
-                energy["scf_energy_int"][-1][-1]
+                energy["scf_energy_zero"][-1][-1], energy["scf_energy_int"][-1][-1]
             )
             counter += 1
         self.assertGreater(counter, 0)
