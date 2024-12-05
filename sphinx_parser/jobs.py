@@ -15,8 +15,7 @@ def calc_static(
     struct_group = get_structure_group(structure)
     main_group = sphinx.main.create(
         scfDiag=sphinx.main.scfDiag.create(
-            maxSteps=maxSteps,
-            blockCCG=sphinx.main.scfDiag.blockCCG.create()
+            maxSteps=maxSteps, blockCCG=sphinx.main.scfDiag.blockCCG.create()
         )
     )
     pawPot_group = get_paw_from_structure(structure)
@@ -30,7 +29,7 @@ def calc_static(
         waves=sphinx.initialGuess.waves.create(
             lcao=sphinx.initialGuess.waves.lcao.create()
         ),
-        rho=sphinx.initialGuess.rho.create(atomicOrbitals=True)
+        rho=sphinx.initialGuess.rho.create(atomicOrbitals=True),
     )
     input_sx = sphinx.create(
         pawPot=pawPot_group,
