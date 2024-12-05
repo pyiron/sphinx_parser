@@ -8,7 +8,7 @@ def calc_static(
     eCut=25,
     xc=1,
     spinPolarized=False,
-    maxSteps=10,
+    maxSteps=30,
     ekt=0.2,
     k_point_coords=[0.5, 0.5, 0.5],
 ):
