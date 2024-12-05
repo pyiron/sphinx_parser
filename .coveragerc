@@ -1,5 +1,5 @@
 # .coveragerc to control coverage.py
 [run]
-source = stinx
-omit = stinx/_version.py
+source = sphinx_parser
+omit = sphinx_parser/_version.py
 concurrency = multiprocessing
