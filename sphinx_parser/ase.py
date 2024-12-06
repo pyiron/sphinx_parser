@@ -72,7 +72,9 @@ def get_structure_group(structure, use_symmetry=True):
     """
     cell, positions = _to_angstrom(structure.cell, structure.positions)
     movable = ~_handle_ase_constraints(structure)
-    spins = structure.get_initial_magnetic_moments()
+    # When the user changes the magnetic moments, they are sometimes no longer
+    # numpy array afterwards.
+    spins = np.array(structure.get_initial_magnetic_moments())
     elements = np.array(structure.get_chemical_symbols())
     species = _get_species_list(positions, elements, spins, movable)
     symmetry = None
@@ -83,7 +85,10 @@ def get_structure_group(structure, use_symmetry=True):
     structure_group = sphinx.structure.create(
         cell=np.array(cell), species=species, symmetry=symmetry
     )
-    spin_list = _get_spin_list(spins)
+    if "initial_magmoms" in structure.arrays:
+        spin_list = _get_spin_list(spins)
+    else:
+        spin_list = None
     return structure_group, spin_list
 
 
