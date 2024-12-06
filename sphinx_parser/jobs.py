@@ -29,9 +29,7 @@ def calc_static(
         waves=sphinx.initialGuess.waves.create(
             lcao=sphinx.initialGuess.waves.lcao.create()
         ),
-        rho=sphinx.initialGuess.rho.create(
-            atomicOrbitals=True, atomicSpin=spin_lst
-        ),
+        rho=sphinx.initialGuess.rho.create(atomicOrbitals=True, atomicSpin=spin_lst),
     )
     input_sx = sphinx.create(
         pawPot=pawPot_group,

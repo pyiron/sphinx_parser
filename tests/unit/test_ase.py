@@ -59,8 +59,7 @@ class TestASE(unittest.TestCase):
         structure[0].symbol = "Ni"
         self.assertEqual(id_ase_to_spx(structure).tolist(), [1, 2, 3, 0])
         self.assertEqual(
-            id_spx_to_ase(structure)[id_ase_to_spx(structure)].tolist(),
-            [0, 1, 2, 3]
+            id_spx_to_ase(structure)[id_ase_to_spx(structure)].tolist(), [0, 1, 2, 3]
         )
 
     def test_magmom(self):

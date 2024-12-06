@@ -14,6 +14,7 @@ def _to_angstrom(cell, positions):
 def _get_spin_label(spin):
     return f"spin_{spin}"
 
+
 def _get_movable(selective):
     if all(selective):
         return {"movable": True}
@@ -53,7 +54,8 @@ def _get_species_list(positions, elements, spins, movable):
 def _get_spin_list(spins):
     return [
         sphinx.initialGuess.rho.atomicSpin.create(
-            label=_get_spin_label(spin), spin=spin,
+            label=_get_spin_label(spin),
+            spin=spin,
         )
         for spin in np.unique(spins)
     ]
