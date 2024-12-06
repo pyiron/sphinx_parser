@@ -40,3 +40,23 @@ def calc_static(
         initialGuess=initial_guess_group,
     )
     return input_sx
+
+
+def calc_minimize(
+    structure,
+    eCut=25,
+    xc=1,
+    spinPolarized=False,
+    maxSteps=30,
+    ekt=0.2,
+    k_point_coords=[0.5, 0.5, 0.5],
+):
+    input_sx = calc_static(
+        structure,
+        eCut=eCut,
+        xc=xc,
+        spinPolarized=spinPolarized,
+        maxSteps=maxSteps,
+        ekt=ekt,
+        k_point_coords=k_point_coords,
+    )
