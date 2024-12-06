@@ -1,4 +1,4 @@
-import numpy as np
+mport numpy as np
 import scipy.constants as sc
 from sphinx_parser.input import sphinx
 from ase.io.vasp import _handle_ase_constraints
@@ -20,11 +20,11 @@ def _get_movable(selective):
         return {"movable": False}
 
 
-def _get_atom_list(positions, labels, movable, elm_list):
+def _get_atom_list(positions, spins, movable, elm_list):
     atom_list = []
     for elm_pos, elm_magmom, selective in zip(
         positions[elm_list],
-        labels[elm_list],
+        spins[elm_list],
         movable[elm_list],
     ):
         atom_group = {
@@ -36,11 +36,11 @@ def _get_atom_list(positions, labels, movable, elm_list):
     return atom_list
 
 
-def _get_species_list(elements, labels, movable):
+def _get_species_list(elements, spins, movable):
     species = []
     for elm_species in np.unique(elements):
         elm_list = elements == elm_species
-        atom_list = _get_atom_list(positions, labels, movable, elm_list)
+        atom_list = _get_atom_list(positions, spins, movable, elm_list)
         species.append(
             sphinx.structure.species.create(element=elm_species, atom=atom_list)
         )
@@ -60,9 +60,9 @@ def get_structure_group(structure, use_symmetry=True):
     """
     cell, positions = _to_angstrom(structure.cell, structure.positions)
     movable = ~_handle_ase_constraints(structure)
-    labels = structure.get_initial_magnetic_moments()
+    spins = structure.get_initial_magnetic_moments()
     elements = np.array(structure.get_chemical_symbols())
-    species = _get_species_list(elements, labels, movable)
+    species = _get_species_list(elements, spins, movable)
     symmetry = None
     if not use_symmetry:
         symmetry = sphinx.structure.symmetry.create(
