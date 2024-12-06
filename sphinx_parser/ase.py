@@ -11,6 +11,9 @@ def _to_angstrom(cell, positions):
     return cell, positions
 
 
+def _get_spin_label(spin):
+    return f"spin_{spin}"
+
 def _get_movable(selective):
     if all(selective):
         return {"movable": True}
@@ -29,7 +32,7 @@ def _get_atom_list(positions, labels, movable, elm_list):
     ):
         atom_group = {
             "coords": np.array(elm_pos),
-            "label": f"spin_{elm_magmom}",
+            "label": _get_spin_label(elm_magmom),
         }
         atom_group.update(_get_movable(selective))
         atom_list.append(sphinx.structure.species.atom.create(**atom_group))
@@ -45,6 +48,15 @@ def _get_species_list(elements, labels, movable):
             sphinx.structure.species.create(element=elm_species, atom=atom_list)
         )
     return species
+
+
+def _get_spin_list(labels):
+    return [
+        sphinx.initialGuess.rho.atomicSpin.create(
+            label=_get_spin_label(spin), spin=spin,
+        )
+        for spin in np.unique(labels)
+    ]
 
 
 def get_structure_group(structure, use_symmetry=True):
@@ -71,7 +83,8 @@ def get_structure_group(structure, use_symmetry=True):
     structure_group = sphinx.structure.create(
         cell=np.array(cell), species=species, symmetry=symmetry
     )
-    return structure_group
+    spin_list = _get_spin_list(labels)
+    return structure_group, spin_list
 
 
 def id_ase_to_spx(structure):
