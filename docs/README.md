@@ -57,6 +57,44 @@ from sphinx_parser.input import sphinx
 from sphinx_parser.ase import get_structure_group
 from sphinx_parser.toolkit import to_sphinx
 from sphinx_parser.potential import get_paw_from_structure
+from sphinx_parser.jobs import calc_static
+
+
+structure = bulk("Al", cubic=True)
+structure[1].symbol = "Ni"
+
+input_sx = calc_static(structure)
+
+with open(os.path.join(cwd, "input.sx"), "w") as f:
+    f.write(to_sphinx(input_sx))
+
+import subprocess
+
+command = ["sphinx"]
+
+process = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True, cwd=cwd)
+stdout, stderr = process.communicate()
+
+collect_energy_dat(os.path.join(cwd, "energy.dat"))
+```
+
+## More detailed example:
+
+```python
+import numpy as np
+from ase.build import bulk
+import os
+
+
+cwd = "TEST"
+# cwd.mkdir(exist_ok=True)
+if not os.path.exists(cwd):
+    os.mkdir(cwd)
+
+from sphinx_parser.input import sphinx
+from sphinx_parser.ase import get_structure_group
+from sphinx_parser.toolkit import to_sphinx
+from sphinx_parser.potential import get_paw_from_structure
 
 
 structure = bulk("Al", cubic=True)
