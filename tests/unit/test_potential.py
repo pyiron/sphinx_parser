@@ -8,7 +8,7 @@ from sphinx_parser.potential import (
 import os
 
 
-class TestStinx(unittest.TestCase):
+class TestPotential(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         # Get the path to the folder of this file

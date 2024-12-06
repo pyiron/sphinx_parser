@@ -3,7 +3,7 @@ from sphinx_parser.input import sphinx
 from sphinx_parser.toolkit import to_sphinx
 
 
-class TestStinx(unittest.TestCase):
+class TestInput(unittest.TestCase):
 
     def test_wrap_string(self):
         with_wrap_string = sphinx.pawPot.species.create(

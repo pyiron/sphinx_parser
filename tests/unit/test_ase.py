@@ -6,7 +6,7 @@ import re
 from ase.constraints import FixedPlane
 
 
-class TestStinx(unittest.TestCase):
+class TestASE(unittest.TestCase):
     def test_Ni_Al_bulk(self):
         structure = bulk("Al", cubic=True)
         structure[0].symbol = "Ni"
