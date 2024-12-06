@@ -8,7 +8,7 @@ from sphinx_parser.potential import (
 import os
 
 
-class TestStinx(unittest.TestCase):
+class TestPotential(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         # Get the path to the folder of this file
@@ -24,7 +24,9 @@ class TestStinx(unittest.TestCase):
             file_content = _remove_hash_tag(file_content)
         self.assertTrue(_is_vasp_potential(file_content))
         self.assertFalse(_is_jth_potential(file_content))
-        with open(os.path.join(self.file_path, "potentials", "Ag_GGA.atomicdata"), "r") as f:
+        with open(
+            os.path.join(self.file_path, "potentials", "Ag_GGA.atomicdata"), "r"
+        ) as f:
             file_content = f.read()
             file_content = _remove_hash_tag(file_content)
         self.assertFalse(_is_vasp_potential(file_content))

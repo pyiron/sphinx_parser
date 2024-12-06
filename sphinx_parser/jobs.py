@@ -12,7 +12,7 @@ def calc_static(
     ekt=0.2,
     k_point_coords=[0.5, 0.5, 0.5],
 ):
-    struct_group = get_structure_group(structure)
+    struct_group, spin_lst = get_structure_group(structure)
     main_group = sphinx.main.create(
         scfDiag=sphinx.main.scfDiag.create(
             maxSteps=maxSteps, blockCCG=sphinx.main.scfDiag.blockCCG.create()
@@ -29,7 +29,7 @@ def calc_static(
         waves=sphinx.initialGuess.waves.create(
             lcao=sphinx.initialGuess.waves.lcao.create()
         ),
-        rho=sphinx.initialGuess.rho.create(atomicOrbitals=True),
+        rho=sphinx.initialGuess.rho.create(atomicOrbitals=True, atomicSpin=spin_lst),
     )
     input_sx = sphinx.create(
         pawPot=pawPot_group,
