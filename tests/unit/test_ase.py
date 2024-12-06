@@ -29,6 +29,7 @@ class TestStinx(unittest.TestCase):
         structure = bulk("Fe", cubic=True)
         struct_group = get_structure_group(structure)
         self.assertEqual(struct_group["species"]["atom"]["label"][1:-1], "spin_2.3")
+        print(struct_group)
 
     def test_constraint_bulk(self):
         structure = bulk("Al", cubic=True)

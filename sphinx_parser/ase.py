@@ -1,4 +1,4 @@
-mport numpy as np
+import numpy as np
 import scipy.constants as sc
 from sphinx_parser.input import sphinx
 from ase.io.vasp import _handle_ase_constraints
@@ -39,7 +39,7 @@ def _get_atom_list(positions, spins, movable, elm_list):
     return atom_list
 
 
-def _get_species_list(elements, spins, movable):
+def _get_species_list(positions, elements, spins, movable):
     species = []
     for elm_species in np.unique(elements):
         elm_list = elements == elm_species
@@ -74,7 +74,7 @@ def get_structure_group(structure, use_symmetry=True):
     movable = ~_handle_ase_constraints(structure)
     spins = structure.get_initial_magnetic_moments()
     elements = np.array(structure.get_chemical_symbols())
-    species = _get_species_list(elements, spins, movable)
+    species = _get_species_list(positions, elements, spins, movable)
     symmetry = None
     if not use_symmetry:
         symmetry = sphinx.structure.symmetry.create(
