@@ -50,12 +50,12 @@ def _get_species_list(positions, elements, spins, movable):
     return species
 
 
-def _get_spin_list(labels):
+def _get_spin_list(spins):
     return [
         sphinx.initialGuess.rho.atomicSpin.create(
             label=_get_spin_label(spin), spin=spin,
         )
-        for spin in np.unique(labels)
+        for spin in np.unique(spins)
     ]
 
 
@@ -83,7 +83,7 @@ def get_structure_group(structure, use_symmetry=True):
     structure_group = sphinx.structure.create(
         cell=np.array(cell), species=species, symmetry=symmetry
     )
-    spin_list = _get_spin_list(labels)
+    spin_list = _get_spin_list(spins)
     return structure_group, spin_list
 
 

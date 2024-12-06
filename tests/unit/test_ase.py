@@ -10,7 +10,7 @@ class TestStinx(unittest.TestCase):
     def test_Ni_Al_bulk(self):
         structure = bulk("Al", cubic=True)
         structure[0].symbol = "Ni"
-        input_dict = get_structure_group(structure, use_symmetry=False)
+        input_dict = get_structure_group(structure, use_symmetry=False)[0]
         for key in ["cell", "species", "species___0", "symmetry"]:
             self.assertTrue(key in input_dict)
         text = to_sphinx(input_dict)
@@ -27,15 +27,14 @@ class TestStinx(unittest.TestCase):
 
     def test_magmom(self):
         structure = bulk("Fe", cubic=True)
-        struct_group = get_structure_group(structure)
+        struct_group = get_structure_group(structure)[0]
         self.assertEqual(struct_group["species"]["atom"]["label"][1:-1], "spin_2.3")
-        print(struct_group)
 
     def test_constraint_bulk(self):
         structure = bulk("Al", cubic=True)
         c = FixedPlane([0], [1, 0, 0])
         structure.set_constraint(c)
-        struct_group = get_structure_group(structure)
+        struct_group = get_structure_group(structure)[0]
         self.assertFalse(
             struct_group["species"]["atom"]["movableX"],
             msg="Not allowed to move along X",
