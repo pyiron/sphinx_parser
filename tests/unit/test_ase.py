@@ -36,7 +36,7 @@ class TestStinx(unittest.TestCase):
         structure.set_constraint(c)
         struct_group = get_structure_group(structure)
         self.assertFalse(
-            "movableX" in struct_group["species"]["atom"],
+            struct_group["species"]["atom"]["movableX"],
             msg="Not allowed to move along X",
         )
         for term in ["movableY", "movableZ"]:

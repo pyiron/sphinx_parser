@@ -11,6 +11,42 @@ def _to_angstrom(cell, positions):
     return cell, positions
 
 
+def _get_movable(selective):
+    if all(selective):
+        return {"movable": True}
+    elif any(selective):
+        return dict(zip(["movableX", "movableY", "movableZ"], selective))
+    else:
+        return {"movable": False}
+
+
+def _get_atom_list(positions, spins, movable, elm_list):
+    atom_list = []
+    for elm_pos, elm_magmom, selective in zip(
+        positions[elm_list],
+        spins[elm_list],
+        movable[elm_list],
+    ):
+        atom_group = {
+            "coords": np.array(elm_pos),
+            "label": f"spin_{elm_magmom}",
+        }
+        atom_group.update(_get_movable(selective))
+        atom_list.append(sphinx.structure.species.atom.create(**atom_group))
+    return atom_list
+
+
+def _get_species_list(positions, elements, spins, movable):
+    species = []
+    for elm_species in np.unique(elements):
+        elm_list = elements == elm_species
+        atom_list = _get_atom_list(positions, spins, movable, elm_list)
+        species.append(
+            sphinx.structure.species.create(element=elm_species, atom=atom_list)
+        )
+    return species
+
+
 def get_structure_group(structure, use_symmetry=True):
     """
     create a SPHInX Group object based on structure
@@ -24,32 +60,9 @@ def get_structure_group(structure, use_symmetry=True):
     """
     cell, positions = _to_angstrom(structure.cell, structure.positions)
     movable = ~_handle_ase_constraints(structure)
-    labels = structure.get_initial_magnetic_moments()
+    spins = structure.get_initial_magnetic_moments()
     elements = np.array(structure.get_chemical_symbols())
-    species = []
-    for elm_species in np.unique(elements):
-        elm_list = elements == elm_species
-        atom_list = []
-        for elm_pos, elm_magmom, selective in zip(
-            positions[elm_list],
-            labels[elm_list],
-            movable[elm_list],
-        ):
-            atom_group = {
-                "coords": np.array(elm_pos),
-                "label": f"spin_{elm_magmom}",
-            }
-            if all(selective):
-                atom_group["movable"] = True
-            elif any(selective):
-                for xx in np.array(["X", "Y", "Z"])[selective]:
-                    atom_group["movable" + xx] = True
-            else:
-                atom_group["movable"] = False
-            atom_list.append(sphinx.structure.species.atom.create(**atom_group))
-        species.append(
-            sphinx.structure.species.create(element=elm_species, atom=atom_list)
-        )
+    species = _get_species_list(positions, elements, spins, movable)
     symmetry = None
     if not use_symmetry:
         symmetry = sphinx.structure.symmetry.create(
