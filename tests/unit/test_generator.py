@@ -4,7 +4,7 @@ import yaml
 import os
 
 
-class TestStinx(unittest.TestCase):
+class TestGenerator(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         cls.current_dir = os.path.dirname(os.path.abspath(__file__)).replace("\\", "/")
