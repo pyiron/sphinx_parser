@@ -71,48 +71,49 @@ def apply_minimization(
     Returns:
         dict: Sphinx input dictionary
     """
-    if "main" not in sphinx_input or "scfDiag" not in sphinx_input["main"]:
+    input_sx = sphinx_input.copy()
+    if "main" not in input_sx or "scfDiag" not in input_sx["main"]:
         raise ValueError("main group not found - run set_base_parameters first")
     if mode == "linQN":
-        sphinx_input["main"] = sphinx.main.create(
+        input_sx["main"] = sphinx.main.create(
             linQN=sphinx.main.linQN.create(
                 dEnergy=dEnergy,
                 maxSteps=maxSteps,
                 bornOppenheimer=sphinx.main.linQN.bornOppenheimer.create(
-                    scfDiag=sphinx_input["main"]["scfDiag"]
+                    scfDiag=input_sx["main"]["scfDiag"]
                 )
             )
         )
     elif mode == "QN":
-        sphinx_input["main"] = sphinx.main.create(
+        input_sx["main"] = sphinx.main.create(
             QN=sphinx.main.QN.create(
                 dEnergy=dEnergy,
                 maxSteps=maxSteps,
                 bornOppenheimer=sphinx.main.QN.bornOppenheimer.create(
-                    scfDiag=sphinx_input["main"]["scfDiag"]
+                    scfDiag=input_sx["main"]["scfDiag"]
                 )
             )
         )
     elif mode == "ricQN":
-        sphinx_input["main"] = sphinx.main.create(
+        input_sx["main"] = sphinx.main.create(
             ricQN=sphinx.main.ricQN.create(
                 dEnergy=dEnergy,
                 maxSteps=maxSteps,
                 bornOppenheimer=sphinx.main.ricQN.bornOppenheimer.create(
-                    scfDiag=sphinx_input["main"]["scfDiag"]
+                    scfDiag=input_sx["main"]["scfDiag"]
                 )
             )
         )
     elif mode == "ricTS":
-        sphinx_input["main"] = sphinx.main.create(
+        input_sx["main"] = sphinx.main.create(
             ricTS=sphinx.main.ricTS.create(
                 dEnergy=dEnergy,
                 maxSteps=maxSteps,
                 bornOppenheimer=sphinx.main.ricTS.bornOppenheimer.create(
-                    scfDiag=sphinx_input["main"]["scfDiag"]
+                    scfDiag=input_sx["main"]["scfDiag"]
                 )
             )
         )
     else:
         raise ValueError("mode not recognized")
-    return sphinx_input
+    return input_sx
