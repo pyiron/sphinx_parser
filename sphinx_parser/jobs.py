@@ -11,6 +11,20 @@ def set_base_parameters(
     ekt: float = 0.2,
     k_point_coords: list = [0.5, 0.5, 0.5],
 ):
+    """
+    Set the base parameters for the sphinx input file
+
+    Args:
+        structure (ase.Atoms): ASE Atoms object
+        eCut (float, optional): Energy cutoff. Defaults to 25.
+        xc (int, optional): Exchange-correlation functional. Defaults to 1.
+        maxSteps (int, optional): Maximum number of steps. Defaults to 30.
+        ekt (float, optional): Temperature. Defaults to 0.2.
+        k_point_coords (list, optional): K-point coordinates. Defaults to [0.5, 0.5, 0.5].
+
+    Returns:
+        dict: Sphinx input dictionary
+    """
     struct_group, spin_lst = get_structure_group(structure)
     spinPolarized = spin_lst is not None
     main_group = sphinx.main.create(
@@ -45,6 +59,18 @@ def set_base_parameters(
 def apply_minimization(
     sphinx_input, mode="linQN", dEnergy=1.0e-6, maxSteps=50
 ):
+    """
+    Apply minimization to the sphinx input file
+
+    Args:
+        sphinx_input (dict): Sphinx input dictionary
+        mode (str, optional): Minimization mode. Defaults to "linQN".
+        dEnergy (float, optional): Energy tolerance. Defaults to 1.0e-6.
+        maxSteps (int, optional): Maximum number of steps. Defaults to 50.
+
+    Returns:
+        dict: Sphinx input dictionary
+    """
     if "main" not in sphinx_input or "scfDiag" not in sphinx_input["main"]:
         raise ValueError("main group not found - run set_base_parameters first")
     if mode == "linQN":
