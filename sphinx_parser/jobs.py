@@ -4,15 +4,15 @@ from sphinx_parser.potential import get_paw_from_structure
 
 
 def set_base_parameters(
-    structure,
-    eCut=25,
-    xc=1,
-    spinPolarized=False,
-    maxSteps=30,
-    ekt=0.2,
-    k_point_coords=[0.5, 0.5, 0.5],
+    structure: "ase.Atoms",
+    eCut: float = 25,
+    xc: int = 1,
+    maxSteps: int = 30,
+    ekt: float = 0.2,
+    k_point_coords: list = [0.5, 0.5, 0.5],
 ):
     struct_group, spin_lst = get_structure_group(structure)
+    spinPolarized = spin_lst is not None
     main_group = sphinx.main.create(
         scfDiag=sphinx.main.scfDiag.create(
             maxSteps=maxSteps, blockCCG=sphinx.main.scfDiag.blockCCG.create()
