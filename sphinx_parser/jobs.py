@@ -43,14 +43,50 @@ def set_base_parameters(
 
 
 def apply_minimization(
-    sphinx_input,
+    sphinx_input, mode="linQN", dEnergy=1.0e-6, maxSteps=50
 ):
-    input_sx = calc_static(
-        structure,
-        eCut=eCut,
-        xc=xc,
-        spinPolarized=spinPolarized,
-        maxSteps=maxSteps,
-        ekt=ekt,
-        k_point_coords=k_point_coords,
-    )
+    if "main" not in sphinx_input or "scfDiag" not in sphinx_input["main"]:
+        raise ValueError("main group not found - run set_base_parameters first")
+    if mode == "linQN":
+        sphinx_input["main"] = sphinx.main.create(
+            linQN=sphinx.main.linQN.create(
+                dEnergy=dEnergy,
+                maxSteps=maxSteps,
+                bornOppenheimer=sphinx.main.linQN.bornOppenheimer.create(
+                    scfDiag=sphinx_input["main"]["scfDiag"]
+                )
+            )
+        )
+    elif mode == "QN":
+        sphinx_input["main"] = sphinx.main.create(
+            QN=sphinx.main.QN.create(
+                dEnergy=dEnergy,
+                maxSteps=maxSteps,
+                bornOppenheimer=sphinx.main.QN.bornOppenheimer.create(
+                    scfDiag=sphinx_input["main"]["scfDiag"]
+                )
+            )
+        )
+    elif mode == "ricQN":
+        sphinx_input["main"] = sphinx.main.create(
+            ricQN=sphinx.main.ricQN.create(
+                dEnergy=dEnergy,
+                maxSteps=maxSteps,
+                bornOppenheimer=sphinx.main.ricQN.bornOppenheimer.create(
+                    scfDiag=sphinx_input["main"]["scfDiag"]
+                )
+            )
+        )
+    elif mode == "ricTS":
+        sphinx_input["main"] = sphinx.main.create(
+            ricTS=sphinx.main.ricTS.create(
+                dEnergy=dEnergy,
+                maxSteps=maxSteps,
+                bornOppenheimer=sphinx.main.ricTS.bornOppenheimer.create(
+                    scfDiag=sphinx_input["main"]["scfDiag"]
+                )
+            )
+        )
+    else:
+        raise ValueError("mode not recognized")
+    return sphinx_input
