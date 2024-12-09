@@ -3,7 +3,7 @@ from sphinx_parser.ase import get_structure_group
 from sphinx_parser.potential import get_paw_from_structure
 
 
-def calc_static(
+def set_base_parameters(
     structure,
     eCut=25,
     xc=1,
@@ -42,14 +42,8 @@ def calc_static(
     return input_sx
 
 
-def calc_minimize(
-    structure,
-    eCut=25,
-    xc=1,
-    spinPolarized=False,
-    maxSteps=30,
-    ekt=0.2,
-    k_point_coords=[0.5, 0.5, 0.5],
+def apply_minimization(
+    sphinx_input,
 ):
     input_sx = calc_static(
         structure,
