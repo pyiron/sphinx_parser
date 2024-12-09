@@ -56,9 +56,7 @@ def set_base_parameters(
     return input_sx
 
 
-def apply_minimization(
-    sphinx_input, mode="linQN", dEnergy=1.0e-6, maxSteps=50
-):
+def apply_minimization(sphinx_input, mode="linQN", dEnergy=1.0e-6, maxSteps=50):
     """
     Apply minimization to the sphinx input file
 
@@ -81,7 +79,7 @@ def apply_minimization(
                 maxSteps=maxSteps,
                 bornOppenheimer=sphinx.main.linQN.bornOppenheimer.create(
                     scfDiag=input_sx["main"]["scfDiag"]
-                )
+                ),
             )
         )
     elif mode == "QN":
@@ -91,7 +89,7 @@ def apply_minimization(
                 maxSteps=maxSteps,
                 bornOppenheimer=sphinx.main.QN.bornOppenheimer.create(
                     scfDiag=input_sx["main"]["scfDiag"]
-                )
+                ),
             )
         )
     elif mode == "ricQN":
@@ -101,7 +99,7 @@ def apply_minimization(
                 maxSteps=maxSteps,
                 bornOppenheimer=sphinx.main.ricQN.bornOppenheimer.create(
                     scfDiag=input_sx["main"]["scfDiag"]
-                )
+                ),
             )
         )
     elif mode == "ricTS":
@@ -111,7 +109,7 @@ def apply_minimization(
                 maxSteps=maxSteps,
                 bornOppenheimer=sphinx.main.ricTS.bornOppenheimer.create(
                     scfDiag=input_sx["main"]["scfDiag"]
-                )
+                ),
             )
         )
     else:

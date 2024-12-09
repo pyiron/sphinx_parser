@@ -19,7 +19,7 @@ class TestJobs(unittest.TestCase):
         for term in ["ricQN", "QN", "ricTS"]:
             self.assertEqual(
                 to_sphinx(apply_minimization(input_sx, mode=term)),
-                default_input_sx.replace("linQN", term)
+                default_input_sx.replace("linQN", term),
             )
         with self.assertRaises(ValueError):
             apply_minimization(input_sx, mode="not_a_valid_mode")
