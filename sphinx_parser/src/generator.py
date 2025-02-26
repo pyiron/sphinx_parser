@@ -235,6 +235,8 @@ def export_class(yml_file_name="input_data.yml", py_file_name="input.py"):
         "import numpy as np",
         "from typing import Optional",
         "from sphinx_parser.toolkit import fill_values",
+        "from semantikon.typing import u",
+        "from semantikon.converter import units",
     ]
     file_content = "\n".join(imports) + "\n\n\n" + file_content
     file_content = format_str(file_content, mode=FileMode())
