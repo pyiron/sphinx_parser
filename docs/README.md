@@ -49,21 +49,17 @@ import os
 
 
 cwd = "TEST"
-# cwd.mkdir(exist_ok=True)
 if not os.path.exists(cwd):
     os.mkdir(cwd)
 
-from sphinx_parser.input import sphinx
-from sphinx_parser.ase import get_structure_group
 from sphinx_parser.toolkit import to_sphinx
-from sphinx_parser.potential import get_paw_from_structure
-from sphinx_parser.jobs import calc_static
-
+from sphinx_parser.jobs import set_base_parameters
+from sphinx_parser.output import collect_energy_dat
 
 structure = bulk("Al", cubic=True)
 structure[1].symbol = "Ni"
 
-input_sx = calc_static(structure)
+input_sx = set_base_parameters(structure)
 
 with open(os.path.join(cwd, "input.sx"), "w") as f:
     f.write(to_sphinx(input_sx))
@@ -95,12 +91,13 @@ from sphinx_parser.input import sphinx
 from sphinx_parser.ase import get_structure_group
 from sphinx_parser.toolkit import to_sphinx
 from sphinx_parser.potential import get_paw_from_structure
+from sphinx_parser.output import collect_energy_dat
 
 
 structure = bulk("Al", cubic=True)
 structure[1].symbol = "Ni"
 
-struct_group = get_structure_group(structure)
+struct_group, spin_lst = get_structure_group(structure)
 main_group = sphinx.main.create(scfDiag=sphinx.main.scfDiag.create(maxSteps=10, blockCCG={}))
 pawPot_group = get_paw_from_structure(structure)
 basis_group = sphinx.basis.create(eCut=25, kPoint=sphinx.basis.kPoint.create(coords=3 * [0.5]))
