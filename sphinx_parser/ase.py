@@ -1,14 +1,9 @@
 import numpy as np
-import scipy.constants as sc
 from sphinx_parser.input import sphinx
 from ase.io.vasp import _handle_ase_constraints
-
-
-def _to_angstrom(cell, positions):
-    bohr_to_angstrom = sc.physical_constants["Bohr radius"][0] / sc.angstrom
-    cell = np.array(cell) / bohr_to_angstrom
-    positions = np.array(positions) / bohr_to_angstrom
-    return cell, positions
+from pint import UnitRegistry
+from semantikon.converter import units
+from semantikon.typing import u
 
 
 def _get_spin_label(spin):
@@ -32,7 +27,7 @@ def _get_atom_list(positions, spins, movable, elm_list):
         movable[elm_list],
     ):
         atom_group = {
-            "coords": np.array(elm_pos),
+            "coords": elm_pos,
             "label": _get_spin_label(elm_magmom),
         }
         atom_group.update(_get_movable(selective))
@@ -72,20 +67,24 @@ def get_structure_group(structure, use_symmetry=True):
     Returns:
         (Group): structure group
     """
-    cell, positions = _to_angstrom(structure.cell, structure.positions)
+    ureg = UnitRegistry()
     movable = ~_handle_ase_constraints(structure)
     # When the user changes the magnetic moments, they are sometimes no longer
     # numpy array afterwards.
     spins = np.array(structure.get_initial_magnetic_moments())
     elements = np.array(structure.get_chemical_symbols())
-    species = _get_species_list(positions, elements, spins, movable)
+    species = _get_species_list(
+        structure.positions * ureg.angstrom, elements, spins, movable
+    )
     symmetry = None
     if not use_symmetry:
         symmetry = sphinx.structure.symmetry.create(
             operator=sphinx.structure.symmetry.operator.create(S=np.eye(3).tolist())
         )
     structure_group = sphinx.structure.create(
-        cell=np.array(cell), species=species, symmetry=symmetry
+        cell=np.array(structure.cell) * ureg.angstrom,
+        species=species,
+        symmetry=symmetry,
     )
     if "initial_magmoms" in structure.arrays:
         spin_list = _get_spin_list(spins)

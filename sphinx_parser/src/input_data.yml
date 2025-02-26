@@ -4,6 +4,7 @@ sphinx:
       data_type: list
       required: true
       description: Cell matrix
+      units: bohr
     movable:
       data_type: bool
       required: false
@@ -32,6 +33,7 @@ sphinx:
         coords:
           data_type: np.ndarray
           description: Atomic coordinates
+          units: bohr
         relative:
           data_type: bool
           required: false
