@@ -289,7 +289,7 @@ class sphinx:
                     The to group (within the kPoints group) adds a line of k-points from the previous one to a new position. The number of points is set directly with nPoints or indirectly via dK.
 
                     Args:
-                        coords (np.ndarray): The k-point coordinates as a 3-vector. If the relative flag is not given, the units are 1/bohr.
+                        coords (np.ndarray): The k-point coordinates as a 3-vector. If the relative flag is not given.
                         relative (bool): The coordinates are given relative to the unit cell vectors. (Optional)
                         label (str): Assign a label (or rather a tag) to this k-point. If labels are used, k-points with different labels are considered inequivalent. (Optional)
                         dK (float): Set the number of intermediate k-points such that the distance is at most dK. (Optional)

@@ -240,3 +240,7 @@ def export_class(yml_file_name="input_data.yml", py_file_name="input.py"):
     file_content = format_str(file_content, mode=FileMode())
     with open(os.path.join(os.path.dirname(__file__), "..", py_file_name), "w") as f:
         f.write(file_content)
+
+
+if __name__ == "__main__":
+    export_class()
