@@ -52,7 +52,7 @@ class sphinx:
         @units
         @staticmethod
         def create(
-            cell: list,
+            cell: u(list, units="bohr"),
             movable: Optional[bool] = None,
             movableX: Optional[bool] = None,
             movableY: Optional[bool] = None,
@@ -63,7 +63,7 @@ class sphinx:
         ):
             """
             Args:
-                cell (list): Cell matrix.
+                cell (list): Cell matrix. Units: bohr.
                 movable (bool): Allow atoms to move. Default: True. (Optional)
                 movableX (bool): Allow atoms to move in the x direction. Default: True. (Optional)
                 movableY (bool): Allow atoms to move in the y direction. Default: True. (Optional)
@@ -107,7 +107,7 @@ class sphinx:
                 @units
                 @staticmethod
                 def create(
-                    coords: Optional[np.ndarray] = None,
+                    coords: u(Optional[np.ndarray], units="bohr") = None,
                     relative: Optional[bool] = None,
                     movableLine: Optional[list] = None,
                     label: Optional[str] = None,
@@ -119,7 +119,7 @@ class sphinx:
                 ):
                     """
                     Args:
-                        coords (np.ndarray): Atomic coordinates. (Optional)
+                        coords (np.ndarray): Atomic coordinates. Units: bohr. (Optional)
                         relative (bool): The coordinates are given relative to the unit cell vectors. (Optional)
                         movableLine (list): The movement of the atom is restricted to a line. The value gives the direction of the line as a 3-vector. (Optional)
                         label (str): Assign a label (or rather a tag) to this atom. If labels are used, atoms with different labels are considered inequivalent. Think of spin configurations for a use-case. (Optional)
