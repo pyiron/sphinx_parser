@@ -101,8 +101,8 @@ def _get_docstring_line(data: dict, key: str):
             line += "."
     if "default" in data:
         line += f" Default: {data['default']}."
-    if "unit" in data:
-        line += f" Unit: {data['unit']}."
+    if "units" in data:
+        line += f" Units: {data['units']}."
     if not data.get("required", False):
         line += " (Optional)"
     return line
@@ -125,8 +125,13 @@ def get_docstring(all_data, description=None, indent=indent, predefined=predefin
 
 def get_input_arg(key, entry, indent=indent):
     t = entry.get("data_type", "dict")
-    if not entry.get("required", False):
+    units = "".join(entry.get("units", "").split())
+    if not entry.get("required", False) and units != "":
+        t = f"u(Optional[{t}], units=\"{units}\") = None"
+    elif not entry.get("required", False):
         t = f"Optional[{t}] = None"
+    elif units != "":
+        t = f"u({t}, units=\"{units}\")"
     t = f"{indent}{key}: {t},"
     return t
 
@@ -151,7 +156,7 @@ def get_function(
     is_kwarg=False,
 ):
     d = _rename_keys(data)
-    func = ["@staticmethod", f"def {function_name}("]
+    func = ["@units", "@staticmethod", f"def {function_name}("]
     if is_kwarg:
         func.append(f"{indent}wrap_string: bool = True,")
         func.append(f"{indent}**kwargs")

@@ -620,7 +620,7 @@ sphinx:
       dEnergy:
         data_type: float
         required: false
-        units: Hartree
+        units: hartree
         default: 1e-8
         description: Free energy convergence criterium
       maxSteps:
@@ -826,13 +826,13 @@ sphinx:
       dF:
         data_type: float
         required: false
-        units: Hartree/bohr
+        units: hartree/bohr
         default: 0.01
         description: Stop iterating when the change in forces falls below this threshold.
       dEnergy:
         data_type: float
         required: false
-        units: Hartree
+        units: hartree
         default: 1e-4
         description: Use these settings until energy change fall below this threshold.
       maxStepLength:
@@ -870,13 +870,13 @@ sphinx:
       dF:
         data_type: float
         required: false
-        units: Hartree/bohr
+        units: hartree/bohr
         default: 0.001
         description: Stop iterating when the change in forces falls below this threshold.
       dEnergy:
         data_type: float
         required: false
-        units: Hartree
+        units: hartree
         default: 1e-4
         description: Use these settings until energy change fall below this threshold.
       maxStepLength:
@@ -915,13 +915,13 @@ sphinx:
       dF:
         data_type: float
         required: false
-        units: Hartree/bohr
+        units: hartree/bohr
         default: 0.001
         description: Stop iterating when the change in forces falls below this threshold.
       dEnergy:
         data_type: float
         required: false
-        units: Hartree
+        units: hartree
         default: 1e-4
         description: Use these settings until energy change fall below this threshold.
       maxStepLength:
@@ -938,7 +938,7 @@ sphinx:
         data_type: float
         required: false
         default: 0.01
-        units: Hartree/bohr**2
+        units: hartree/bohr**2
         description: Initial value for Hessian shift. This is overriden with the first successful fit of a positive shift parameter.
       driftFilter:
         data_type: bool
