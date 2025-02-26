@@ -127,11 +127,11 @@ def get_input_arg(key, entry, indent=indent):
     t = entry.get("data_type", "dict")
     units = "".join(entry.get("units", "").split())
     if not entry.get("required", False) and units != "":
-        t = f"u(Optional[{t}], units=\"{units}\") = None"
+        t = f'u(Optional[{t}], units="{units}") = None'
     elif not entry.get("required", False):
         t = f"Optional[{t}] = None"
     elif units != "":
-        t = f"u({t}, units=\"{units}\")"
+        t = f'u({t}, units="{units}")'
     t = f"{indent}{key}: {t},"
     return t
 

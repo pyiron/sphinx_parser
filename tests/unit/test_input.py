@@ -43,8 +43,10 @@ class TestInput(unittest.TestCase):
     def test_units(self):
         ureg = UnitRegistry()
         self.assertEqual(
-            sphinx.main.scfDiag.create(dEnergy=1.0e-7 * ureg.eV, maxSteps=10, blockCCG={}),
-            {'dEnergy': 3.674932217565436e-09, 'maxSteps': 10, 'blockCCG': {}},
+            sphinx.main.scfDiag.create(
+                dEnergy=1.0e-7 * ureg.eV, maxSteps=10, blockCCG={}
+            ),
+            {"dEnergy": 3.674932217565436e-09, "maxSteps": 10, "blockCCG": {}},
         )
 
 
