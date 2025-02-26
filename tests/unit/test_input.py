@@ -1,6 +1,7 @@
 import unittest
 from sphinx_parser.input import sphinx
 from sphinx_parser.toolkit import to_sphinx
+from pint import UnitRegistry
 
 
 class TestInput(unittest.TestCase):
@@ -38,6 +39,15 @@ class TestInput(unittest.TestCase):
         pseudo = sphinx.pseudoPot.create()
         input_sx = sphinx.create(PWHamiltonian=pw, pseudoPot=pseudo)
         self.assertTrue("format sphinx;" in to_sphinx(input_sx))
+
+    def test_units(self):
+        ureg = UnitRegistry()
+        self.assertEqual(
+            sphinx.main.scfDiag.create(
+                dEnergy=1.0e-7 * ureg.eV, maxSteps=10, blockCCG={}
+            ),
+            {"dEnergy": 3.674932217565436e-09, "maxSteps": 10, "blockCCG": {}},
+        )
 
 
 if __name__ == "__main__":
