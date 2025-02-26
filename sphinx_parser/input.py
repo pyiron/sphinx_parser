@@ -1,9 +1,12 @@
 import numpy as np
 from typing import Optional
 from sphinx_parser.toolkit import fill_values
+from semantikon.typing import u
+from semantikon.converter import units
 
 
 class sphinx:
+    @units
     @staticmethod
     def create(
         structure: Optional[dict] = None,
@@ -46,9 +49,10 @@ class sphinx:
         )
 
     class structure:
+        @units
         @staticmethod
         def create(
-            cell: list,
+            cell: u(list, units="bohr"),
             movable: Optional[bool] = None,
             movableX: Optional[bool] = None,
             movableY: Optional[bool] = None,
@@ -59,7 +63,7 @@ class sphinx:
         ):
             """
             Args:
-                cell (list): Cell matrix.
+                cell (list): Cell matrix. Units: bohr.
                 movable (bool): Allow atoms to move. Default: True. (Optional)
                 movableX (bool): Allow atoms to move in the x direction. Default: True. (Optional)
                 movableY (bool): Allow atoms to move in the y direction. Default: True. (Optional)
@@ -80,6 +84,7 @@ class sphinx:
             )
 
         class species:
+            @units
             @staticmethod
             def create(
                 element: Optional[str] = None,
@@ -99,9 +104,10 @@ class sphinx:
                 )
 
             class atom:
+                @units
                 @staticmethod
                 def create(
-                    coords: Optional[np.ndarray] = None,
+                    coords: u(Optional[np.ndarray], units="bohr") = None,
                     relative: Optional[bool] = None,
                     movableLine: Optional[list] = None,
                     label: Optional[str] = None,
@@ -113,7 +119,7 @@ class sphinx:
                 ):
                     """
                     Args:
-                        coords (np.ndarray): Atomic coordinates. (Optional)
+                        coords (np.ndarray): Atomic coordinates. Units: bohr. (Optional)
                         relative (bool): The coordinates are given relative to the unit cell vectors. (Optional)
                         movableLine (list): The movement of the atom is restricted to a line. The value gives the direction of the line as a 3-vector. (Optional)
                         label (str): Assign a label (or rather a tag) to this atom. If labels are used, atoms with different labels are considered inequivalent. Think of spin configurations for a use-case. (Optional)
@@ -136,6 +142,7 @@ class sphinx:
                     )
 
         class symmetry:
+            @units
             @staticmethod
             def create(
                 operator: Optional[dict] = None,
@@ -152,6 +159,7 @@ class sphinx:
                 )
 
             class operator:
+                @units
                 @staticmethod
                 def create(
                     S: list,
@@ -168,6 +176,7 @@ class sphinx:
                     )
 
     class basis:
+        @units
         @staticmethod
         def create(
             eCut: float,
@@ -205,6 +214,7 @@ class sphinx:
             )
 
         class kPoint:
+            @units
             @staticmethod
             def create(
                 coords: np.ndarray,
@@ -227,10 +237,11 @@ class sphinx:
                 )
 
         class kPoints:
+            @units
             @staticmethod
             def create(
                 relative: Optional[bool] = None,
-                dK: Optional[float] = None,
+                dK: u(Optional[float], units="1/bohr") = None,
                 from_: Optional[dict] = None,
                 to: Optional[dict] = None,
                 wrap_string: bool = True,
@@ -238,7 +249,7 @@ class sphinx:
                 """
                 Args:
                     relative (bool): The coordinates are given relative to the unit cell vectors. (Optional)
-                    dK (float): Set the number of intermediate k-points such that the distance is at most dK. (Optional)
+                    dK (float): Set the number of intermediate k-points such that the distance is at most dK. Units: 1/bohr. (Optional)
                     from_ (dict): The from group (within the kPoints group) adds a single k-point at the desired position. It may be used multiple times. (Optional)
                     to (dict): The to group (within the kPoints group) adds a line of k-points from the previous one to a new position. The number of points is set directly with nPoints or indirectly via dK. (Optional)
                     wrap_string (bool): Whether to wrap string values in apostrophes.
@@ -252,9 +263,10 @@ class sphinx:
                 )
 
             class from_:
+                @units
                 @staticmethod
                 def create(
-                    coords: np.ndarray,
+                    coords: u(np.ndarray, units="1/bohr"),
                     relative: Optional[bool] = None,
                     label: Optional[str] = None,
                     wrap_string: bool = True,
@@ -263,7 +275,7 @@ class sphinx:
                     The from group (within the kPoints group) adds a single k-point at the desired position. It may be used multiple times.
 
                     Args:
-                        coords (np.ndarray): The k-point coordinates as a 3-vector. If the relative flag is not given.
+                        coords (np.ndarray): The k-point coordinates as a 3-vector. If the relative flag is not given. Units: 1/bohr.
                         relative (bool): The coordinates are given relative to the unit cell vectors. (Optional)
                         label (str): Assign a label (or rather a tag) to this k-point. If labels are used, k-points with different labels are considered inequivalent. (Optional)
                         wrap_string (bool): Whether to wrap string values in apostrophes.
@@ -276,12 +288,13 @@ class sphinx:
                     )
 
             class to:
+                @units
                 @staticmethod
                 def create(
-                    coords: np.ndarray,
+                    coords: u(np.ndarray, units="1/bohr"),
                     relative: Optional[bool] = None,
                     label: Optional[str] = None,
-                    dK: Optional[float] = None,
+                    dK: u(Optional[float], units="1/bohr") = None,
                     nPoints: Optional[int] = None,
                     wrap_string: bool = True,
                 ):
@@ -289,10 +302,10 @@ class sphinx:
                     The to group (within the kPoints group) adds a line of k-points from the previous one to a new position. The number of points is set directly with nPoints or indirectly via dK.
 
                     Args:
-                        coords (np.ndarray): The k-point coordinates as a 3-vector. If the relative flag is not given, the units are 1/bohr.
+                        coords (np.ndarray): The k-point coordinates as a 3-vector. If the relative flag is not given. Units: 1/bohr.
                         relative (bool): The coordinates are given relative to the unit cell vectors. (Optional)
                         label (str): Assign a label (or rather a tag) to this k-point. If labels are used, k-points with different labels are considered inequivalent. (Optional)
-                        dK (float): Set the number of intermediate k-points such that the distance is at most dK. (Optional)
+                        dK (float): Set the number of intermediate k-points such that the distance is at most dK. Units: 1/bohr. (Optional)
                         nPoints (int): Specify number of points to add. The final one will be at coords. (Optional)
                         wrap_string (bool): Whether to wrap string values in apostrophes.
                     """
@@ -306,6 +319,7 @@ class sphinx:
                     )
 
     class pawPot:
+        @units
         @staticmethod
         def create(
             species: Optional[dict] = None,
@@ -324,6 +338,7 @@ class sphinx:
             )
 
         class species:
+            @units
             @staticmethod
             def create(
                 potential: str,
@@ -364,10 +379,11 @@ class sphinx:
                 )
 
     class PAWHamiltonian:
+        @units
         @staticmethod
         def create(
             xc: str,
-            ekt: Optional[float] = None,
+            ekt: u(Optional[float], units="eV") = None,
             MethfesselPaxton: Optional[float] = None,
             FermiDirac: Optional[int] = None,
             nEmptyStates: Optional[int] = None,
@@ -384,7 +400,7 @@ class sphinx:
             """
             Args:
                 xc (str): The exchange-correlation functional to use.
-                ekt (float): The electronic temperature. (Optional)
+                ekt (float): The electronic temperature. Units: eV. (Optional)
                 MethfesselPaxton (float): If ≥0, use Methfessel-Paxton smearing of indicated order. Order 0 is same as Gaussian smearing. (Optional)
                 FermiDirac (int): If ≥0, use FermiDirac smearing of indicated order. Order 1 corresponds to first-order corrections. Higher orders are not yet implemented. Default: 0. (Optional)
                 nEmptyStates (int): The number of empty states to include in the calculation. (Optional)
@@ -416,6 +432,7 @@ class sphinx:
             )
 
         class vExt:
+            @units
             @staticmethod
             def create(
                 file: str,
@@ -434,6 +451,7 @@ class sphinx:
                 )
 
         class xcMesh:
+            @units
             @staticmethod
             def create(
                 eCut: float,
@@ -458,6 +476,7 @@ class sphinx:
                 )
 
         class vdwCorrection:
+            @units
             @staticmethod
             def create(
                 method: str,
@@ -479,6 +498,7 @@ class sphinx:
                 )
 
         class HubbardU:
+            @units
             @staticmethod
             def create(
                 verbose: Optional[bool] = None,
@@ -503,6 +523,7 @@ class sphinx:
                 )
 
             class AO:
+                @units
                 @staticmethod
                 def create(
                     orbital: Optional[dict] = None,
@@ -521,6 +542,7 @@ class sphinx:
                     )
 
                 class orbital:
+                    @units
                     @staticmethod
                     def create(
                         file: str,
@@ -548,22 +570,23 @@ class sphinx:
                         )
 
             class MO:
+                @units
                 @staticmethod
                 def create(
                     element: str,
                     orbital: Optional[dict] = None,
                     species: Optional[int] = None,
                     label: Optional[str] = None,
-                    maxDist: Optional[float] = None,
-                    minDist: Optional[float] = None,
+                    maxDist: u(Optional[float], units="bohr") = None,
+                    minDist: u(Optional[float], units="bohr") = None,
                     nInterpolate: Optional[int] = None,
                     nRadGrid: Optional[int] = None,
-                    rCut: Optional[float] = None,
-                    cutWidth: Optional[float] = None,
+                    rCut: u(Optional[float], units="bohr") = None,
+                    cutWidth: u(Optional[float], units="bohr") = None,
                     mMO: Optional[int] = None,
                     sign: Optional[int] = None,
-                    U: Optional[float] = None,
-                    shift: Optional[float] = None,
+                    U: u(Optional[float], units="eV") = None,
+                    shift: u(Optional[float], units="eV") = None,
                     wrap_string: bool = True,
                 ):
                     """
@@ -574,16 +597,16 @@ class sphinx:
                         orbital (dict): Orbital. (Optional)
                         species (int): defines the element via its species number (1,2,3...) within the input file. (Optional)
                         label (str): defines the relevant atoms via their label. All atoms must belong to the same species. See also label in the atom group. (Optional)
-                        maxDist (float): maximum distance of two atoms to be considered a molecule. Default: 10.0. (Optional)
-                        minDist (float): minimum distance of two atoms to be considered a molecule. Default value is half the maximum distance. Default: 5.0. (Optional)
+                        maxDist (float): maximum distance of two atoms to be considered a molecule. Default: 10.0. Units: bohr. (Optional)
+                        minDist (float): minimum distance of two atoms to be considered a molecule. Default value is half the maximum distance. Default: 5.0. Units: bohr. (Optional)
                         nInterpolate (int): number of distance points used to interpolate orbital normalization. Default: 100. (Optional)
                         nRadGrid (int): number of radial points to represent atomic orbital projector. Default: 200. (Optional)
-                        rCut (float): The cutoff radius for the atomic orbital. (Optional)
-                        cutWidth (float): The width of the cutoff region. Default: 0.7. (Optional)
+                        rCut (float): The cutoff radius for the atomic orbital. Units: bohr. (Optional)
+                        cutWidth (float): The width of the cutoff region. Default: 0.7. Units: bohr. (Optional)
                         mMO (int): rotational constant of orbital symmetry (σ=0, π=1). (Optional)
                         sign (int): relative sign of orbitals on both atoms. Can be +1 or -1. (Optional)
-                        U (float): The Hubbard U value. (Optional)
-                        shift (float): An additional energy shift of the. (Optional)
+                        U (float): The Hubbard U value. Units: eV. (Optional)
+                        shift (float): An additional energy shift of the. Units: eV. (Optional)
                         wrap_string (bool): Whether to wrap string values in apostrophes.
                     """
                     return fill_values(
@@ -605,6 +628,7 @@ class sphinx:
                     )
 
                 class orbital:
+                    @units
                     @staticmethod
                     def create(
                         file: str,
@@ -632,6 +656,7 @@ class sphinx:
                         )
 
     class spinConstraint:
+        @units
         @staticmethod
         def create(
             label: Optional[str] = None,
@@ -654,6 +679,7 @@ class sphinx:
             )
 
     class initialGuess:
+        @units
         @staticmethod
         def create(
             noWavesStorage: Optional[bool] = None,
@@ -687,6 +713,7 @@ class sphinx:
             )
 
         class waves:
+            @units
             @staticmethod
             def create(
                 file: Optional[str] = None,
@@ -712,6 +739,7 @@ class sphinx:
                 )
 
             class lcao:
+                @units
                 @staticmethod
                 def create(
                     maxSteps: Optional[int] = None,
@@ -731,6 +759,7 @@ class sphinx:
                     )
 
         class rho:
+            @units
             @staticmethod
             def create(
                 file: Optional[str] = None,
@@ -765,6 +794,7 @@ class sphinx:
                 )
 
             class atomicSpin:
+                @units
                 @staticmethod
                 def create(
                     spin: Optional[float] = None,
@@ -789,12 +819,13 @@ class sphinx:
                     )
 
             class charged:
+                @units
                 @staticmethod
                 def create(
                     charge: float,
                     beta: Optional[float] = None,
                     z: Optional[float] = None,
-                    coords: Optional[np.ndarray] = None,
+                    coords: u(Optional[np.ndarray], units="bohr") = None,
                     wrap_string: bool = True,
                 ):
                     """
@@ -802,7 +833,7 @@ class sphinx:
                         charge (float): The classical charge (i.e. -nExcessElectrons from the PAWHamiltonian or PWHamiltonian group).
                         beta (float): Gaussian broadening. (Optional)
                         z (float): Request a sheet charge at this z. (Optional)
-                        coords (np.ndarray): Request a Gaussian charge at this position. (Optional)
+                        coords (np.ndarray): Request a Gaussian charge at this position. Units: bohr. (Optional)
                         wrap_string (bool): Whether to wrap string values in apostrophes.
                     """
                     return fill_values(
@@ -814,6 +845,7 @@ class sphinx:
                     )
 
         class occupations:
+            @units
             @staticmethod
             def create(
                 kPoints: Optional[dict] = None,
@@ -838,6 +870,7 @@ class sphinx:
                 )
 
             class kPoints:
+                @units
                 @staticmethod
                 def create(
                     spin: Optional[dict] = None,
@@ -857,6 +890,7 @@ class sphinx:
                     )
 
                 class spin:
+                    @units
                     @staticmethod
                     def create(
                         bands: Optional[dict] = None,
@@ -873,6 +907,7 @@ class sphinx:
                         )
 
                     class bands:
+                        @units
                         @staticmethod
                         def create(
                             value: list,
@@ -895,6 +930,7 @@ class sphinx:
                             )
 
                 class bands:
+                    @units
                     @staticmethod
                     def create(
                         value: list,
@@ -917,6 +953,7 @@ class sphinx:
                         )
 
             class spin:
+                @units
                 @staticmethod
                 def create(
                     bands: Optional[dict] = None,
@@ -933,6 +970,7 @@ class sphinx:
                     )
 
                 class bands:
+                    @units
                     @staticmethod
                     def create(
                         value: list,
@@ -955,6 +993,7 @@ class sphinx:
                         )
 
             class bands:
+                @units
                 @staticmethod
                 def create(
                     value: list,
@@ -977,6 +1016,7 @@ class sphinx:
                     )
 
         class exchange:
+            @units
             @staticmethod
             def create(
                 file: Optional[str] = None,
@@ -995,6 +1035,7 @@ class sphinx:
                 )
 
     class pseudoPot:
+        @units
         @staticmethod
         def create(
             species: Optional[dict] = None,
@@ -1015,6 +1056,7 @@ class sphinx:
             )
 
         class species:
+            @units
             @staticmethod
             def create(
                 name: str,
@@ -1064,30 +1106,31 @@ class sphinx:
                 )
 
     class PWHamiltonian:
+        @units
         @staticmethod
         def create(
             xc: str,
-            ekt: Optional[float] = None,
+            ekt: u(Optional[float], units="eV") = None,
             MethfesselPaxton: Optional[float] = None,
             FermiDirac: Optional[float] = None,
             nEmptyStates: Optional[int] = None,
             nExcessElectrons: Optional[int] = None,
             spinPolarized: Optional[bool] = None,
             dipoleCorrection: Optional[bool] = None,
-            zField: Optional[float] = None,
+            zField: u(Optional[float], units="eV/bohr") = None,
             wrap_string: bool = True,
         ):
             """
             Args:
                 xc (str): The exchange-correlation functional to use.
-                ekt (float): The electronic temperature. (Optional)
+                ekt (float): The electronic temperature. Units: eV. (Optional)
                 MethfesselPaxton (float): If ≥0, use Methfessel-Paxton smearing of indicated order. Order 0 is same as Gaussian smearing. (Optional)
                 FermiDirac (float): If ≥0, use FermiDirac smearing of indicated order. Order 1 corresponds to first-order corrections. Higher orders are not yet implemented. Default: 0. (Optional)
                 nEmptyStates (int): The number of empty states to include in the calculation. (Optional)
                 nExcessElectrons (int): The number of excess electrons to include in the calculation. (Optional)
                 spinPolarized (bool): Whether to perform a spin-polarized calculation. (Optional)
                 dipoleCorrection (bool): Use the dipole correction for slab systems. The in-plane lattice must be perpendicular to the z- axis, and the third basis vector must be aligned with the z-axis. For charged calculation, this requests the generalized dipole correction, which may need some care for initializing the charge (see charged in the initialGuess group). (Optional)
-                zField (float): Use an additional electric field along z when using the dipole correction. (Optional)
+                zField (float): Use an additional electric field along z when using the dipole correction. Units: eV/bohr. (Optional)
                 wrap_string (bool): Whether to wrap string values in apostrophes.
             """
             return fill_values(
@@ -1104,6 +1147,7 @@ class sphinx:
             )
 
     class main:
+        @units
         @staticmethod
         def create(wrap_string: bool = True, **kwargs):
             """
@@ -1120,9 +1164,10 @@ class sphinx:
             return fill_values(wrap_string=wrap_string, **kwargs)
 
         class scfDiag:
+            @units
             @staticmethod
             def create(
-                dEnergy: Optional[float] = None,
+                dEnergy: u(Optional[float], units="hartree") = None,
                 maxSteps: Optional[int] = None,
                 maxResidue: Optional[float] = None,
                 printSteps: Optional[int] = None,
@@ -1134,7 +1179,7 @@ class sphinx:
                 keepOccFixed: Optional[bool] = None,
                 keepSpinFixed: Optional[bool] = None,
                 spinMoment: Optional[float] = None,
-                ekt: Optional[float] = None,
+                ekt: u(Optional[float], units="eV") = None,
                 dipoleCorrection: Optional[bool] = None,
                 dSpinMoment: Optional[float] = None,
                 noRhoStorage: Optional[bool] = None,
@@ -1148,7 +1193,7 @@ class sphinx:
                 The scfDiag group selects and controls the iterative diagonalization + density mixing algorithm for the solution of the Kohn-Sham DFT equations.
 
                 Args:
-                    dEnergy (float): Free energy convergence criterium. Default: 1e-8. (Optional)
+                    dEnergy (float): Free energy convergence criterium. Default: 1e-8. Units: hartree. (Optional)
                     maxSteps (int): Max. number of steps (density updates). (Optional)
                     maxResidue (float): Additional requirement for convergence; density residue must fall below this threshold. (Optional)
                     printSteps (int): Print convergence status every n steps. Default: 10. (Optional)
@@ -1160,7 +1205,7 @@ class sphinx:
                     keepOccFixed (bool): Do not update the occupation numbers. (Optional)
                     keepSpinFixed (bool): Do not update the spin density. (Optional)
                     spinMoment (float): Keep the spin moment at this value. (Optional)
-                    ekt (float): The electronic temperature. (Optional)
+                    ekt (float): The electronic temperature. Units: eV. (Optional)
                     dipoleCorrection (bool): Override the dipole correction setting in the Hamiltonian group. (Optional)
                     dSpinMoment (float): accuracy of iterative enforcement of spin constraints. Default: 1e-8. (Optional)
                     noRhoStorage (bool): Do not write rho.sxb. (Optional)
@@ -1195,6 +1240,7 @@ class sphinx:
                 )
 
             class CCG:
+                @units
                 @staticmethod
                 def create(
                     dEnergy: Optional[float] = None,
@@ -1204,7 +1250,7 @@ class sphinx:
                     finalDiag: Optional[bool] = None,
                     kappa: Optional[float] = None,
                     keepOccFixed: Optional[bool] = None,
-                    ekt: Optional[float] = None,
+                    ekt: u(Optional[float], units="eV") = None,
                     dipoleCorrection: Optional[bool] = None,
                     noRhoStorage: Optional[bool] = None,
                     noWavesStorage: Optional[bool] = None,
@@ -1221,7 +1267,7 @@ class sphinx:
                         finalDiag (bool): Perform iterative wave-function optimization based on the final density. (Optional)
                         kappa (float): Perform subspace diagonalization at the end. (optional) Initial mixing between subspace Hamiltonian and wave-function updates. If set to a negative value, the value of κ will be fixed at the absolute value. Otherwise, κ is adapted on the fly. (Optional)
                         keepOccFixed (bool): Do not update the occupation numbers. (Optional)
-                        ekt (float): Override electronic temperature setting in the Hamiltonian group. (Optional)
+                        ekt (float): Override electronic temperature setting in the Hamiltonian group. Units: eV. (Optional)
                         dipoleCorrection (bool): Override the dipole correction setting in the Hamiltonian group. (Optional)
                         noRhoStorage (bool): Do not write rho.sxb. (Optional)
                         noWavesStorage (bool): Do not write waves.sxb. (Optional)
@@ -1243,6 +1289,7 @@ class sphinx:
                     )
 
             class blockCCG:
+                @units
                 @staticmethod
                 def create(
                     dRelEps: Optional[float] = None,
@@ -1279,6 +1326,7 @@ class sphinx:
                     )
 
             class preconditioner:
+                @units
                 @staticmethod
                 def create(
                     type: str,
@@ -1306,13 +1354,14 @@ class sphinx:
                     )
 
         class QN:
+            @units
             @staticmethod
             def create(
                 maxSteps: Optional[int] = None,
-                dX: Optional[float] = None,
-                dF: Optional[float] = None,
-                dEnergy: Optional[float] = None,
-                maxStepLength: Optional[float] = None,
+                dX: u(Optional[float], units="bohr") = None,
+                dF: u(Optional[float], units="hartree/bohr") = None,
+                dEnergy: u(Optional[float], units="hartree") = None,
+                maxStepLength: u(Optional[float], units="bohr") = None,
                 hessian: Optional[str] = None,
                 driftFilter: Optional[bool] = None,
                 bornOppenheimer: Optional[dict] = None,
@@ -1323,10 +1372,10 @@ class sphinx:
 
                 Args:
                     maxSteps (int): Max. number of steps to perform. Default: 50. (Optional)
-                    dX (float): Stop iterating when the change in geometry falls below this threshold. Default: 0.01. (Optional)
-                    dF (float): Stop iterating when the change in forces falls below this threshold. Default: 0.01. (Optional)
-                    dEnergy (float): Use these settings until energy change fall below this threshold. Default: 1e-4. (Optional)
-                    maxStepLength (float): maximum allowed displacement (length of displacement vector for a single atom). Larger steps are reduced by scaling. Default: 0.3. (Optional)
+                    dX (float): Stop iterating when the change in geometry falls below this threshold. Default: 0.01. Units: bohr. (Optional)
+                    dF (float): Stop iterating when the change in forces falls below this threshold. Default: 0.01. Units: hartree/bohr. (Optional)
+                    dEnergy (float): Use these settings until energy change fall below this threshold. Default: 1e-4. Units: hartree. (Optional)
+                    maxStepLength (float): maximum allowed displacement (length of displacement vector for a single atom). Larger steps are reduced by scaling. Default: 0.3. Units: bohr. (Optional)
                     hessian (str): Initialize Hessian from file. (Optional)
                     driftFilter (bool): Project out the average force and displacement. Default: True. (Optional)
                     bornOppenheimer (dict): The bornOppenheimer group defines the electronic loop within a geometry optimization. It contains one or more of the electronic loop groups. If more than one minimizer is used, the complete electronic loop sequence is executed at each ionic step. (Optional)
@@ -1345,6 +1394,7 @@ class sphinx:
                 )
 
             class bornOppenheimer:
+                @units
                 @staticmethod
                 def create(
                     scfDiag: Optional[dict] = None,
@@ -1363,9 +1413,10 @@ class sphinx:
                     )
 
                 class scfDiag:
+                    @units
                     @staticmethod
                     def create(
-                        dEnergy: Optional[float] = None,
+                        dEnergy: u(Optional[float], units="hartree") = None,
                         maxSteps: Optional[int] = None,
                         maxResidue: Optional[float] = None,
                         printSteps: Optional[int] = None,
@@ -1377,7 +1428,7 @@ class sphinx:
                         keepOccFixed: Optional[bool] = None,
                         keepSpinFixed: Optional[bool] = None,
                         spinMoment: Optional[float] = None,
-                        ekt: Optional[float] = None,
+                        ekt: u(Optional[float], units="eV") = None,
                         dipoleCorrection: Optional[bool] = None,
                         dSpinMoment: Optional[float] = None,
                         noRhoStorage: Optional[bool] = None,
@@ -1391,7 +1442,7 @@ class sphinx:
                         The scfDiag group selects and controls the iterative diagonalization + density mixing algorithm for the solution of the Kohn-Sham DFT equations.
 
                         Args:
-                            dEnergy (float): Free energy convergence criterium. Default: 1e-8. (Optional)
+                            dEnergy (float): Free energy convergence criterium. Default: 1e-8. Units: hartree. (Optional)
                             maxSteps (int): Max. number of steps (density updates). (Optional)
                             maxResidue (float): Additional requirement for convergence; density residue must fall below this threshold. (Optional)
                             printSteps (int): Print convergence status every n steps. Default: 10. (Optional)
@@ -1403,7 +1454,7 @@ class sphinx:
                             keepOccFixed (bool): Do not update the occupation numbers. (Optional)
                             keepSpinFixed (bool): Do not update the spin density. (Optional)
                             spinMoment (float): Keep the spin moment at this value. (Optional)
-                            ekt (float): The electronic temperature. (Optional)
+                            ekt (float): The electronic temperature. Units: eV. (Optional)
                             dipoleCorrection (bool): Override the dipole correction setting in the Hamiltonian group. (Optional)
                             dSpinMoment (float): accuracy of iterative enforcement of spin constraints. Default: 1e-8. (Optional)
                             noRhoStorage (bool): Do not write rho.sxb. (Optional)
@@ -1438,6 +1489,7 @@ class sphinx:
                         )
 
                     class CCG:
+                        @units
                         @staticmethod
                         def create(
                             dEnergy: Optional[float] = None,
@@ -1447,7 +1499,7 @@ class sphinx:
                             finalDiag: Optional[bool] = None,
                             kappa: Optional[float] = None,
                             keepOccFixed: Optional[bool] = None,
-                            ekt: Optional[float] = None,
+                            ekt: u(Optional[float], units="eV") = None,
                             dipoleCorrection: Optional[bool] = None,
                             noRhoStorage: Optional[bool] = None,
                             noWavesStorage: Optional[bool] = None,
@@ -1464,7 +1516,7 @@ class sphinx:
                                 finalDiag (bool): Perform iterative wave-function optimization based on the final density. (Optional)
                                 kappa (float): Perform subspace diagonalization at the end. (optional) Initial mixing between subspace Hamiltonian and wave-function updates. If set to a negative value, the value of κ will be fixed at the absolute value. Otherwise, κ is adapted on the fly. (Optional)
                                 keepOccFixed (bool): Do not update the occupation numbers. (Optional)
-                                ekt (float): Override electronic temperature setting in the Hamiltonian group. (Optional)
+                                ekt (float): Override electronic temperature setting in the Hamiltonian group. Units: eV. (Optional)
                                 dipoleCorrection (bool): Override the dipole correction setting in the Hamiltonian group. (Optional)
                                 noRhoStorage (bool): Do not write rho.sxb. (Optional)
                                 noWavesStorage (bool): Do not write waves.sxb. (Optional)
@@ -1486,6 +1538,7 @@ class sphinx:
                             )
 
                     class blockCCG:
+                        @units
                         @staticmethod
                         def create(
                             dRelEps: Optional[float] = None,
@@ -1522,6 +1575,7 @@ class sphinx:
                             )
 
                     class preconditioner:
+                        @units
                         @staticmethod
                         def create(
                             type: str,
@@ -1549,13 +1603,14 @@ class sphinx:
                             )
 
         class linQN:
+            @units
             @staticmethod
             def create(
                 maxSteps: Optional[int] = None,
-                dX: Optional[float] = None,
-                dF: Optional[float] = None,
-                dEnergy: Optional[float] = None,
-                maxStepLength: Optional[float] = None,
+                dX: u(Optional[float], units="bohr") = None,
+                dF: u(Optional[float], units="hartree/bohr") = None,
+                dEnergy: u(Optional[float], units="hartree") = None,
+                maxStepLength: u(Optional[float], units="bohr") = None,
                 nProjectors: Optional[int] = None,
                 hessian: Optional[str] = None,
                 driftFilter: Optional[bool] = None,
@@ -1567,10 +1622,10 @@ class sphinx:
 
                 Args:
                     maxSteps (int): Max. number of steps to perform. Default: 50. (Optional)
-                    dX (float): Stop iterating when the change in geometry falls below this threshold. Default: 0.01. (Optional)
-                    dF (float): Stop iterating when the change in forces falls below this threshold. Default: 0.001. (Optional)
-                    dEnergy (float): Use these settings until energy change fall below this threshold. Default: 1e-4. (Optional)
-                    maxStepLength (float): maximum allowed displacement (length of displacement vector for a single atom). Larger steps are reduced by scaling. Default: 0.3. (Optional)
+                    dX (float): Stop iterating when the change in geometry falls below this threshold. Default: 0.01. Units: bohr. (Optional)
+                    dF (float): Stop iterating when the change in forces falls below this threshold. Default: 0.001. Units: hartree/bohr. (Optional)
+                    dEnergy (float): Use these settings until energy change fall below this threshold. Default: 1e-4. Units: hartree. (Optional)
+                    maxStepLength (float): maximum allowed displacement (length of displacement vector for a single atom). Larger steps are reduced by scaling. Default: 0.3. Units: bohr. (Optional)
                     nProjectors (int): Number of projectors. (Optional)
                     hessian (str): Initialize Hessian from file. (Optional)
                     driftFilter (bool): Project out the average force and displacement. Default: True. (Optional)
@@ -1591,6 +1646,7 @@ class sphinx:
                 )
 
             class bornOppenheimer:
+                @units
                 @staticmethod
                 def create(
                     scfDiag: Optional[dict] = None,
@@ -1609,9 +1665,10 @@ class sphinx:
                     )
 
                 class scfDiag:
+                    @units
                     @staticmethod
                     def create(
-                        dEnergy: Optional[float] = None,
+                        dEnergy: u(Optional[float], units="hartree") = None,
                         maxSteps: Optional[int] = None,
                         maxResidue: Optional[float] = None,
                         printSteps: Optional[int] = None,
@@ -1623,7 +1680,7 @@ class sphinx:
                         keepOccFixed: Optional[bool] = None,
                         keepSpinFixed: Optional[bool] = None,
                         spinMoment: Optional[float] = None,
-                        ekt: Optional[float] = None,
+                        ekt: u(Optional[float], units="eV") = None,
                         dipoleCorrection: Optional[bool] = None,
                         dSpinMoment: Optional[float] = None,
                         noRhoStorage: Optional[bool] = None,
@@ -1637,7 +1694,7 @@ class sphinx:
                         The scfDiag group selects and controls the iterative diagonalization + density mixing algorithm for the solution of the Kohn-Sham DFT equations.
 
                         Args:
-                            dEnergy (float): Free energy convergence criterium. Default: 1e-8. (Optional)
+                            dEnergy (float): Free energy convergence criterium. Default: 1e-8. Units: hartree. (Optional)
                             maxSteps (int): Max. number of steps (density updates). (Optional)
                             maxResidue (float): Additional requirement for convergence; density residue must fall below this threshold. (Optional)
                             printSteps (int): Print convergence status every n steps. Default: 10. (Optional)
@@ -1649,7 +1706,7 @@ class sphinx:
                             keepOccFixed (bool): Do not update the occupation numbers. (Optional)
                             keepSpinFixed (bool): Do not update the spin density. (Optional)
                             spinMoment (float): Keep the spin moment at this value. (Optional)
-                            ekt (float): The electronic temperature. (Optional)
+                            ekt (float): The electronic temperature. Units: eV. (Optional)
                             dipoleCorrection (bool): Override the dipole correction setting in the Hamiltonian group. (Optional)
                             dSpinMoment (float): accuracy of iterative enforcement of spin constraints. Default: 1e-8. (Optional)
                             noRhoStorage (bool): Do not write rho.sxb. (Optional)
@@ -1684,6 +1741,7 @@ class sphinx:
                         )
 
                     class CCG:
+                        @units
                         @staticmethod
                         def create(
                             dEnergy: Optional[float] = None,
@@ -1693,7 +1751,7 @@ class sphinx:
                             finalDiag: Optional[bool] = None,
                             kappa: Optional[float] = None,
                             keepOccFixed: Optional[bool] = None,
-                            ekt: Optional[float] = None,
+                            ekt: u(Optional[float], units="eV") = None,
                             dipoleCorrection: Optional[bool] = None,
                             noRhoStorage: Optional[bool] = None,
                             noWavesStorage: Optional[bool] = None,
@@ -1710,7 +1768,7 @@ class sphinx:
                                 finalDiag (bool): Perform iterative wave-function optimization based on the final density. (Optional)
                                 kappa (float): Perform subspace diagonalization at the end. (optional) Initial mixing between subspace Hamiltonian and wave-function updates. If set to a negative value, the value of κ will be fixed at the absolute value. Otherwise, κ is adapted on the fly. (Optional)
                                 keepOccFixed (bool): Do not update the occupation numbers. (Optional)
-                                ekt (float): Override electronic temperature setting in the Hamiltonian group. (Optional)
+                                ekt (float): Override electronic temperature setting in the Hamiltonian group. Units: eV. (Optional)
                                 dipoleCorrection (bool): Override the dipole correction setting in the Hamiltonian group. (Optional)
                                 noRhoStorage (bool): Do not write rho.sxb. (Optional)
                                 noWavesStorage (bool): Do not write waves.sxb. (Optional)
@@ -1732,6 +1790,7 @@ class sphinx:
                             )
 
                     class blockCCG:
+                        @units
                         @staticmethod
                         def create(
                             dRelEps: Optional[float] = None,
@@ -1768,6 +1827,7 @@ class sphinx:
                             )
 
                     class preconditioner:
+                        @units
                         @staticmethod
                         def create(
                             type: str,
@@ -1795,15 +1855,16 @@ class sphinx:
                             )
 
         class ricQN:
+            @units
             @staticmethod
             def create(
                 maxSteps: Optional[int] = None,
-                dX: Optional[float] = None,
-                dF: Optional[float] = None,
-                dEnergy: Optional[float] = None,
-                maxStepLength: Optional[float] = None,
+                dX: u(Optional[float], units="bohr") = None,
+                dF: u(Optional[float], units="hartree/bohr") = None,
+                dEnergy: u(Optional[float], units="hartree") = None,
+                maxStepLength: u(Optional[float], units="bohr") = None,
                 nProjectors: Optional[int] = None,
-                softModeDamping: Optional[float] = None,
+                softModeDamping: u(Optional[float], units="hartree/bohr**2") = None,
                 driftFilter: Optional[bool] = None,
                 bornOppenheimer: Optional[dict] = None,
                 wrap_string: bool = True,
@@ -1811,12 +1872,12 @@ class sphinx:
                 """
                 Args:
                     maxSteps (int): Max. number of steps to perform. Default: 50. (Optional)
-                    dX (float): Stop iterating when the change in geometry falls below this threshold. Default: 0.01. (Optional)
-                    dF (float): Stop iterating when the change in forces falls below this threshold. Default: 0.001. (Optional)
-                    dEnergy (float): Use these settings until energy change fall below this threshold. Default: 1e-4. (Optional)
-                    maxStepLength (float): maximum allowed displacement (length of displacement vector for a single atom). Larger steps are reduced by scaling. Default: 0.3. (Optional)
+                    dX (float): Stop iterating when the change in geometry falls below this threshold. Default: 0.01. Units: bohr. (Optional)
+                    dF (float): Stop iterating when the change in forces falls below this threshold. Default: 0.001. Units: hartree/bohr. (Optional)
+                    dEnergy (float): Use these settings until energy change fall below this threshold. Default: 1e-4. Units: hartree. (Optional)
+                    maxStepLength (float): maximum allowed displacement (length of displacement vector for a single atom). Larger steps are reduced by scaling. Default: 0.3. Units: bohr. (Optional)
                     nProjectors (int): Number of projectors. (Optional)
-                    softModeDamping (float): Initial value for Hessian shift. This is overriden with the first successful fit of a positive shift parameter. Default: 0.01. (Optional)
+                    softModeDamping (float): Initial value for Hessian shift. This is overriden with the first successful fit of a positive shift parameter. Default: 0.01. Units: hartree/bohr**2. (Optional)
                     driftFilter (bool): Project out the average force and displacement. Default: True. (Optional)
                     bornOppenheimer (dict): The bornOppenheimer group defines the electronic loop within a geometry optimization. It contains one or more of the electronic loop groups. If more than one minimizer is used, the complete electronic loop sequence is executed at each ionic step. (Optional)
                     wrap_string (bool): Whether to wrap string values in apostrophes.
@@ -1835,6 +1896,7 @@ class sphinx:
                 )
 
             class bornOppenheimer:
+                @units
                 @staticmethod
                 def create(
                     scfDiag: Optional[dict] = None,
@@ -1853,9 +1915,10 @@ class sphinx:
                     )
 
                 class scfDiag:
+                    @units
                     @staticmethod
                     def create(
-                        dEnergy: Optional[float] = None,
+                        dEnergy: u(Optional[float], units="hartree") = None,
                         maxSteps: Optional[int] = None,
                         maxResidue: Optional[float] = None,
                         printSteps: Optional[int] = None,
@@ -1867,7 +1930,7 @@ class sphinx:
                         keepOccFixed: Optional[bool] = None,
                         keepSpinFixed: Optional[bool] = None,
                         spinMoment: Optional[float] = None,
-                        ekt: Optional[float] = None,
+                        ekt: u(Optional[float], units="eV") = None,
                         dipoleCorrection: Optional[bool] = None,
                         dSpinMoment: Optional[float] = None,
                         noRhoStorage: Optional[bool] = None,
@@ -1881,7 +1944,7 @@ class sphinx:
                         The scfDiag group selects and controls the iterative diagonalization + density mixing algorithm for the solution of the Kohn-Sham DFT equations.
 
                         Args:
-                            dEnergy (float): Free energy convergence criterium. Default: 1e-8. (Optional)
+                            dEnergy (float): Free energy convergence criterium. Default: 1e-8. Units: hartree. (Optional)
                             maxSteps (int): Max. number of steps (density updates). (Optional)
                             maxResidue (float): Additional requirement for convergence; density residue must fall below this threshold. (Optional)
                             printSteps (int): Print convergence status every n steps. Default: 10. (Optional)
@@ -1893,7 +1956,7 @@ class sphinx:
                             keepOccFixed (bool): Do not update the occupation numbers. (Optional)
                             keepSpinFixed (bool): Do not update the spin density. (Optional)
                             spinMoment (float): Keep the spin moment at this value. (Optional)
-                            ekt (float): The electronic temperature. (Optional)
+                            ekt (float): The electronic temperature. Units: eV. (Optional)
                             dipoleCorrection (bool): Override the dipole correction setting in the Hamiltonian group. (Optional)
                             dSpinMoment (float): accuracy of iterative enforcement of spin constraints. Default: 1e-8. (Optional)
                             noRhoStorage (bool): Do not write rho.sxb. (Optional)
@@ -1928,6 +1991,7 @@ class sphinx:
                         )
 
                     class CCG:
+                        @units
                         @staticmethod
                         def create(
                             dEnergy: Optional[float] = None,
@@ -1937,7 +2001,7 @@ class sphinx:
                             finalDiag: Optional[bool] = None,
                             kappa: Optional[float] = None,
                             keepOccFixed: Optional[bool] = None,
-                            ekt: Optional[float] = None,
+                            ekt: u(Optional[float], units="eV") = None,
                             dipoleCorrection: Optional[bool] = None,
                             noRhoStorage: Optional[bool] = None,
                             noWavesStorage: Optional[bool] = None,
@@ -1954,7 +2018,7 @@ class sphinx:
                                 finalDiag (bool): Perform iterative wave-function optimization based on the final density. (Optional)
                                 kappa (float): Perform subspace diagonalization at the end. (optional) Initial mixing between subspace Hamiltonian and wave-function updates. If set to a negative value, the value of κ will be fixed at the absolute value. Otherwise, κ is adapted on the fly. (Optional)
                                 keepOccFixed (bool): Do not update the occupation numbers. (Optional)
-                                ekt (float): Override electronic temperature setting in the Hamiltonian group. (Optional)
+                                ekt (float): Override electronic temperature setting in the Hamiltonian group. Units: eV. (Optional)
                                 dipoleCorrection (bool): Override the dipole correction setting in the Hamiltonian group. (Optional)
                                 noRhoStorage (bool): Do not write rho.sxb. (Optional)
                                 noWavesStorage (bool): Do not write waves.sxb. (Optional)
@@ -1976,6 +2040,7 @@ class sphinx:
                             )
 
                     class blockCCG:
+                        @units
                         @staticmethod
                         def create(
                             dRelEps: Optional[float] = None,
@@ -2012,6 +2077,7 @@ class sphinx:
                             )
 
                     class preconditioner:
+                        @units
                         @staticmethod
                         def create(
                             type: str,
@@ -2039,9 +2105,10 @@ class sphinx:
                             )
 
         class ric:
+            @units
             @staticmethod
             def create(
-                maxDist: Optional[float] = None,
+                maxDist: u(Optional[float], units="bohr") = None,
                 typifyThreshold: Optional[float] = None,
                 rmsThreshold: Optional[float] = None,
                 planeCutLimit: Optional[float] = None,
@@ -2054,7 +2121,7 @@ class sphinx:
                 The ric group defines the parameters for internal coordinate generation.
 
                 Args:
-                    maxDist (float): maximum possible distance for considering neighbors. Default: 10. (Optional)
+                    maxDist (float): maximum possible distance for considering neighbors. Default: 10. Units: bohr. (Optional)
                     typifyThreshold (float): minimum bond length separation of distinct bond types (the f parameter in [10]). After sorting the bond lengthes, the logarithm of subsequent lengthes are compared. If they differ by less than the threshold, the two bonds are assigned the same bond type. Default: 0.05. (Optional)
                     rmsThreshold (float): minimum distance between two bond length clusters in units of their root-mean-square displacements (the R parameter of [10]). Default: 3. (Optional)
                     planeCutLimit (float): Relative size of coordination polyhedra to separate the nearest neighbors from further atoms (the P parameter of [10]). Larger values allow for more neighbors. Default: 0.95. (Optional)
@@ -2075,6 +2142,7 @@ class sphinx:
                 )
 
             class bornOppenheimer:
+                @units
                 @staticmethod
                 def create(
                     scfDiag: Optional[dict] = None,
@@ -2093,9 +2161,10 @@ class sphinx:
                     )
 
                 class scfDiag:
+                    @units
                     @staticmethod
                     def create(
-                        dEnergy: Optional[float] = None,
+                        dEnergy: u(Optional[float], units="hartree") = None,
                         maxSteps: Optional[int] = None,
                         maxResidue: Optional[float] = None,
                         printSteps: Optional[int] = None,
@@ -2107,7 +2176,7 @@ class sphinx:
                         keepOccFixed: Optional[bool] = None,
                         keepSpinFixed: Optional[bool] = None,
                         spinMoment: Optional[float] = None,
-                        ekt: Optional[float] = None,
+                        ekt: u(Optional[float], units="eV") = None,
                         dipoleCorrection: Optional[bool] = None,
                         dSpinMoment: Optional[float] = None,
                         noRhoStorage: Optional[bool] = None,
@@ -2121,7 +2190,7 @@ class sphinx:
                         The scfDiag group selects and controls the iterative diagonalization + density mixing algorithm for the solution of the Kohn-Sham DFT equations.
 
                         Args:
-                            dEnergy (float): Free energy convergence criterium. Default: 1e-8. (Optional)
+                            dEnergy (float): Free energy convergence criterium. Default: 1e-8. Units: hartree. (Optional)
                             maxSteps (int): Max. number of steps (density updates). (Optional)
                             maxResidue (float): Additional requirement for convergence; density residue must fall below this threshold. (Optional)
                             printSteps (int): Print convergence status every n steps. Default: 10. (Optional)
@@ -2133,7 +2202,7 @@ class sphinx:
                             keepOccFixed (bool): Do not update the occupation numbers. (Optional)
                             keepSpinFixed (bool): Do not update the spin density. (Optional)
                             spinMoment (float): Keep the spin moment at this value. (Optional)
-                            ekt (float): The electronic temperature. (Optional)
+                            ekt (float): The electronic temperature. Units: eV. (Optional)
                             dipoleCorrection (bool): Override the dipole correction setting in the Hamiltonian group. (Optional)
                             dSpinMoment (float): accuracy of iterative enforcement of spin constraints. Default: 1e-8. (Optional)
                             noRhoStorage (bool): Do not write rho.sxb. (Optional)
@@ -2168,6 +2237,7 @@ class sphinx:
                         )
 
                     class CCG:
+                        @units
                         @staticmethod
                         def create(
                             dEnergy: Optional[float] = None,
@@ -2177,7 +2247,7 @@ class sphinx:
                             finalDiag: Optional[bool] = None,
                             kappa: Optional[float] = None,
                             keepOccFixed: Optional[bool] = None,
-                            ekt: Optional[float] = None,
+                            ekt: u(Optional[float], units="eV") = None,
                             dipoleCorrection: Optional[bool] = None,
                             noRhoStorage: Optional[bool] = None,
                             noWavesStorage: Optional[bool] = None,
@@ -2194,7 +2264,7 @@ class sphinx:
                                 finalDiag (bool): Perform iterative wave-function optimization based on the final density. (Optional)
                                 kappa (float): Perform subspace diagonalization at the end. (optional) Initial mixing between subspace Hamiltonian and wave-function updates. If set to a negative value, the value of κ will be fixed at the absolute value. Otherwise, κ is adapted on the fly. (Optional)
                                 keepOccFixed (bool): Do not update the occupation numbers. (Optional)
-                                ekt (float): Override electronic temperature setting in the Hamiltonian group. (Optional)
+                                ekt (float): Override electronic temperature setting in the Hamiltonian group. Units: eV. (Optional)
                                 dipoleCorrection (bool): Override the dipole correction setting in the Hamiltonian group. (Optional)
                                 noRhoStorage (bool): Do not write rho.sxb. (Optional)
                                 noWavesStorage (bool): Do not write waves.sxb. (Optional)
@@ -2216,6 +2286,7 @@ class sphinx:
                             )
 
                     class blockCCG:
+                        @units
                         @staticmethod
                         def create(
                             dRelEps: Optional[float] = None,
@@ -2252,6 +2323,7 @@ class sphinx:
                             )
 
                     class preconditioner:
+                        @units
                         @staticmethod
                         def create(
                             type: str,
@@ -2279,6 +2351,7 @@ class sphinx:
                             )
 
         class ricTS:
+            @units
             @staticmethod
             def create(
                 maxSteps: Optional[int] = None,
@@ -2330,6 +2403,7 @@ class sphinx:
                 )
 
             class bornOppenheimer:
+                @units
                 @staticmethod
                 def create(
                     scfDiag: Optional[dict] = None,
@@ -2348,9 +2422,10 @@ class sphinx:
                     )
 
                 class scfDiag:
+                    @units
                     @staticmethod
                     def create(
-                        dEnergy: Optional[float] = None,
+                        dEnergy: u(Optional[float], units="hartree") = None,
                         maxSteps: Optional[int] = None,
                         maxResidue: Optional[float] = None,
                         printSteps: Optional[int] = None,
@@ -2362,7 +2437,7 @@ class sphinx:
                         keepOccFixed: Optional[bool] = None,
                         keepSpinFixed: Optional[bool] = None,
                         spinMoment: Optional[float] = None,
-                        ekt: Optional[float] = None,
+                        ekt: u(Optional[float], units="eV") = None,
                         dipoleCorrection: Optional[bool] = None,
                         dSpinMoment: Optional[float] = None,
                         noRhoStorage: Optional[bool] = None,
@@ -2376,7 +2451,7 @@ class sphinx:
                         The scfDiag group selects and controls the iterative diagonalization + density mixing algorithm for the solution of the Kohn-Sham DFT equations.
 
                         Args:
-                            dEnergy (float): Free energy convergence criterium. Default: 1e-8. (Optional)
+                            dEnergy (float): Free energy convergence criterium. Default: 1e-8. Units: hartree. (Optional)
                             maxSteps (int): Max. number of steps (density updates). (Optional)
                             maxResidue (float): Additional requirement for convergence; density residue must fall below this threshold. (Optional)
                             printSteps (int): Print convergence status every n steps. Default: 10. (Optional)
@@ -2388,7 +2463,7 @@ class sphinx:
                             keepOccFixed (bool): Do not update the occupation numbers. (Optional)
                             keepSpinFixed (bool): Do not update the spin density. (Optional)
                             spinMoment (float): Keep the spin moment at this value. (Optional)
-                            ekt (float): The electronic temperature. (Optional)
+                            ekt (float): The electronic temperature. Units: eV. (Optional)
                             dipoleCorrection (bool): Override the dipole correction setting in the Hamiltonian group. (Optional)
                             dSpinMoment (float): accuracy of iterative enforcement of spin constraints. Default: 1e-8. (Optional)
                             noRhoStorage (bool): Do not write rho.sxb. (Optional)
@@ -2423,6 +2498,7 @@ class sphinx:
                         )
 
                     class CCG:
+                        @units
                         @staticmethod
                         def create(
                             dEnergy: Optional[float] = None,
@@ -2432,7 +2508,7 @@ class sphinx:
                             finalDiag: Optional[bool] = None,
                             kappa: Optional[float] = None,
                             keepOccFixed: Optional[bool] = None,
-                            ekt: Optional[float] = None,
+                            ekt: u(Optional[float], units="eV") = None,
                             dipoleCorrection: Optional[bool] = None,
                             noRhoStorage: Optional[bool] = None,
                             noWavesStorage: Optional[bool] = None,
@@ -2449,7 +2525,7 @@ class sphinx:
                                 finalDiag (bool): Perform iterative wave-function optimization based on the final density. (Optional)
                                 kappa (float): Perform subspace diagonalization at the end. (optional) Initial mixing between subspace Hamiltonian and wave-function updates. If set to a negative value, the value of κ will be fixed at the absolute value. Otherwise, κ is adapted on the fly. (Optional)
                                 keepOccFixed (bool): Do not update the occupation numbers. (Optional)
-                                ekt (float): Override electronic temperature setting in the Hamiltonian group. (Optional)
+                                ekt (float): Override electronic temperature setting in the Hamiltonian group. Units: eV. (Optional)
                                 dipoleCorrection (bool): Override the dipole correction setting in the Hamiltonian group. (Optional)
                                 noRhoStorage (bool): Do not write rho.sxb. (Optional)
                                 noWavesStorage (bool): Do not write waves.sxb. (Optional)
@@ -2471,6 +2547,7 @@ class sphinx:
                             )
 
                     class blockCCG:
+                        @units
                         @staticmethod
                         def create(
                             dRelEps: Optional[float] = None,
@@ -2507,6 +2584,7 @@ class sphinx:
                             )
 
                     class preconditioner:
+                        @units
                         @staticmethod
                         def create(
                             type: str,
@@ -2534,6 +2612,7 @@ class sphinx:
                             )
 
         class evalForces:
+            @units
             @staticmethod
             def create(
                 file: str,

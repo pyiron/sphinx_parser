@@ -4,6 +4,7 @@ sphinx:
       data_type: list
       required: true
       description: Cell matrix
+      units: bohr
     movable:
       data_type: bool
       required: false
@@ -32,6 +33,7 @@ sphinx:
         coords:
           data_type: np.ndarray
           description: Atomic coordinates
+          units: bohr
         relative:
           data_type: bool
           required: false
@@ -130,7 +132,8 @@ sphinx:
         coords:
           data_type: np.ndarray
           required: true
-          description: The k-point coordinates as a 3-vector. If the relative flag is not given, the units are 1/bohr.
+          description: The k-point coordinates as a 3-vector. If the relative flag is not given
+          units: 1/bohr
         label:
           data_type: str
           required: false
@@ -619,7 +622,7 @@ sphinx:
       dEnergy:
         data_type: float
         required: false
-        units: Hartree
+        units: hartree
         default: 1e-8
         description: Free energy convergence criterium
       maxSteps:
@@ -825,13 +828,13 @@ sphinx:
       dF:
         data_type: float
         required: false
-        units: Hartree/bohr
+        units: hartree/bohr
         default: 0.01
         description: Stop iterating when the change in forces falls below this threshold.
       dEnergy:
         data_type: float
         required: false
-        units: Hartree
+        units: hartree
         default: 1e-4
         description: Use these settings until energy change fall below this threshold.
       maxStepLength:
@@ -869,13 +872,13 @@ sphinx:
       dF:
         data_type: float
         required: false
-        units: Hartree/bohr
+        units: hartree/bohr
         default: 0.001
         description: Stop iterating when the change in forces falls below this threshold.
       dEnergy:
         data_type: float
         required: false
-        units: Hartree
+        units: hartree
         default: 1e-4
         description: Use these settings until energy change fall below this threshold.
       maxStepLength:
@@ -914,13 +917,13 @@ sphinx:
       dF:
         data_type: float
         required: false
-        units: Hartree/bohr
+        units: hartree/bohr
         default: 0.001
         description: Stop iterating when the change in forces falls below this threshold.
       dEnergy:
         data_type: float
         required: false
-        units: Hartree
+        units: hartree
         default: 1e-4
         description: Use these settings until energy change fall below this threshold.
       maxStepLength:
@@ -937,7 +940,7 @@ sphinx:
         data_type: float
         required: false
         default: 0.01
-        units: Hartree/bohr**2
+        units: hartree/bohr**2
         description: Initial value for Hessian shift. This is overriden with the first successful fit of a positive shift parameter.
       driftFilter:
         data_type: bool
