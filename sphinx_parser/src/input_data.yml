@@ -130,7 +130,8 @@ sphinx:
         coords:
           data_type: np.ndarray
           required: true
-          description: The k-point coordinates as a 3-vector. If the relative flag is not given, the units are 1/bohr.
+          description: The k-point coordinates as a 3-vector. If the relative flag is not given
+          units: 1/bohr
         label:
           data_type: str
           required: false
