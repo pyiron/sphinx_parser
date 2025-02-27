@@ -26,7 +26,7 @@ dependencies = [
    "numpy==2.2.3",
    "ase==3.24.0",
    "h5py==3.13.0",
-   "semantikon==0.0.13",
+   "semantikon==0.0.12",
    "pint==0.24.4",
 ]
 dynamic = [ "version",]
