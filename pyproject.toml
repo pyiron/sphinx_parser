@@ -29,7 +29,6 @@ dependencies = [
    "semantikon==0.0.12",
    "pint==0.24.4",
 ]
-
 dynamic = [ "version",]
 authors = [
     { name = "Lorem Ipsum", email = "lorem@ipsum.com" },
