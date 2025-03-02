@@ -1,5 +1,8 @@
 # Sphinx
 
+[![Push-Pull](https://github.com/pyiron/sphinx_parser/actions/workflows/push-pull.yml/badge.svg)](https://github.com/pyiron/sphinx_parser/actions/workflows/push-pull.yml)
+[![Coverage Status](https://coveralls.io/repos/github/pyiron/sphinx_parser/badge.svg?branch=main)](https://coveralls.io/github/pyiron/sphinx_parser?branch=main)
+
 ## Overview
 
 This hosts the python binder of the DFT code [Sphinx](https://sxrepo.mpie.de).
