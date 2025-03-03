@@ -18,23 +18,21 @@ def _splitter(arr, counter):
     return arr_new
 
 
-def collect_energy_dat(file_name="energy.dat", cwd=None):
+def collect_energy_dat(file_name="energy.dat"):
     """
 
     Args:
         file_name (str): file name
-        cwd (str): directory path
 
     Returns:
         (dict): results
 
     """
-    path = Path(file_name)
-    if cwd is not None:
-        path = Path(cwd) / path
-    energies = np.loadtxt(str(path), ndmin=2)
-    results = {"scf_computation_time": _splitter(energies[:, 1], energies[:, 0])}
-    results["scf_energy_int"] = _splitter(energies[:, 2], energies[:, 0])
+    energies = np.loadtxt(str(file_name), ndmin=2)
+    results = {
+        "scf_computation_time": _splitter(energies[:, 1], energies[:, 0]),
+        "scf_energy_int": _splitter(energies[:, 2], energies[:, 0]),
+    }
 
     def en_split(e, counter=energies[:, 0]):
         return _splitter(e, counter)
@@ -49,67 +47,56 @@ def collect_energy_dat(file_name="energy.dat", cwd=None):
     return results
 
 
-def collect_residue_dat(file_name="residue.dat", cwd="."):
+def collect_residue_dat(file_name="residue.dat"):
     """
 
     Args:
         file_name (str): file name
-        cwd (str): directory path
 
     Returns:
         (dict): results
 
     """
-    if cwd is None:
-        cwd = "."
-    residue = np.loadtxt(str(Path(cwd) / Path(file_name)), ndmin=2)
+    residue = np.loadtxt(file_name, ndmin=2)
     if len(residue) == 0:
         return {}
     return {"scf_residue": _splitter(residue[:, 1:].squeeze(), residue[:, 0])}
 
 
-def _collect_eps_dat(file_name="eps.dat", cwd=None):
+def _collect_eps_dat(file_name="eps.dat"):
     """
 
     Args:
         file_name:
-        cwd:
 
     Returns:
 
     """
-    path = Path(file_name)
-    if cwd is not None:
-        path = Path(cwd) / path
-    return np.loadtxt(str(path), ndmin=2)[..., 1:]
+    return np.loadtxt(str(file_name), ndmin=2)[..., 1:]
 
 
-def collect_eps_dat(file_name=None, cwd=None, spins=True):
+def collect_eps_dat(file_name=None, spins=True):
     if file_name is not None:
-        values = [_collect_eps_dat(file_name=file_name, cwd=cwd)]
+        values = [_collect_eps_dat(file_name=file_name)]
     elif spins:
-        values = [_collect_eps_dat(file_name=f"eps.{i}.dat", cwd=cwd) for i in [0, 1]]
+        values = [_collect_eps_dat(file_name=f"eps.{i}.dat") for i in [0, 1]]
     else:
-        values = [_collect_eps_dat(file_name="eps.dat", cwd=cwd)]
+        values = [_collect_eps_dat(file_name="eps.dat")]
     values = np.stack(values, axis=0)
     return {"bands_eigen_values": values.reshape((-1,) + values.shape)}
 
 
-def collect_energy_struct(file_name="energy-structOpt.dat", cwd=None):
+def collect_energy_struct(file_name="energy-structOpt.dat"):
     """
 
     Args:
         file_name (str): file name
-        cwd (str): directory path
 
     Returns:
         (dict): results
 
     """
-    path = Path(file_name)
-    if cwd is not None:
-        path = Path(cwd) / path
-    return {"energy_free": np.loadtxt(str(path), ndmin=2).reshape(-1, 2)[:, 1]}
+    return {"energy_free": np.loadtxt(str(file_name), ndmin=2).reshape(-1, 2)[:, 1]}
 
 
 def _check_permutation(index_permutation):
@@ -122,12 +109,11 @@ def _check_permutation(index_permutation):
         raise ValueError("missing entries in the index_permutation")
 
 
-def collect_spins_dat(file_name="spins.dat", cwd=None, index_permutation=None):
+def collect_spins_dat(file_name="spins.dat", index_permutation=None):
     """
 
     Args:
         file_name (str): file name
-        cwd (str): directory path
         index_permutation (numpy.ndarray): Indices for the permutation
 
     Returns:
@@ -135,10 +121,7 @@ def collect_spins_dat(file_name="spins.dat", cwd=None, index_permutation=None):
 
     """
     _check_permutation(index_permutation)
-    path = Path(file_name)
-    if cwd is not None:
-        path = Path(cwd) / path
-    spins = np.loadtxt(str(path), ndmin=2)
+    spins = np.loadtxt(str(file_name), ndmin=2)
     if index_permutation is not None:
         s = np.array([ss[index_permutation] for ss in spins[:, 1:]])
     else:
@@ -146,11 +129,10 @@ def collect_spins_dat(file_name="spins.dat", cwd=None, index_permutation=None):
     return {"atom_scf_spins": _splitter(s, spins[:, 0])}
 
 
-def collect_eval_forces(file_name, cwd=None, index_permutation=None):
+def collect_eval_forces(file_name, index_permutation=None):
     """
     Args:
         file_name (str): file name
-        cwd (str): directory path
         index_permutation (numpy.ndarray): Indices for the permutation
 
     Returns:
@@ -159,10 +141,7 @@ def collect_eval_forces(file_name, cwd=None, index_permutation=None):
     # TODO: parse movable, elements, species etc.
     """
     _check_permutation(index_permutation)
-    path = Path(file_name)
-    if cwd is not None:
-        path = Path(cwd) / path
-    with open(str(path), "r") as f:
+    with open(str(file_name), "r") as f:
         file_content = "".join(f.readlines())
     n_steps = max(len(re.findall("// --- step \d", file_content, re.MULTILINE)), 1)
     f_v = ",".join(3 * [r"\s*([\d.-]+)"])
@@ -193,7 +172,6 @@ class SphinxLogParser:
         """
         Args:
             file_name (str): file name
-            cwd (str): directory path
             index_permutation (numpy.ndarray): Indices for the permutation
 
         """
@@ -220,19 +198,16 @@ class SphinxLogParser:
         }
 
     @classmethod
-    def load_from_path(cls, path, cwd=None, index_permutation=None):
+    def load_from_path(cls, path, index_permutation=None):
         """
         Args:
             path (str): file name
-            cwd (str): directory path
             index_permutation (numpy.ndarray): Indices for the permutation
 
         Returns:
             (SphinxLogParser): instance
 
         """
-        if cwd is not None:
-            path = Path(cwd) / Path(path)
         with open(str(path), "r") as f:
             file_content = f.read()
         return cls(file_content, index_permutation)
@@ -420,105 +395,3 @@ class SphinxLogParser:
             if len(value) > 0:
                 results["dft"][key] = value
         return results
-
-
-class SphinxWavesReader:
-    """Class to read SPHInX waves.sxb files (HDF5 format)
-
-    Initialize with waves.sxb filename, or use load ()
-
-    """
-
-    def __init__(self, file_name="waves.sxb", cwd="."):
-        """
-        Args:
-            file_name (str): file name
-            cwd (str): directory path
-        """
-        if Path(file_name).is_absolute():
-            self.wfile = h5py.File(Path(file_name))
-        else:
-            path = Path(cwd) / Path(file_name)
-            self.wfile = h5py.File(path)
-
-    @property
-    def _n_gk(self):
-        return self.wfile["nGk"][:]
-
-    @cached_property
-    def mesh(self):
-        return self.wfile["meshDim"][:]
-
-    @property
-    def Nx(self):
-        return self.mesh[0]
-
-    @property
-    def Ny(self):
-        return self.mesh[1]
-
-    @property
-    def Nz(self):
-        return self.mesh[2]
-
-    @cached_property
-    def n_states(self):
-        return self.wfile["nPerK"][0]
-
-    @cached_property
-    def n_spin(self):
-        return self.wfile["nSpin"].shape[0]
-
-    @cached_property
-    def k_weights(self):
-        return self.wfile["kWeights"][:]
-
-    @cached_property
-    def k_vec(self):
-        return self.wfile["kVec"][:]
-
-    @cached_property
-    def eps(self):
-        """All eigenvalues (in Hartree) as (nk,n_states) block"""
-        return (self.wfile["eps"][:].reshape(-1, self.n_spin, self.n_states)).T
-
-    @cached_property
-    def _fft_idx(self):
-        fft_idx = []
-        off = 0
-        for ngk in self._n_gk:
-            fft_idx.append(self.wfile["fftIdx"][off : off + ngk])
-            off += ngk
-        return fft_idx
-
-    def get_psi_rec(self, i, ispin, ik, compact=False):
-        """
-        Loads a single wavefunction on full FFT mesh of shape mesh.
-
-        params: i: state index (int)
-               ispin: spin index (int)
-               ik: k index (int)
-               compact: (bool)
-        returns:
-            res: complex valued wavefunction indexed by (i,ispin,ik) loaded on to the FFT mesh.
-            compact_wave: compact wavefunctions, without loading on FFT mesh.
-        """
-        # translate indices to pythonic style.
-        i = np.arange(self.n_states)[i]
-        ik = np.arange(self.nk)[ik]
-        ispin = np.arange(self.n_spin)[ispin]
-
-        off = self._n_gk[ik] * (i + ispin * self.n_states)
-        psire = self.wfile[f"psi-{ik+1}.re"][off : off + self._n_gk[ik]]
-        psiim = self.wfile[f"psi-{ik+1}.im"][off : off + self._n_gk[ik]]
-        compact_wave = psire + 1j * psiim
-        if compact:
-            return compact_wave
-        res = np.zeros(shape=self.mesh, dtype=np.complex128)
-        res.flat[self._fft_idx[ik]] = compact_wave
-        return res
-
-    @property
-    def nk(self):
-        """Number of k-points"""
-        return self.k_weights.shape[0]

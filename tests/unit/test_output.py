@@ -47,6 +47,32 @@ class TestOutput(unittest.TestCase):
             spx_output = output.SphinxLogParser.load_from_path(file)
             self.assertIsInstance(spx_output.results, dict)
 
+    def test_collect_eps_dat(self):
+        counter = 0
+        for file in self._find_file("eps.dat"):
+            eps = output.collect_eps_dat(file)
+            counter += 1
+            self.assertEqual(len(eps["bands_eigen_values"].shape), 4)
+        self.assertGreater(counter, 0)
+
+    def test_energy_struct(self):
+        counter = 0
+        for file in self._find_file("energy-structOpt.dat"):
+            energy = output.collect_energy_struct(file)
+            self.assertTrue("energy_free" in energy)
+            self.assertIsInstance(energy["energy_free"], np.ndarray)
+            counter += 1
+        self.assertGreater(counter, 0)
+
+    def test_spins(self):
+        counter = 0
+        for file in self._find_file("spins.dat"):
+            spins = output.collect_spins_dat(file)
+            self.assertTrue("atom_scf_spins" in spins)
+            self.assertIsInstance(spins["atom_scf_spins"], list)
+            counter += 1
+        self.assertGreater(counter, 0)
+
 
 if __name__ == "__main__":
     unittest.main()
