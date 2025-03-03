@@ -9,7 +9,7 @@ indent = 4 * " "
 predefined = ["description", "default", "data_type", "required", "alias", "units"]
 
 
-def find_alias(all_data: dict, head: list | None = None):
+def _find_alias(all_data: dict, head: list | None = None):
     """
     Find all aliases in the data structure.
 
@@ -27,17 +27,17 @@ def find_alias(all_data: dict, head: list | None = None):
         if key == "alias":
             results["/".join(head)] = data.replace(".", "/")
         if isinstance(data, dict):
-            results.update(find_alias(data, head + [key]))
+            results.update(_find_alias(data, head + [key]))
     return results
 
 
-def replace_alias(all_data: dict):
-    for key, value in find_alias(all_data).items():
-        set(all_data, key, get(all_data, value))
+def _replace_alias(all_data: dict):
+    for key, value in _find_alias(all_data).items():
+        _set(all_data, key, _get(all_data, value))
     return all_data
 
 
-def get(obj: dict, path: str, sep: str = "/"):
+def _get(obj: dict, path: str, sep: str = "/"):
     """
     Get a value from a nested dictionary.
 
@@ -54,7 +54,7 @@ def get(obj: dict, path: str, sep: str = "/"):
     return obj
 
 
-def set(obj: dict, path: str, value):
+def _set(obj: dict, path: str, value):
     """
     Set a value in a nested dictionary.
 
@@ -108,7 +108,7 @@ def _get_docstring_line(data: dict, key: str):
     return line
 
 
-def get_docstring(all_data, description=None, indent=indent, predefined=predefined):
+def _get_docstring(all_data, description=None, indent=indent, predefined=predefined):
     txt = [indent + '"""']
     if description is not None:
         txt.append(f"{indent}{description}\n")
@@ -123,7 +123,7 @@ def get_docstring(all_data, description=None, indent=indent, predefined=predefin
     return txt
 
 
-def get_input_arg(key, entry, indent=indent):
+def _get_input_arg(key, entry, indent=indent):
     t = entry.get("data_type", "dict")
     units = "".join(entry.get("units", "").split())
     if not entry.get("required", False) and units != "":
@@ -147,7 +147,7 @@ def _rename_keys(data):
     return d_2
 
 
-def get_function(
+def _get_function(
     data,
     function_name,
     predefined=predefined,
@@ -163,14 +163,14 @@ def get_function(
     else:
         func.extend(
             [
-                get_input_arg(key, value)
+                _get_input_arg(key, value)
                 for key, value in d.items()
                 if key not in predefined
             ]
         )
         func.append(f"{indent}wrap_string: bool = True,")
     func.append("):")
-    docstring = get_docstring(d, d.get("description", None))
+    docstring = _get_docstring(d, d.get("description", None))
     output = [indent + "return fill_values("]
     if is_kwarg:
         output.append(2 * indent + "wrap_string=wrap_string,")
@@ -185,32 +185,17 @@ def get_function(
     return "\n".join([indent * n_indent + line for line in result])
 
 
-def get_all_function_names(all_data, head="", predefined=predefined):
+def _get_all_function_names(all_data, head="", predefined=predefined):
     key_lst = []
     for tag, data in all_data.items():
         if tag not in predefined and data.get("data_type", "dict") == "dict":
             key_lst.append(head + tag)
-            key_lst.extend(get_all_function_names(data, head=head + tag + "/"))
+            key_lst.extend(_get_all_function_names(data, head=head + tag + "/"))
     return key_lst
 
 
-def get_unique_tags(tags, max_steps=10):
-    counter = np.ones(len(tags)).astype(int)
-    for _ in range(max_steps):
-        reduced_tags = [
-            "_".join(tag.split("/")[-cc:]) for cc, tag in zip(counter, tags)
-        ]
-        t, c = np.unique(reduced_tags, return_counts=True)
-        if c.max() == 1:
-            return reduced_tags
-        d = dict(zip(t, c))
-        for ii, tag in enumerate(reduced_tags):
-            if d[tag] > 1:
-                counter[ii] += 1
-
-
-def get_class(all_data, indent=indent):
-    fnames = get_all_function_names(all_data)
+def _get_class(all_data, indent=indent):
+    fnames = _get_all_function_names(all_data)
     txt = ""
     for name in fnames:
         names = name.split("/")
@@ -218,8 +203,8 @@ def get_class(all_data, indent=indent):
             _get_safe_parameter_name(names[-1])
         )
         txt += (
-            get_function(
-                get(all_data, name),
+            _get_function(
+                _get(all_data, name),
                 "create",
                 n_indent=len(names),
                 is_kwarg=names[-1] == "main",
@@ -229,13 +214,13 @@ def get_class(all_data, indent=indent):
     return txt
 
 
-def export_class(yml_file_name="input_data.yml", py_file_name="input.py"):
+def _get_file_content(yml_file_name="input_data.yml"):
     file_location = os.path.join(os.path.dirname(__file__), yml_file_name)
     with open(file_location, "r") as f:
         file_content = f.read()
     all_data = yaml.safe_load(file_content)
-    all_data = replace_alias(all_data)
-    file_content = get_class(all_data)
+    all_data = _replace_alias(all_data)
+    file_content = _get_class(all_data)
     imports = [
         "import numpy as np",
         "from typing import Optional",
@@ -245,6 +230,11 @@ def export_class(yml_file_name="input_data.yml", py_file_name="input.py"):
     ]
     file_content = "\n".join(imports) + "\n\n\n" + file_content
     file_content = format_str(file_content, mode=FileMode())
+    return file_content
+
+
+def export_class(yml_file_name="input_data.yml", py_file_name="input.py"):
+    file_content = _get_file_content(yml_file_name)
     with open(os.path.join(os.path.dirname(__file__), "..", py_file_name), "w") as f:
         f.write(file_content)
 
