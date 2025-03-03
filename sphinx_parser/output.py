@@ -31,9 +31,8 @@ def collect_energy_dat(file_name="energy.dat"):
     energies = np.loadtxt(str(file_name), ndmin=2)
     results = {
         "scf_computation_time": _splitter(energies[:, 1], energies[:, 0]),
-        "scf_energy_int": _splitter(energies[:, 2], energies[:, 0])
+        "scf_energy_int": _splitter(energies[:, 2], energies[:, 0]),
     }
-
 
     def en_split(e, counter=energies[:, 0]):
         return _splitter(e, counter)
