@@ -53,6 +53,14 @@ class TestOutput(unittest.TestCase):
             eps = output.collect_eps_dat(file)
             counter += 1
             self.assertEqual(len(eps["bands_eigen_values"].shape), 4)
+            parent_directory = os.path.dirname(file)
+            eps_without_file_name = output.collect_eps_dat(file)
+            self.assertEqual(str(eps), str(eps_without_file_name))
+        self.assertGreater(counter, 0)
+        for file in self._find_file("eps.0.dat"):
+            parent_directory = os.path.dirname(file)
+            eps = output.collect_eps_dat(file)
+            self.assertEqual(len(eps["bands_eigen_values"].shape), 4)
         self.assertGreater(counter, 0)
 
     def test_energy_struct(self):
