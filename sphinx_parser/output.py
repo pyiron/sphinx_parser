@@ -29,22 +29,15 @@ def collect_energy_dat(file_name="energy.dat"):
 
     """
     energies = np.loadtxt(str(file_name), ndmin=2)
-    results = {
+
+    return {
         "scf_computation_time": _splitter(energies[:, 1], energies[:, 0]),
         "scf_energy_int": _splitter(energies[:, 2], energies[:, 0]),
+        "scf_energy_free": _splitter(energies[:, 3], energies[:, 0]),
+        "scf_energy_zero": _splitter(energies[:, 4], energies[:, 0]),
+        "scf_energy_band": _splitter(energies[:, 5], energies[:, 0]),
+        "scf_electronic_entropy": _splitter(energies[:, 6], energies[:, 0]),
     }
-
-    def en_split(e, counter=energies[:, 0]):
-        return _splitter(e, counter)
-
-    if len(energies[0]) == 7:
-        results["scf_energy_free"] = en_split(energies[:, 3])
-        results["scf_energy_zero"] = en_split(energies[:, 4])
-        results["scf_energy_band"] = en_split(energies[:, 5])
-        results["scf_electronic_entropy"] = en_split(energies[:, 6])
-    else:
-        results["scf_energy_band"] = en_split(energies[:, 3])
-    return results
 
 
 def collect_residue_dat(file_name="residue.dat"):
@@ -58,8 +51,7 @@ def collect_residue_dat(file_name="residue.dat"):
 
     """
     residue = np.loadtxt(file_name, ndmin=2)
-    if len(residue) == 0:
-        return {}
+    assert len(residue.shape) == 2
     return {"scf_residue": _splitter(residue[:, 1:].squeeze(), residue[:, 0])}
 
 
@@ -75,13 +67,19 @@ def _collect_eps_dat(file_name="eps.dat"):
     return np.loadtxt(str(file_name), ndmin=2)[..., 1:]
 
 
-def collect_eps_dat(file_name=None, spins=True):
+def collect_eps_dat(file_name=None, cwd=None, spins=True):
     if file_name is not None:
         values = [_collect_eps_dat(file_name=file_name)]
+    elif cwd is None:
+        raise ValueError("cwd or file_name must be defined")
     elif spins:
-        values = [_collect_eps_dat(file_name=f"eps.{i}.dat") for i in [0, 1]]
+        values = []
+        for i in range(2):
+            path = Path(cwd) / f"eps.{i}.dat"
+            values.append(_collect_eps_dat(file_name=path))
     else:
-        values = [_collect_eps_dat(file_name="eps.dat")]
+        path = Path(cwd) / "eps.dat"
+        values = [_collect_eps_dat(file_name=path)]
     values = np.stack(values, axis=0)
     return {"bands_eigen_values": values.reshape((-1,) + values.shape)}
 
@@ -102,11 +100,10 @@ def collect_energy_struct(file_name="energy-structOpt.dat"):
 def _check_permutation(index_permutation):
     if index_permutation is None:
         return
-    indices, counter = np.unique(index_permutation, return_counts=True)
-    if np.any(counter != 1):
-        raise ValueError("multiple entries in the index_permutation")
-    if np.any(np.diff(np.sort(indices)) != 1):
-        raise ValueError("missing entries in the index_permutation")
+    unique_indices = np.unique(index_permutation)
+    assert len(unique_indices) == len(index_permutation)
+    assert np.min(index_permutation) == 0
+    assert np.max(index_permutation) == len(index_permutation) - 1
 
 
 def collect_spins_dat(file_name="spins.dat", index_permutation=None):
