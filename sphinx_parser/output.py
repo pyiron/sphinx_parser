@@ -29,19 +29,18 @@ def collect_energy_dat(file_name="energy.dat"):
 
     """
     energies = np.loadtxt(str(file_name), ndmin=2)
-    results = {
-        "scf_computation_time": _splitter(energies[:, 1], energies[:, 0]),
-        "scf_energy_int": _splitter(energies[:, 2], energies[:, 0]),
-    }
 
     def en_split(e, counter=energies[:, 0]):
         return _splitter(e, counter)
 
-    results["scf_energy_free"] = en_split(energies[:, 3])
-    results["scf_energy_zero"] = en_split(energies[:, 4])
-    results["scf_energy_band"] = en_split(energies[:, 5])
-    results["scf_electronic_entropy"] = en_split(energies[:, 6])
-    return results
+    return {
+        "scf_computation_time": _splitter(energies[:, 1], energies[:, 0]),
+        "scf_energy_int": _splitter(energies[:, 2], energies[:, 0]),
+        "scf_energy_free": _splitter(energies[:, 3], energies[:, 0]),
+        "scf_energy_zero": _splitter(energies[:, 4], energies[:, 0]),
+        "scf_energy_band": _splitter(energies[:, 5], energies[:, 0]),
+        "scf_electronic_entropy": _splitter(energies[:, 6], energies[:, 0]),
+    }
 
 
 def collect_residue_dat(file_name="residue.dat"):
