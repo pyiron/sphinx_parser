@@ -94,11 +94,10 @@ def collect_energy_struct(file_name="energy-structOpt.dat"):
 def _check_permutation(index_permutation):
     if index_permutation is None:
         return
-    indices, counter = np.unique(index_permutation, return_counts=True)
-    if np.any(counter != 1):
-        raise ValueError("multiple entries in the index_permutation")
-    if np.any(np.diff(np.sort(indices)) != 1):
-        raise ValueError("missing entries in the index_permutation")
+    unique_indices = np.unique(index_permutation)
+    assert len(unique_indices) == len(index_permutation)
+    assert np.min(index_permutation) == 0
+    assert np.max(index_permutation) == len(index_permutation) - 1
 
 
 def collect_spins_dat(file_name="spins.dat", index_permutation=None):
