@@ -37,13 +37,10 @@ def collect_energy_dat(file_name="energy.dat"):
     def en_split(e, counter=energies[:, 0]):
         return _splitter(e, counter)
 
-    if len(energies[0]) == 7:
-        results["scf_energy_free"] = en_split(energies[:, 3])
-        results["scf_energy_zero"] = en_split(energies[:, 4])
-        results["scf_energy_band"] = en_split(energies[:, 5])
-        results["scf_electronic_entropy"] = en_split(energies[:, 6])
-    else:
-        results["scf_energy_band"] = en_split(energies[:, 3])
+    results["scf_energy_free"] = en_split(energies[:, 3])
+    results["scf_energy_zero"] = en_split(energies[:, 4])
+    results["scf_energy_band"] = en_split(energies[:, 5])
+    results["scf_electronic_entropy"] = en_split(energies[:, 6])
     return results
 
 
