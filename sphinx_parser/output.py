@@ -51,8 +51,7 @@ def collect_residue_dat(file_name="residue.dat"):
 
     """
     residue = np.loadtxt(file_name, ndmin=2)
-    if len(residue) == 0:
-        return {}
+    assert len(residue.shape) == 2
     return {"scf_residue": _splitter(residue[:, 1:].squeeze(), residue[:, 0])}
 
 
