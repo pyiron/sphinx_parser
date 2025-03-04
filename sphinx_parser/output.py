@@ -67,13 +67,19 @@ def _collect_eps_dat(file_name="eps.dat"):
     return np.loadtxt(str(file_name), ndmin=2)[..., 1:]
 
 
-def collect_eps_dat(file_name=None, spins=True):
+def collect_eps_dat(file_name=None, cwd=None, spins=True):
     if file_name is not None:
         values = [_collect_eps_dat(file_name=file_name)]
+    elif cwd is None:
+        raise ValueError("cwd or file_name must be defined")
     elif spins:
-        values = [_collect_eps_dat(file_name=f"eps.{i}.dat") for i in [0, 1]]
+        values = []
+        for i in range(2):
+            path = Path(cwd) / f"eps.{i}.dat"
+            values.append(_collect_eps_dat(file_name=path))
     else:
-        values = [_collect_eps_dat(file_name="eps.dat")]
+        path = Path(cwd) / "eps.dat"
+        values = [_collect_eps_dat(file_name=path)]
     values = np.stack(values, axis=0)
     return {"bands_eigen_values": values.reshape((-1,) + values.shape)}
 

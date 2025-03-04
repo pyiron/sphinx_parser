@@ -43,9 +43,12 @@ class TestOutput(unittest.TestCase):
         self.assertGreater(counter, 0)
 
     def test_spx_log_parser(self):
+        counter = 0
         for file in self._find_file("sphinx.log"):
             spx_output = output.SphinxLogParser.load_from_path(file)
             self.assertIsInstance(spx_output.results, dict)
+            counter += 1
+        self.assertGreater(counter, 0)
 
     def test_collect_eps_dat(self):
         counter = 0
@@ -54,13 +57,17 @@ class TestOutput(unittest.TestCase):
             counter += 1
             self.assertEqual(len(eps["bands_eigen_values"].shape), 4)
             parent_directory = os.path.dirname(file)
-            eps_without_file_name = output.collect_eps_dat(file)
+            eps_without_file_name = output.collect_eps_dat(
+                cwd=parent_directory,
+                spins=False,
+            )
             self.assertEqual(str(eps), str(eps_without_file_name))
         self.assertGreater(counter, 0)
         for file in self._find_file("eps.0.dat"):
             parent_directory = os.path.dirname(file)
-            eps = output.collect_eps_dat(file)
+            eps = output.collect_eps_dat(cwd=parent_directory)
             self.assertEqual(len(eps["bands_eigen_values"].shape), 4)
+            self.assertRaises(ValueError, output.collect_eps_dat)
         self.assertGreater(counter, 0)
 
     def test_energy_struct(self):
