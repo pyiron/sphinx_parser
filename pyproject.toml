@@ -23,6 +23,11 @@ classifiers = [
     "Programming Language :: Python :: 3.12",
 ]
 dependencies = [
+   "numpy==2.2.1",
+   "ase==3.23.0",
+   "h5py==3.12.1",
+   "semantikon==0.0.12",
+   "pint==0.24.4",
 ]
 dynamic = [ "version",]
 authors = [
