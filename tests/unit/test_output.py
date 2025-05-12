@@ -1,7 +1,9 @@
-import unittest
 import os
-from sphinx_parser import output
+import unittest
+
 import numpy as np
+
+from sphinx_parser import output
 
 
 class TestOutput(unittest.TestCase):

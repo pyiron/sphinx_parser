@@ -1,10 +1,10 @@
-from sphinx_parser.input import sphinx
 from sphinx_parser.ase import get_structure_group
+from sphinx_parser.input import sphinx
 from sphinx_parser.potential import get_paw_from_structure
 
 
 def set_base_parameters(
-    structure: "ase.Atoms",
+    structure,
     eCut: float = 25,
     xc: int = 1,
     maxSteps: int = 30,

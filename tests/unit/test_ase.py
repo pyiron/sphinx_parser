@@ -1,9 +1,11 @@
+import re
 import unittest
+
 from ase.build import bulk
+from ase.constraints import FixedPlane
+
 from sphinx_parser.ase import get_structure_group, id_ase_to_spx, id_spx_to_ase
 from sphinx_parser.toolkit import to_sphinx
-import re
-from ase.constraints import FixedPlane
 
 
 class TestASE(unittest.TestCase):
@@ -25,7 +27,7 @@ class TestASE(unittest.TestCase):
             msg="There must be exactly four atoms in cubic fcc",
         )
 
-    def test_magmom(self):
+    def test_magmoms(self):
         structure = bulk("Fe", cubic=True)
         struct_group = get_structure_group(structure)[0]
         self.assertEqual(struct_group["species"]["atom"]["label"][1:-1], "spin_2.3")

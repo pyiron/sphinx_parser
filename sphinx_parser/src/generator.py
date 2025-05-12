@@ -1,9 +1,8 @@
 import keyword
-import numpy as np
-import yaml
 import os
-from black import format_str, FileMode
 
+import yaml
+from black import FileMode, format_str
 
 indent = 4 * " "
 predefined = ["description", "default", "data_type", "required", "alias", "units"]
@@ -222,11 +221,13 @@ def _get_file_content(yml_file_name="input_data.yml"):
     all_data = _replace_alias(all_data)
     file_content = _get_class(all_data)
     imports = [
-        "import numpy as np",
         "from typing import Optional",
-        "from sphinx_parser.toolkit import fill_values",
-        "from semantikon.typing import u",
+        "",
+        "import numpy as np",
         "from semantikon.converter import units",
+        "from semantikon.typing import u",
+        "",
+        "from sphinx_parser.toolkit import fill_values",
     ]
     file_content = "\n".join(imports) + "\n\n\n" + file_content
     file_content = format_str(file_content, mode=FileMode())

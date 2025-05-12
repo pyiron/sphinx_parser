@@ -1,6 +1,8 @@
 import unittest
+
 from ase.build import bulk
-from sphinx_parser.jobs import set_base_parameters, apply_minimization
+
+from sphinx_parser.jobs import apply_minimization, set_base_parameters
 from sphinx_parser.toolkit import to_sphinx
 
 
