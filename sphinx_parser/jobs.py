@@ -4,7 +4,7 @@ from sphinx_parser.potential import get_paw_from_structure
 
 
 def set_base_parameters(
-    structure:,
+    structure,
     eCut: float = 25,
     xc: int = 1,
     maxSteps: int = 30,
