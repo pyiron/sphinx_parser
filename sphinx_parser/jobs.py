@@ -1,5 +1,5 @@
-from sphinx_parser.input import sphinx
 from sphinx_parser.ase import get_structure_group
+from sphinx_parser.input import sphinx
 from sphinx_parser.potential import get_paw_from_structure
 
 

@@ -1,7 +1,9 @@
-import unittest
-from sphinx_parser.src import generator
-import yaml
 import os
+import unittest
+
+import yaml
+
+from sphinx_parser.src import generator
 
 
 class TestGenerator(unittest.TestCase):

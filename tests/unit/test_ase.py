@@ -1,9 +1,11 @@
+import re
 import unittest
+
 from ase.build import bulk
+from ase.constraints import FixedPlane
+
 from sphinx_parser.ase import get_structure_group, id_ase_to_spx, id_spx_to_ase
 from sphinx_parser.toolkit import to_sphinx
-import re
-from ase.constraints import FixedPlane
 
 
 class TestASE(unittest.TestCase):

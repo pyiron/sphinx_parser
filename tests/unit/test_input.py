@@ -1,7 +1,9 @@
 import unittest
+
+from pint import UnitRegistry
+
 from sphinx_parser.input import sphinx
 from sphinx_parser.toolkit import to_sphinx
-from pint import UnitRegistry
 
 
 class TestInput(unittest.TestCase):

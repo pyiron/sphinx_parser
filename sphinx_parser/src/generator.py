@@ -1,9 +1,9 @@
 import keyword
+import os
+
 import numpy as np
 import yaml
-import os
-from black import format_str, FileMode
-
+from black import FileMode, format_str
 
 indent = 4 * " "
 predefined = ["description", "default", "data_type", "required", "alias", "units"]

@@ -1,7 +1,9 @@
 import os
-import warnings
 import re
+import warnings
+
 import numpy as np
+
 from sphinx_parser.input import sphinx
 
 

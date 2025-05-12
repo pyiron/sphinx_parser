@@ -1,11 +1,12 @@
-import unittest
-from sphinx_parser.potential import (
-    get_potential_path,
-    _is_vasp_potential,
-    _is_jth_potential,
-    _remove_hash_tag,
-)
 import os
+import unittest
+
+from sphinx_parser.potential import (
+    _is_jth_potential,
+    _is_vasp_potential,
+    _remove_hash_tag,
+    get_potential_path,
+)
 
 
 class TestPotential(unittest.TestCase):
