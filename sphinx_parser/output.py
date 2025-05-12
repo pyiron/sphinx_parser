@@ -3,7 +3,6 @@ import warnings
 from functools import cached_property
 from pathlib import Path
 
-import h5py
 import numpy as np
 
 

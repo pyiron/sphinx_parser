@@ -1,7 +1,6 @@
 import keyword
 import os
 
-import numpy as np
 import yaml
 from black import FileMode, format_str
 

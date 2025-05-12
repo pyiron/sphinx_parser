@@ -1,8 +1,6 @@
 import numpy as np
 from ase.io.vasp import _handle_ase_constraints
 from pint import UnitRegistry
-from semantikon.converter import units
-from semantikon.typing import u
 
 from sphinx_parser.input import sphinx
 

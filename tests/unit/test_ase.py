@@ -27,7 +27,7 @@ class TestASE(unittest.TestCase):
             msg="There must be exactly four atoms in cubic fcc",
         )
 
-    def test_magmom(self):
+    def test_magmoms(self):
         structure = bulk("Fe", cubic=True)
         struct_group = get_structure_group(structure)[0]
         self.assertEqual(struct_group["species"]["atom"]["label"][1:-1], "spin_2.3")
