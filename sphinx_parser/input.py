@@ -1,8 +1,10 @@
-import numpy as np
 from typing import Optional
-from sphinx_parser.toolkit import fill_values
+
+import numpy as np
 from semantikon.typing import u
 from semantikon.converter import units
+
+from sphinx_parser.toolkit import fill_values
 
 
 class sphinx:
