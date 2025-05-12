@@ -224,8 +224,8 @@ def _get_file_content(yml_file_name="input_data.yml"):
         "from typing import Optional",
         "",
         "import numpy as np",
-        "from semantikon.typing import u",
         "from semantikon.converter import units",
+        "from semantikon.typing import u",
         "",
         "from sphinx_parser.toolkit import fill_values",
     ]
