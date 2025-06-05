@@ -14,5 +14,6 @@ dependencies:
 - h5py =3.12.1
 - ase =3.23.0
 - sphinxdft-data =0.0.1
+- sphinxdft =3.1
 - semantikon =0.0.12
 - pint =0.24.4
