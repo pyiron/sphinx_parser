@@ -2,7 +2,7 @@ from typing import Optional
 
 import numpy as np
 from semantikon.converter import units
-from semantikon.typing import u
+from semantikon.metadata import u
 
 from sphinx_parser.toolkit import fill_values
 
