@@ -1,0 +1,6 @@
+channels:
+- conda-forge
+dependencies:
+- numpy =1.26.4
+- h5py =3.6.0
+- ase =3.23.0
