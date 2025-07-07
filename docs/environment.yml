@@ -9,10 +9,11 @@ dependencies:
 - versioneer
 - coveralls
 - coverage
-- numpy =2.2.1
+- setuptools
+- numpy =2.3.1
 - black =24.8.0
-- h5py =3.12.1
-- ase =3.23.0
+- h5py =3.14.0
+- ase =3.25.0
 - sphinxdft-data =0.0.1
-- semantikon =0.0.12
+- semantikon =0.0.20
 - pint =0.24.4
