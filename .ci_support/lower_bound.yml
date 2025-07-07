@@ -4,5 +4,5 @@ dependencies:
 - numpy =1.26.4
 - h5py =3.6.0
 - ase =3.23.0
-- semantikon =0.0.20
+- semantikon =0.0.17
 - pint =0.23
