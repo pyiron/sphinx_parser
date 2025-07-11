@@ -27,25 +27,25 @@ def set_base_parameters(
     """
     struct_group, spin_lst = get_structure_group(structure)
     spinPolarized = spin_lst is not None
-    main_group = sphinx.main.create(
-        scfDiag=sphinx.main.scfDiag.create(
-            maxSteps=maxSteps, blockCCG=sphinx.main.scfDiag.blockCCG.create()
+    main_group = sphinx.main(
+        scfDiag=sphinx.main.scfDiag(
+            maxSteps=maxSteps, blockCCG=sphinx.main.scfDiag.blockCCG()
         )
     )
     pawPot_group = get_paw_from_structure(structure)
-    basis_group = sphinx.basis.create(
-        eCut=eCut, kPoint=sphinx.basis.kPoint.create(coords=k_point_coords)
+    basis_group = sphinx.basis(
+        eCut=eCut, kPoint=sphinx.basis.kPoint(coords=k_point_coords)
     )
-    paw_group = sphinx.PAWHamiltonian.create(
+    paw_group = sphinx.PAWHamiltonian(
         xc=xc, spinPolarized=spinPolarized, ekt=ekt
     )
-    initial_guess_group = sphinx.initialGuess.create(
-        waves=sphinx.initialGuess.waves.create(
-            lcao=sphinx.initialGuess.waves.lcao.create()
+    initial_guess_group = sphinx.initialGuess(
+        waves=sphinx.initialGuess.waves(
+            lcao=sphinx.initialGuess.waves.lcao()
         ),
-        rho=sphinx.initialGuess.rho.create(atomicOrbitals=True, atomicSpin=spin_lst),
+        rho=sphinx.initialGuess.rho(atomicOrbitals=True, atomicSpin=spin_lst),
     )
-    input_sx = sphinx.create(
+    input_sx = sphinx(
         pawPot=pawPot_group,
         structure=struct_group,
         main=main_group,
@@ -73,41 +73,41 @@ def apply_minimization(sphinx_input, mode="linQN", dEnergy=1.0e-6, maxSteps=50):
     if "main" not in input_sx or "scfDiag" not in input_sx["main"]:
         raise ValueError("main group not found - run set_base_parameters first")
     if mode == "linQN":
-        input_sx["main"] = sphinx.main.create(
-            linQN=sphinx.main.linQN.create(
+        input_sx["main"] = sphinx.main(
+            linQN=sphinx.main.linQN(
                 dEnergy=dEnergy,
                 maxSteps=maxSteps,
-                bornOppenheimer=sphinx.main.linQN.bornOppenheimer.create(
+                bornOppenheimer=sphinx.main.linQN.bornOppenheimer(
                     scfDiag=input_sx["main"]["scfDiag"]
                 ),
             )
         )
     elif mode == "QN":
-        input_sx["main"] = sphinx.main.create(
-            QN=sphinx.main.QN.create(
+        input_sx["main"] = sphinx.main(
+            QN=sphinx.main.QN(
                 dEnergy=dEnergy,
                 maxSteps=maxSteps,
-                bornOppenheimer=sphinx.main.QN.bornOppenheimer.create(
+                bornOppenheimer=sphinx.main.QN.bornOppenheimer(
                     scfDiag=input_sx["main"]["scfDiag"]
                 ),
             )
         )
     elif mode == "ricQN":
-        input_sx["main"] = sphinx.main.create(
-            ricQN=sphinx.main.ricQN.create(
+        input_sx["main"] = sphinx.main(
+            ricQN=sphinx.main.ricQN(
                 dEnergy=dEnergy,
                 maxSteps=maxSteps,
-                bornOppenheimer=sphinx.main.ricQN.bornOppenheimer.create(
+                bornOppenheimer=sphinx.main.ricQN.bornOppenheimer(
                     scfDiag=input_sx["main"]["scfDiag"]
                 ),
             )
         )
     elif mode == "ricTS":
-        input_sx["main"] = sphinx.main.create(
-            ricTS=sphinx.main.ricTS.create(
+        input_sx["main"] = sphinx.main(
+            ricTS=sphinx.main.ricTS(
                 dEnergy=dEnergy,
                 maxSteps=maxSteps,
-                bornOppenheimer=sphinx.main.ricTS.bornOppenheimer.create(
+                bornOppenheimer=sphinx.main.ricTS.bornOppenheimer(
                     scfDiag=input_sx["main"]["scfDiag"]
                 ),
             )

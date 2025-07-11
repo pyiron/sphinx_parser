@@ -30,7 +30,7 @@ def _get_atom_list(positions, spins, movable, elm_list):
             "label": _get_spin_label(elm_magmom),
         }
         atom_group.update(_get_movable(selective))
-        atom_list.append(sphinx.structure.species.atom.create(**atom_group))
+        atom_list.append(sphinx.structure.species.atom(**atom_group))
     return atom_list
 
 
@@ -40,14 +40,14 @@ def _get_species_list(positions, elements, spins, movable):
         elm_list = elements == elm_species
         atom_list = _get_atom_list(positions, spins, movable, elm_list)
         species.append(
-            sphinx.structure.species.create(element=elm_species, atom=atom_list)
+            sphinx.structure.species(element=elm_species, atom=atom_list)
         )
     return species
 
 
 def _get_spin_list(spins):
     return [
-        sphinx.initialGuess.rho.atomicSpin.create(
+        sphinx.initialGuess.rho.atomicSpin(
             label=_get_spin_label(spin),
             spin=spin,
         )
@@ -77,10 +77,10 @@ def get_structure_group(structure, use_symmetry=True):
     )
     symmetry = None
     if not use_symmetry:
-        symmetry = sphinx.structure.symmetry.create(
-            operator=sphinx.structure.symmetry.operator.create(S=np.eye(3).tolist())
+        symmetry = sphinx.structure.symmetry(
+            operator=sphinx.structure.symmetry.operator(S=np.eye(3).tolist())
         )
-    structure_group = sphinx.structure.create(
+    structure_group = sphinx.structure(
         cell=np.array(structure.cell) * ureg.angstrom,
         species=species,
         symmetry=symmetry,
