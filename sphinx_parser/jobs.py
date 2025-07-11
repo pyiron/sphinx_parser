@@ -36,13 +36,9 @@ def set_base_parameters(
     basis_group = sphinx.basis(
         eCut=eCut, kPoint=sphinx.basis.kPoint(coords=k_point_coords)
     )
-    paw_group = sphinx.PAWHamiltonian(
-        xc=xc, spinPolarized=spinPolarized, ekt=ekt
-    )
+    paw_group = sphinx.PAWHamiltonian(xc=xc, spinPolarized=spinPolarized, ekt=ekt)
     initial_guess_group = sphinx.initialGuess(
-        waves=sphinx.initialGuess.waves(
-            lcao=sphinx.initialGuess.waves.lcao()
-        ),
+        waves=sphinx.initialGuess.waves(lcao=sphinx.initialGuess.waves.lcao()),
         rho=sphinx.initialGuess.rho(atomicOrbitals=True, atomicSpin=spin_lst),
     )
     input_sx = sphinx(

@@ -39,9 +39,7 @@ def _get_species_list(positions, elements, spins, movable):
     for elm_species in np.unique(elements):
         elm_list = elements == elm_species
         atom_list = _get_atom_list(positions, spins, movable, elm_list)
-        species.append(
-            sphinx.structure.species(element=elm_species, atom=atom_list)
-        )
+        species.append(sphinx.structure.species(element=elm_species, atom=atom_list))
     return species
 
 
