@@ -9,8 +9,8 @@ from sphinx_parser.toolkit import fill_values
 
 class sphinx:
     @units
-    @staticmethod
-    def create(
+    def __new__(
+        cls,
         structure: Optional[dict] = None,
         basis: Optional[dict] = None,
         pawPot: Optional[dict] = None,
@@ -52,8 +52,8 @@ class sphinx:
 
     class structure:
         @units
-        @staticmethod
-        def create(
+        def __new__(
+            cls,
             cell: u(list, units="bohr"),
             movable: Optional[bool] = None,
             movableX: Optional[bool] = None,
@@ -87,8 +87,8 @@ class sphinx:
 
         class species:
             @units
-            @staticmethod
-            def create(
+            def __new__(
+                cls,
                 element: Optional[str] = None,
                 atom: Optional[dict] = None,
                 wrap_string: bool = True,
@@ -107,8 +107,8 @@ class sphinx:
 
             class atom:
                 @units
-                @staticmethod
-                def create(
+                def __new__(
+                    cls,
                     coords: u(Optional[np.ndarray], units="bohr") = None,
                     relative: Optional[bool] = None,
                     movableLine: Optional[list] = None,
@@ -145,8 +145,8 @@ class sphinx:
 
         class symmetry:
             @units
-            @staticmethod
-            def create(
+            def __new__(
+                cls,
                 operator: Optional[dict] = None,
                 wrap_string: bool = True,
             ):
@@ -162,8 +162,8 @@ class sphinx:
 
             class operator:
                 @units
-                @staticmethod
-                def create(
+                def __new__(
+                    cls,
                     S: list,
                     wrap_string: bool = True,
                 ):
@@ -179,8 +179,8 @@ class sphinx:
 
     class basis:
         @units
-        @staticmethod
-        def create(
+        def __new__(
+            cls,
             eCut: float,
             gCut: Optional[float] = None,
             folding: Optional[int] = None,
@@ -217,8 +217,8 @@ class sphinx:
 
         class kPoint:
             @units
-            @staticmethod
-            def create(
+            def __new__(
+                cls,
                 coords: np.ndarray,
                 relative: Optional[bool] = None,
                 weight: Optional[float] = None,
@@ -240,8 +240,8 @@ class sphinx:
 
         class kPoints:
             @units
-            @staticmethod
-            def create(
+            def __new__(
+                cls,
                 relative: Optional[bool] = None,
                 dK: u(Optional[float], units="1/bohr") = None,
                 from_: Optional[dict] = None,
@@ -266,8 +266,8 @@ class sphinx:
 
             class from_:
                 @units
-                @staticmethod
-                def create(
+                def __new__(
+                    cls,
                     coords: u(np.ndarray, units="1/bohr"),
                     relative: Optional[bool] = None,
                     label: Optional[str] = None,
@@ -291,8 +291,8 @@ class sphinx:
 
             class to:
                 @units
-                @staticmethod
-                def create(
+                def __new__(
+                    cls,
                     coords: u(np.ndarray, units="1/bohr"),
                     relative: Optional[bool] = None,
                     label: Optional[str] = None,
@@ -322,8 +322,8 @@ class sphinx:
 
     class pawPot:
         @units
-        @staticmethod
-        def create(
+        def __new__(
+            cls,
             species: Optional[dict] = None,
             wrap_string: bool = True,
         ):
@@ -341,8 +341,8 @@ class sphinx:
 
         class species:
             @units
-            @staticmethod
-            def create(
+            def __new__(
+                cls,
                 potential: str,
                 potType: str,
                 name: Optional[str] = None,
@@ -382,8 +382,8 @@ class sphinx:
 
     class PAWHamiltonian:
         @units
-        @staticmethod
-        def create(
+        def __new__(
+            cls,
             xc: str,
             ekt: u(Optional[float], units="eV") = None,
             MethfesselPaxton: Optional[float] = None,
@@ -435,8 +435,8 @@ class sphinx:
 
         class vExt:
             @units
-            @staticmethod
-            def create(
+            def __new__(
+                cls,
                 file: str,
                 wrap_string: bool = True,
             ):
@@ -454,8 +454,8 @@ class sphinx:
 
         class xcMesh:
             @units
-            @staticmethod
-            def create(
+            def __new__(
+                cls,
                 eCut: float,
                 mesh: Optional[list] = None,
                 meshAccuracy: Optional[float] = None,
@@ -479,8 +479,8 @@ class sphinx:
 
         class vdwCorrection:
             @units
-            @staticmethod
-            def create(
+            def __new__(
+                cls,
                 method: str,
                 combinationRule: Optional[str] = None,
                 wrap_string: bool = True,
@@ -501,8 +501,8 @@ class sphinx:
 
         class HubbardU:
             @units
-            @staticmethod
-            def create(
+            def __new__(
+                cls,
                 verbose: Optional[bool] = None,
                 AO: Optional[dict] = None,
                 MO: Optional[dict] = None,
@@ -526,8 +526,8 @@ class sphinx:
 
             class AO:
                 @units
-                @staticmethod
-                def create(
+                def __new__(
+                    cls,
                     orbital: Optional[dict] = None,
                     wrap_string: bool = True,
                 ):
@@ -545,8 +545,8 @@ class sphinx:
 
                 class orbital:
                     @units
-                    @staticmethod
-                    def create(
+                    def __new__(
+                        cls,
                         file: str,
                         iot: int,
                         fromPotential: Optional[bool] = None,
@@ -573,8 +573,8 @@ class sphinx:
 
             class MO:
                 @units
-                @staticmethod
-                def create(
+                def __new__(
+                    cls,
                     element: str,
                     orbital: Optional[dict] = None,
                     species: Optional[int] = None,
@@ -631,8 +631,8 @@ class sphinx:
 
                 class orbital:
                     @units
-                    @staticmethod
-                    def create(
+                    def __new__(
+                        cls,
                         file: str,
                         iot: int,
                         fromPotential: Optional[bool] = None,
@@ -659,8 +659,8 @@ class sphinx:
 
     class spinConstraint:
         @units
-        @staticmethod
-        def create(
+        def __new__(
+            cls,
             label: Optional[str] = None,
             constraint: Optional[float] = None,
             file: Optional[str] = None,
@@ -682,8 +682,8 @@ class sphinx:
 
     class initialGuess:
         @units
-        @staticmethod
-        def create(
+        def __new__(
+            cls,
             noWavesStorage: Optional[bool] = None,
             noRhoStorage: Optional[bool] = None,
             waves: Optional[dict] = None,
@@ -716,8 +716,8 @@ class sphinx:
 
         class waves:
             @units
-            @staticmethod
-            def create(
+            def __new__(
+                cls,
                 file: Optional[str] = None,
                 random: Optional[bool] = None,
                 keepWavesOnDisk: Optional[bool] = None,
@@ -742,8 +742,8 @@ class sphinx:
 
             class lcao:
                 @units
-                @staticmethod
-                def create(
+                def __new__(
+                    cls,
                     maxSteps: Optional[int] = None,
                     dEnergy: Optional[float] = None,
                     wrap_string: bool = True,
@@ -762,8 +762,8 @@ class sphinx:
 
         class rho:
             @units
-            @staticmethod
-            def create(
+            def __new__(
+                cls,
                 file: Optional[str] = None,
                 fromWave: Optional[bool] = None,
                 random: Optional[bool] = None,
@@ -797,8 +797,8 @@ class sphinx:
 
             class atomicSpin:
                 @units
-                @staticmethod
-                def create(
+                def __new__(
+                    cls,
                     spin: Optional[float] = None,
                     label: Optional[str] = None,
                     file: Optional[str] = None,
@@ -822,8 +822,8 @@ class sphinx:
 
             class charged:
                 @units
-                @staticmethod
-                def create(
+                def __new__(
+                    cls,
                     charge: float,
                     beta: Optional[float] = None,
                     z: Optional[float] = None,
@@ -848,8 +848,8 @@ class sphinx:
 
         class occupations:
             @units
-            @staticmethod
-            def create(
+            def __new__(
+                cls,
                 kPoints: Optional[dict] = None,
                 spin: Optional[dict] = None,
                 bands: Optional[dict] = None,
@@ -873,8 +873,8 @@ class sphinx:
 
             class kPoints:
                 @units
-                @staticmethod
-                def create(
+                def __new__(
+                    cls,
                     spin: Optional[dict] = None,
                     bands: Optional[dict] = None,
                     wrap_string: bool = True,
@@ -893,8 +893,8 @@ class sphinx:
 
                 class spin:
                     @units
-                    @staticmethod
-                    def create(
+                    def __new__(
+                        cls,
                         bands: Optional[dict] = None,
                         wrap_string: bool = True,
                     ):
@@ -910,8 +910,8 @@ class sphinx:
 
                     class bands:
                         @units
-                        @staticmethod
-                        def create(
+                        def __new__(
+                            cls,
                             value: list,
                             range: list,
                             focc: int,
@@ -933,8 +933,8 @@ class sphinx:
 
                 class bands:
                     @units
-                    @staticmethod
-                    def create(
+                    def __new__(
+                        cls,
                         value: list,
                         range: list,
                         focc: int,
@@ -956,8 +956,8 @@ class sphinx:
 
             class spin:
                 @units
-                @staticmethod
-                def create(
+                def __new__(
+                    cls,
                     bands: Optional[dict] = None,
                     wrap_string: bool = True,
                 ):
@@ -973,8 +973,8 @@ class sphinx:
 
                 class bands:
                     @units
-                    @staticmethod
-                    def create(
+                    def __new__(
+                        cls,
                         value: list,
                         range: list,
                         focc: int,
@@ -996,8 +996,8 @@ class sphinx:
 
             class bands:
                 @units
-                @staticmethod
-                def create(
+                def __new__(
+                    cls,
                     value: list,
                     range: list,
                     focc: int,
@@ -1019,8 +1019,8 @@ class sphinx:
 
         class exchange:
             @units
-            @staticmethod
-            def create(
+            def __new__(
+                cls,
                 file: Optional[str] = None,
                 wrap_string: bool = True,
             ):
@@ -1038,8 +1038,8 @@ class sphinx:
 
     class pseudoPot:
         @units
-        @staticmethod
-        def create(
+        def __new__(
+            cls,
             species: Optional[dict] = None,
             wrap_string: bool = True,
         ):
@@ -1059,8 +1059,8 @@ class sphinx:
 
         class species:
             @units
-            @staticmethod
-            def create(
+            def __new__(
+                cls,
                 name: str,
                 potential: str,
                 valenceCharge: float,
@@ -1109,8 +1109,8 @@ class sphinx:
 
     class PWHamiltonian:
         @units
-        @staticmethod
-        def create(
+        def __new__(
+            cls,
             xc: str,
             ekt: u(Optional[float], units="eV") = None,
             MethfesselPaxton: Optional[float] = None,
@@ -1150,8 +1150,7 @@ class sphinx:
 
     class main:
         @units
-        @staticmethod
-        def create(wrap_string: bool = True, **kwargs):
+        def __new__(cls, wrap_string: bool = True, **kwargs):
             """
             Args:
                 scfDiag (dict): The scfDiag group selects and controls the iterative diagonalization + density mixing algorithm for the solution of the Kohn-Sham DFT equations. (Optional)
@@ -1167,8 +1166,8 @@ class sphinx:
 
         class scfDiag:
             @units
-            @staticmethod
-            def create(
+            def __new__(
+                cls,
                 dEnergy: u(Optional[float], units="hartree") = None,
                 maxSteps: Optional[int] = None,
                 maxResidue: Optional[float] = None,
@@ -1243,8 +1242,8 @@ class sphinx:
 
             class CCG:
                 @units
-                @staticmethod
-                def create(
+                def __new__(
+                    cls,
                     dEnergy: Optional[float] = None,
                     maxSteps: Optional[int] = None,
                     printSteps: Optional[int] = None,
@@ -1292,8 +1291,8 @@ class sphinx:
 
             class blockCCG:
                 @units
-                @staticmethod
-                def create(
+                def __new__(
+                    cls,
                     dRelEps: Optional[float] = None,
                     maxStepsCCG: Optional[int] = None,
                     blockSize: Optional[int] = None,
@@ -1329,8 +1328,8 @@ class sphinx:
 
             class preconditioner:
                 @units
-                @staticmethod
-                def create(
+                def __new__(
+                    cls,
                     type: str,
                     scaling: Optional[float] = None,
                     spinScaling: Optional[float] = None,
@@ -1357,8 +1356,8 @@ class sphinx:
 
         class QN:
             @units
-            @staticmethod
-            def create(
+            def __new__(
+                cls,
                 maxSteps: Optional[int] = None,
                 dX: u(Optional[float], units="bohr") = None,
                 dF: u(Optional[float], units="hartree/bohr") = None,
@@ -1397,8 +1396,8 @@ class sphinx:
 
             class bornOppenheimer:
                 @units
-                @staticmethod
-                def create(
+                def __new__(
+                    cls,
                     scfDiag: Optional[dict] = None,
                     wrap_string: bool = True,
                 ):
@@ -1416,8 +1415,8 @@ class sphinx:
 
                 class scfDiag:
                     @units
-                    @staticmethod
-                    def create(
+                    def __new__(
+                        cls,
                         dEnergy: u(Optional[float], units="hartree") = None,
                         maxSteps: Optional[int] = None,
                         maxResidue: Optional[float] = None,
@@ -1492,8 +1491,8 @@ class sphinx:
 
                     class CCG:
                         @units
-                        @staticmethod
-                        def create(
+                        def __new__(
+                            cls,
                             dEnergy: Optional[float] = None,
                             maxSteps: Optional[int] = None,
                             printSteps: Optional[int] = None,
@@ -1541,8 +1540,8 @@ class sphinx:
 
                     class blockCCG:
                         @units
-                        @staticmethod
-                        def create(
+                        def __new__(
+                            cls,
                             dRelEps: Optional[float] = None,
                             maxStepsCCG: Optional[int] = None,
                             blockSize: Optional[int] = None,
@@ -1578,8 +1577,8 @@ class sphinx:
 
                     class preconditioner:
                         @units
-                        @staticmethod
-                        def create(
+                        def __new__(
+                            cls,
                             type: str,
                             scaling: Optional[float] = None,
                             spinScaling: Optional[float] = None,
@@ -1606,8 +1605,8 @@ class sphinx:
 
         class linQN:
             @units
-            @staticmethod
-            def create(
+            def __new__(
+                cls,
                 maxSteps: Optional[int] = None,
                 dX: u(Optional[float], units="bohr") = None,
                 dF: u(Optional[float], units="hartree/bohr") = None,
@@ -1649,8 +1648,8 @@ class sphinx:
 
             class bornOppenheimer:
                 @units
-                @staticmethod
-                def create(
+                def __new__(
+                    cls,
                     scfDiag: Optional[dict] = None,
                     wrap_string: bool = True,
                 ):
@@ -1668,8 +1667,8 @@ class sphinx:
 
                 class scfDiag:
                     @units
-                    @staticmethod
-                    def create(
+                    def __new__(
+                        cls,
                         dEnergy: u(Optional[float], units="hartree") = None,
                         maxSteps: Optional[int] = None,
                         maxResidue: Optional[float] = None,
@@ -1744,8 +1743,8 @@ class sphinx:
 
                     class CCG:
                         @units
-                        @staticmethod
-                        def create(
+                        def __new__(
+                            cls,
                             dEnergy: Optional[float] = None,
                             maxSteps: Optional[int] = None,
                             printSteps: Optional[int] = None,
@@ -1793,8 +1792,8 @@ class sphinx:
 
                     class blockCCG:
                         @units
-                        @staticmethod
-                        def create(
+                        def __new__(
+                            cls,
                             dRelEps: Optional[float] = None,
                             maxStepsCCG: Optional[int] = None,
                             blockSize: Optional[int] = None,
@@ -1830,8 +1829,8 @@ class sphinx:
 
                     class preconditioner:
                         @units
-                        @staticmethod
-                        def create(
+                        def __new__(
+                            cls,
                             type: str,
                             scaling: Optional[float] = None,
                             spinScaling: Optional[float] = None,
@@ -1858,8 +1857,8 @@ class sphinx:
 
         class ricQN:
             @units
-            @staticmethod
-            def create(
+            def __new__(
+                cls,
                 maxSteps: Optional[int] = None,
                 dX: u(Optional[float], units="bohr") = None,
                 dF: u(Optional[float], units="hartree/bohr") = None,
@@ -1899,8 +1898,8 @@ class sphinx:
 
             class bornOppenheimer:
                 @units
-                @staticmethod
-                def create(
+                def __new__(
+                    cls,
                     scfDiag: Optional[dict] = None,
                     wrap_string: bool = True,
                 ):
@@ -1918,8 +1917,8 @@ class sphinx:
 
                 class scfDiag:
                     @units
-                    @staticmethod
-                    def create(
+                    def __new__(
+                        cls,
                         dEnergy: u(Optional[float], units="hartree") = None,
                         maxSteps: Optional[int] = None,
                         maxResidue: Optional[float] = None,
@@ -1994,8 +1993,8 @@ class sphinx:
 
                     class CCG:
                         @units
-                        @staticmethod
-                        def create(
+                        def __new__(
+                            cls,
                             dEnergy: Optional[float] = None,
                             maxSteps: Optional[int] = None,
                             printSteps: Optional[int] = None,
@@ -2043,8 +2042,8 @@ class sphinx:
 
                     class blockCCG:
                         @units
-                        @staticmethod
-                        def create(
+                        def __new__(
+                            cls,
                             dRelEps: Optional[float] = None,
                             maxStepsCCG: Optional[int] = None,
                             blockSize: Optional[int] = None,
@@ -2080,8 +2079,8 @@ class sphinx:
 
                     class preconditioner:
                         @units
-                        @staticmethod
-                        def create(
+                        def __new__(
+                            cls,
                             type: str,
                             scaling: Optional[float] = None,
                             spinScaling: Optional[float] = None,
@@ -2108,8 +2107,8 @@ class sphinx:
 
         class ric:
             @units
-            @staticmethod
-            def create(
+            def __new__(
+                cls,
                 maxDist: u(Optional[float], units="bohr") = None,
                 typifyThreshold: Optional[float] = None,
                 rmsThreshold: Optional[float] = None,
@@ -2145,8 +2144,8 @@ class sphinx:
 
             class bornOppenheimer:
                 @units
-                @staticmethod
-                def create(
+                def __new__(
+                    cls,
                     scfDiag: Optional[dict] = None,
                     wrap_string: bool = True,
                 ):
@@ -2164,8 +2163,8 @@ class sphinx:
 
                 class scfDiag:
                     @units
-                    @staticmethod
-                    def create(
+                    def __new__(
+                        cls,
                         dEnergy: u(Optional[float], units="hartree") = None,
                         maxSteps: Optional[int] = None,
                         maxResidue: Optional[float] = None,
@@ -2240,8 +2239,8 @@ class sphinx:
 
                     class CCG:
                         @units
-                        @staticmethod
-                        def create(
+                        def __new__(
+                            cls,
                             dEnergy: Optional[float] = None,
                             maxSteps: Optional[int] = None,
                             printSteps: Optional[int] = None,
@@ -2289,8 +2288,8 @@ class sphinx:
 
                     class blockCCG:
                         @units
-                        @staticmethod
-                        def create(
+                        def __new__(
+                            cls,
                             dRelEps: Optional[float] = None,
                             maxStepsCCG: Optional[int] = None,
                             blockSize: Optional[int] = None,
@@ -2326,8 +2325,8 @@ class sphinx:
 
                     class preconditioner:
                         @units
-                        @staticmethod
-                        def create(
+                        def __new__(
+                            cls,
                             type: str,
                             scaling: Optional[float] = None,
                             spinScaling: Optional[float] = None,
@@ -2354,8 +2353,8 @@ class sphinx:
 
         class ricTS:
             @units
-            @staticmethod
-            def create(
+            def __new__(
+                cls,
                 maxSteps: Optional[int] = None,
                 dX: Optional[float] = None,
                 dF: Optional[float] = None,
@@ -2406,8 +2405,8 @@ class sphinx:
 
             class bornOppenheimer:
                 @units
-                @staticmethod
-                def create(
+                def __new__(
+                    cls,
                     scfDiag: Optional[dict] = None,
                     wrap_string: bool = True,
                 ):
@@ -2425,8 +2424,8 @@ class sphinx:
 
                 class scfDiag:
                     @units
-                    @staticmethod
-                    def create(
+                    def __new__(
+                        cls,
                         dEnergy: u(Optional[float], units="hartree") = None,
                         maxSteps: Optional[int] = None,
                         maxResidue: Optional[float] = None,
@@ -2501,8 +2500,8 @@ class sphinx:
 
                     class CCG:
                         @units
-                        @staticmethod
-                        def create(
+                        def __new__(
+                            cls,
                             dEnergy: Optional[float] = None,
                             maxSteps: Optional[int] = None,
                             printSteps: Optional[int] = None,
@@ -2550,8 +2549,8 @@ class sphinx:
 
                     class blockCCG:
                         @units
-                        @staticmethod
-                        def create(
+                        def __new__(
+                            cls,
                             dRelEps: Optional[float] = None,
                             maxStepsCCG: Optional[int] = None,
                             blockSize: Optional[int] = None,
@@ -2587,8 +2586,8 @@ class sphinx:
 
                     class preconditioner:
                         @units
-                        @staticmethod
-                        def create(
+                        def __new__(
+                            cls,
                             type: str,
                             scaling: Optional[float] = None,
                             spinScaling: Optional[float] = None,
@@ -2615,8 +2614,8 @@ class sphinx:
 
         class evalForces:
             @units
-            @staticmethod
-            def create(
+            def __new__(
+                cls,
                 file: str,
                 wrap_string: bool = True,
             ):

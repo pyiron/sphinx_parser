@@ -18,13 +18,13 @@ from sphinx_parser.input import sphinx
 This instance `sphinx` is used to create all possible input classes for Sphinx by choosing the class via dot-notation and call `create`. For example in order to generate the class `kPoints`, you can run:
 
 ```pythoon
-kPoints = sphinx.basis.kPoints.create()
+kPoints = sphinx.basis.kPoints()
 ```
 
 You can find the input in the parent class, i.e.:
 
 ```python
-basis = sphinx.basis.create(kPoints=kPoints)
+basis = sphinx.basis(kPoints=kPoints)
 ```
 
 Finally, you can translate it into the Sphinx format via:
@@ -101,15 +101,15 @@ structure = bulk("Al", cubic=True)
 structure[1].symbol = "Ni"
 
 struct_group, spin_lst = get_structure_group(structure)
-main_group = sphinx.main.create(scfDiag=sphinx.main.scfDiag.create(maxSteps=10, blockCCG={}))
+main_group = sphinx.main(scfDiag=sphinx.main.scfDiag(maxSteps=10, blockCCG={}))
 pawPot_group = get_paw_from_structure(structure)
-basis_group = sphinx.basis.create(eCut=25, kPoint=sphinx.basis.kPoint.create(coords=3 * [0.5]))
-paw_group = sphinx.PAWHamiltonian.create(xc=1, spinPolarized=False, ekt=0.2)
-initial_guess_group = sphinx.initialGuess.create(
-    waves=sphinx.initialGuess.waves.create(lcao=sphinx.initialGuess.waves.lcao.create()), rho=sphinx.initialGuess.rho.create(atomicOrbitals=True)
+basis_group = sphinx.basis(eCut=25, kPoint=sphinx.basis.kPoint(coords=3 * [0.5]))
+paw_group = sphinx.PAWHamiltonian(xc=1, spinPolarized=False, ekt=0.2)
+initial_guess_group = sphinx.initialGuess(
+    waves=sphinx.initialGuess.waves(lcao=sphinx.initialGuess.waves.lcao()), rho=sphinx.initialGuess.rho(atomicOrbitals=True)
 )
 
-input_sx = sphinx.create(
+input_sx = sphinx(
     pawPot=pawPot_group, structure=struct_group, main=main_group, basis=basis_group, PAWHamiltonian=paw_group, initialGuess=initial_guess_group
 )
 

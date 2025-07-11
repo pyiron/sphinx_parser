@@ -155,7 +155,7 @@ def _get_function(
     is_kwarg=False,
 ):
     d = _rename_keys(data)
-    func = ["@units", "@staticmethod", f"def {function_name}("]
+    func = ["@units", f"def {function_name}(cls, "]
     if is_kwarg:
         func.append(f"{indent}wrap_string: bool = True,")
         func.append(f"{indent}**kwargs")
@@ -204,7 +204,7 @@ def _get_class(all_data, indent=indent):
         txt += (
             _get_function(
                 _get(all_data, name),
-                "create",
+                "__new__",
                 n_indent=len(names),
                 is_kwarg=names[-1] == "main",
             )
