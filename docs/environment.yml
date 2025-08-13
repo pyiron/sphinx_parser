@@ -10,10 +10,10 @@ dependencies:
 - coveralls
 - coverage
 - setuptools
-- numpy =2.3.1
+- numpy =2.3.2
 - black =24.8.0
 - h5py =3.14.0
-- ase =3.25.0
+- ase =3.26.0
 - sphinxdft-data =0.0.1
 - semantikon =0.0.20
 - pint =0.24.4
