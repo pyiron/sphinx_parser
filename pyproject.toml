@@ -22,8 +22,8 @@ classifiers = [
     "Programming Language :: Python :: 3.13",
 ]
 dependencies = [
-   "numpy==2.3.1",
-   "ase==3.25.0",
+   "numpy==2.3.2",
+   "ase==3.26.0",
    "h5py==3.14.0",
    "semantikon==0.0.20",
    "pint==0.24.4",
