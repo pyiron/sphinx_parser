@@ -921,20 +921,20 @@ def sphinx__initialGuess__occupations__kPoints__spin(
 @units
 def sphinx__initialGuess__occupations__kPoints__spin__bands(
     value: list,
-    range: list,
+    range_: list,
     focc: int,
     wrap_string: bool = True,
 ):
     """
     Args:
         value (list): Specifically list the indices affected.
-        range (list): Specify start and end index.
+        range_ (list): Specify start and end index.
         focc (int): The occupation value.
         wrap_string (bool): Whether to wrap string values in apostrophes.
     """
     return fill_values(
         value=value,
-        range=range,
+        range_=range_,
         focc=focc,
         wrap_string=wrap_string,
     )
@@ -944,20 +944,20 @@ def sphinx__initialGuess__occupations__kPoints__spin__bands(
 @units
 def sphinx__initialGuess__occupations__kPoints__bands(
     value: list,
-    range: list,
+    range_: list,
     focc: int,
     wrap_string: bool = True,
 ):
     """
     Args:
         value (list): Specifically list the indices affected.
-        range (list): Specify start and end index.
+        range_ (list): Specify start and end index.
         focc (int): The occupation value.
         wrap_string (bool): Whether to wrap string values in apostrophes.
     """
     return fill_values(
         value=value,
-        range=range,
+        range_=range_,
         focc=focc,
         wrap_string=wrap_string,
     )
@@ -984,20 +984,20 @@ def sphinx__initialGuess__occupations__spin(
 @units
 def sphinx__initialGuess__occupations__spin__bands(
     value: list,
-    range: list,
+    range_: list,
     focc: int,
     wrap_string: bool = True,
 ):
     """
     Args:
         value (list): Specifically list the indices affected.
-        range (list): Specify start and end index.
+        range_ (list): Specify start and end index.
         focc (int): The occupation value.
         wrap_string (bool): Whether to wrap string values in apostrophes.
     """
     return fill_values(
         value=value,
-        range=range,
+        range_=range_,
         focc=focc,
         wrap_string=wrap_string,
     )
@@ -1007,20 +1007,20 @@ def sphinx__initialGuess__occupations__spin__bands(
 @units
 def sphinx__initialGuess__occupations__bands(
     value: list,
-    range: list,
+    range_: list,
     focc: int,
     wrap_string: bool = True,
 ):
     """
     Args:
         value (list): Specifically list the indices affected.
-        range (list): Specify start and end index.
+        range_ (list): Specify start and end index.
         focc (int): The occupation value.
         wrap_string (bool): Whether to wrap string values in apostrophes.
     """
     return fill_values(
         value=value,
-        range=range,
+        range_=range_,
         focc=focc,
         wrap_string=wrap_string,
     )
@@ -1339,7 +1339,7 @@ def sphinx__main__scfDiag__blockCCG(
 @func_in_func(sphinx.main.scfDiag)
 @units
 def sphinx__main__scfDiag__preconditioner(
-    type: str,
+    type_: str,
     scaling: Optional[float] = None,
     spinScaling: Optional[float] = None,
     dielecConstant: Optional[float] = None,
@@ -1349,14 +1349,14 @@ def sphinx__main__scfDiag__preconditioner(
     The preconditioner group defines the density preconditioner, i.e., a transformation of the observed (or predicted) difference between the input and output density to the applied changes to the input density. An ideal preconditioner models the screening behavior of the system and is able to include the expected screening response into the suggested density change. Selecting an appropriate preconditioner, that rejects the screening properties of the system at hand, is a key to an efficient (i.e. fast) convergence. The preconditioner does not affect the converged result.
 
     Args:
-        type (str): NONE (0). No preconditioning. Ideal for atoms/molecules in vacuum; KERKER (1). Kerker preconditioner. Ideal for metals; CSRB (3). Preconditioner for semiconductors based on the Cappellini-del- Sole-Reining-Bechstedt model dielectric function. Requires dielecConstant; ELLIPTIC (5). An explicit-solver preconditioner. No screening in vacuum region, Thomas-Fermi screening (Kerker-like) elsewhere. Ideal for metallic.
+        type_ (str): NONE (0). No preconditioning. Ideal for atoms/molecules in vacuum; KERKER (1). Kerker preconditioner. Ideal for metals; CSRB (3). Preconditioner for semiconductors based on the Cappellini-del- Sole-Reining-Bechstedt model dielectric function. Requires dielecConstant; ELLIPTIC (5). An explicit-solver preconditioner. No screening in vacuum region, Thomas-Fermi screening (Kerker-like) elsewhere. Ideal for metallic.
         scaling (float): Scaling factor for the preconditioner. Default: 1.0. (Optional)
         spinScaling (float): Scaling factor for the spin part of the preconditioner. Default: 1.0. (Optional)
         dielecConstant (float): Dielectric constant for the CSRB preconditioner. (Optional)
         wrap_string (bool): Whether to wrap string values in apostrophes.
     """
     return fill_values(
-        type=type,
+        type_=type_,
         scaling=scaling,
         spinScaling=spinScaling,
         dielecConstant=dielecConstant,
@@ -1588,7 +1588,7 @@ def sphinx__main__QN__bornOppenheimer__scfDiag__blockCCG(
 @func_in_func(sphinx.main.QN.bornOppenheimer.scfDiag)
 @units
 def sphinx__main__QN__bornOppenheimer__scfDiag__preconditioner(
-    type: str,
+    type_: str,
     scaling: Optional[float] = None,
     spinScaling: Optional[float] = None,
     dielecConstant: Optional[float] = None,
@@ -1598,14 +1598,14 @@ def sphinx__main__QN__bornOppenheimer__scfDiag__preconditioner(
     The preconditioner group defines the density preconditioner, i.e., a transformation of the observed (or predicted) difference between the input and output density to the applied changes to the input density. An ideal preconditioner models the screening behavior of the system and is able to include the expected screening response into the suggested density change. Selecting an appropriate preconditioner, that rejects the screening properties of the system at hand, is a key to an efficient (i.e. fast) convergence. The preconditioner does not affect the converged result.
 
     Args:
-        type (str): NONE (0). No preconditioning. Ideal for atoms/molecules in vacuum; KERKER (1). Kerker preconditioner. Ideal for metals; CSRB (3). Preconditioner for semiconductors based on the Cappellini-del- Sole-Reining-Bechstedt model dielectric function. Requires dielecConstant; ELLIPTIC (5). An explicit-solver preconditioner. No screening in vacuum region, Thomas-Fermi screening (Kerker-like) elsewhere. Ideal for metallic.
+        type_ (str): NONE (0). No preconditioning. Ideal for atoms/molecules in vacuum; KERKER (1). Kerker preconditioner. Ideal for metals; CSRB (3). Preconditioner for semiconductors based on the Cappellini-del- Sole-Reining-Bechstedt model dielectric function. Requires dielecConstant; ELLIPTIC (5). An explicit-solver preconditioner. No screening in vacuum region, Thomas-Fermi screening (Kerker-like) elsewhere. Ideal for metallic.
         scaling (float): Scaling factor for the preconditioner. Default: 1.0. (Optional)
         spinScaling (float): Scaling factor for the spin part of the preconditioner. Default: 1.0. (Optional)
         dielecConstant (float): Dielectric constant for the CSRB preconditioner. (Optional)
         wrap_string (bool): Whether to wrap string values in apostrophes.
     """
     return fill_values(
-        type=type,
+        type_=type_,
         scaling=scaling,
         spinScaling=spinScaling,
         dielecConstant=dielecConstant,
@@ -1840,7 +1840,7 @@ def sphinx__main__linQN__bornOppenheimer__scfDiag__blockCCG(
 @func_in_func(sphinx.main.linQN.bornOppenheimer.scfDiag)
 @units
 def sphinx__main__linQN__bornOppenheimer__scfDiag__preconditioner(
-    type: str,
+    type_: str,
     scaling: Optional[float] = None,
     spinScaling: Optional[float] = None,
     dielecConstant: Optional[float] = None,
@@ -1850,14 +1850,14 @@ def sphinx__main__linQN__bornOppenheimer__scfDiag__preconditioner(
     The preconditioner group defines the density preconditioner, i.e., a transformation of the observed (or predicted) difference between the input and output density to the applied changes to the input density. An ideal preconditioner models the screening behavior of the system and is able to include the expected screening response into the suggested density change. Selecting an appropriate preconditioner, that rejects the screening properties of the system at hand, is a key to an efficient (i.e. fast) convergence. The preconditioner does not affect the converged result.
 
     Args:
-        type (str): NONE (0). No preconditioning. Ideal for atoms/molecules in vacuum; KERKER (1). Kerker preconditioner. Ideal for metals; CSRB (3). Preconditioner for semiconductors based on the Cappellini-del- Sole-Reining-Bechstedt model dielectric function. Requires dielecConstant; ELLIPTIC (5). An explicit-solver preconditioner. No screening in vacuum region, Thomas-Fermi screening (Kerker-like) elsewhere. Ideal for metallic.
+        type_ (str): NONE (0). No preconditioning. Ideal for atoms/molecules in vacuum; KERKER (1). Kerker preconditioner. Ideal for metals; CSRB (3). Preconditioner for semiconductors based on the Cappellini-del- Sole-Reining-Bechstedt model dielectric function. Requires dielecConstant; ELLIPTIC (5). An explicit-solver preconditioner. No screening in vacuum region, Thomas-Fermi screening (Kerker-like) elsewhere. Ideal for metallic.
         scaling (float): Scaling factor for the preconditioner. Default: 1.0. (Optional)
         spinScaling (float): Scaling factor for the spin part of the preconditioner. Default: 1.0. (Optional)
         dielecConstant (float): Dielectric constant for the CSRB preconditioner. (Optional)
         wrap_string (bool): Whether to wrap string values in apostrophes.
     """
     return fill_values(
-        type=type,
+        type_=type_,
         scaling=scaling,
         spinScaling=spinScaling,
         dielecConstant=dielecConstant,
@@ -2090,7 +2090,7 @@ def sphinx__main__ricQN__bornOppenheimer__scfDiag__blockCCG(
 @func_in_func(sphinx.main.ricQN.bornOppenheimer.scfDiag)
 @units
 def sphinx__main__ricQN__bornOppenheimer__scfDiag__preconditioner(
-    type: str,
+    type_: str,
     scaling: Optional[float] = None,
     spinScaling: Optional[float] = None,
     dielecConstant: Optional[float] = None,
@@ -2100,14 +2100,14 @@ def sphinx__main__ricQN__bornOppenheimer__scfDiag__preconditioner(
     The preconditioner group defines the density preconditioner, i.e., a transformation of the observed (or predicted) difference between the input and output density to the applied changes to the input density. An ideal preconditioner models the screening behavior of the system and is able to include the expected screening response into the suggested density change. Selecting an appropriate preconditioner, that rejects the screening properties of the system at hand, is a key to an efficient (i.e. fast) convergence. The preconditioner does not affect the converged result.
 
     Args:
-        type (str): NONE (0). No preconditioning. Ideal for atoms/molecules in vacuum; KERKER (1). Kerker preconditioner. Ideal for metals; CSRB (3). Preconditioner for semiconductors based on the Cappellini-del- Sole-Reining-Bechstedt model dielectric function. Requires dielecConstant; ELLIPTIC (5). An explicit-solver preconditioner. No screening in vacuum region, Thomas-Fermi screening (Kerker-like) elsewhere. Ideal for metallic.
+        type_ (str): NONE (0). No preconditioning. Ideal for atoms/molecules in vacuum; KERKER (1). Kerker preconditioner. Ideal for metals; CSRB (3). Preconditioner for semiconductors based on the Cappellini-del- Sole-Reining-Bechstedt model dielectric function. Requires dielecConstant; ELLIPTIC (5). An explicit-solver preconditioner. No screening in vacuum region, Thomas-Fermi screening (Kerker-like) elsewhere. Ideal for metallic.
         scaling (float): Scaling factor for the preconditioner. Default: 1.0. (Optional)
         spinScaling (float): Scaling factor for the spin part of the preconditioner. Default: 1.0. (Optional)
         dielecConstant (float): Dielectric constant for the CSRB preconditioner. (Optional)
         wrap_string (bool): Whether to wrap string values in apostrophes.
     """
     return fill_values(
-        type=type,
+        type_=type_,
         scaling=scaling,
         spinScaling=spinScaling,
         dielecConstant=dielecConstant,
@@ -2336,7 +2336,7 @@ def sphinx__main__ric__bornOppenheimer__scfDiag__blockCCG(
 @func_in_func(sphinx.main.ric.bornOppenheimer.scfDiag)
 @units
 def sphinx__main__ric__bornOppenheimer__scfDiag__preconditioner(
-    type: str,
+    type_: str,
     scaling: Optional[float] = None,
     spinScaling: Optional[float] = None,
     dielecConstant: Optional[float] = None,
@@ -2346,14 +2346,14 @@ def sphinx__main__ric__bornOppenheimer__scfDiag__preconditioner(
     The preconditioner group defines the density preconditioner, i.e., a transformation of the observed (or predicted) difference between the input and output density to the applied changes to the input density. An ideal preconditioner models the screening behavior of the system and is able to include the expected screening response into the suggested density change. Selecting an appropriate preconditioner, that rejects the screening properties of the system at hand, is a key to an efficient (i.e. fast) convergence. The preconditioner does not affect the converged result.
 
     Args:
-        type (str): NONE (0). No preconditioning. Ideal for atoms/molecules in vacuum; KERKER (1). Kerker preconditioner. Ideal for metals; CSRB (3). Preconditioner for semiconductors based on the Cappellini-del- Sole-Reining-Bechstedt model dielectric function. Requires dielecConstant; ELLIPTIC (5). An explicit-solver preconditioner. No screening in vacuum region, Thomas-Fermi screening (Kerker-like) elsewhere. Ideal for metallic.
+        type_ (str): NONE (0). No preconditioning. Ideal for atoms/molecules in vacuum; KERKER (1). Kerker preconditioner. Ideal for metals; CSRB (3). Preconditioner for semiconductors based on the Cappellini-del- Sole-Reining-Bechstedt model dielectric function. Requires dielecConstant; ELLIPTIC (5). An explicit-solver preconditioner. No screening in vacuum region, Thomas-Fermi screening (Kerker-like) elsewhere. Ideal for metallic.
         scaling (float): Scaling factor for the preconditioner. Default: 1.0. (Optional)
         spinScaling (float): Scaling factor for the spin part of the preconditioner. Default: 1.0. (Optional)
         dielecConstant (float): Dielectric constant for the CSRB preconditioner. (Optional)
         wrap_string (bool): Whether to wrap string values in apostrophes.
     """
     return fill_values(
-        type=type,
+        type_=type_,
         scaling=scaling,
         spinScaling=spinScaling,
         dielecConstant=dielecConstant,
@@ -2597,7 +2597,7 @@ def sphinx__main__ricTS__bornOppenheimer__scfDiag__blockCCG(
 @func_in_func(sphinx.main.ricTS.bornOppenheimer.scfDiag)
 @units
 def sphinx__main__ricTS__bornOppenheimer__scfDiag__preconditioner(
-    type: str,
+    type_: str,
     scaling: Optional[float] = None,
     spinScaling: Optional[float] = None,
     dielecConstant: Optional[float] = None,
@@ -2607,14 +2607,14 @@ def sphinx__main__ricTS__bornOppenheimer__scfDiag__preconditioner(
     The preconditioner group defines the density preconditioner, i.e., a transformation of the observed (or predicted) difference between the input and output density to the applied changes to the input density. An ideal preconditioner models the screening behavior of the system and is able to include the expected screening response into the suggested density change. Selecting an appropriate preconditioner, that rejects the screening properties of the system at hand, is a key to an efficient (i.e. fast) convergence. The preconditioner does not affect the converged result.
 
     Args:
-        type (str): NONE (0). No preconditioning. Ideal for atoms/molecules in vacuum; KERKER (1). Kerker preconditioner. Ideal for metals; CSRB (3). Preconditioner for semiconductors based on the Cappellini-del- Sole-Reining-Bechstedt model dielectric function. Requires dielecConstant; ELLIPTIC (5). An explicit-solver preconditioner. No screening in vacuum region, Thomas-Fermi screening (Kerker-like) elsewhere. Ideal for metallic.
+        type_ (str): NONE (0). No preconditioning. Ideal for atoms/molecules in vacuum; KERKER (1). Kerker preconditioner. Ideal for metals; CSRB (3). Preconditioner for semiconductors based on the Cappellini-del- Sole-Reining-Bechstedt model dielectric function. Requires dielecConstant; ELLIPTIC (5). An explicit-solver preconditioner. No screening in vacuum region, Thomas-Fermi screening (Kerker-like) elsewhere. Ideal for metallic.
         scaling (float): Scaling factor for the preconditioner. Default: 1.0. (Optional)
         spinScaling (float): Scaling factor for the spin part of the preconditioner. Default: 1.0. (Optional)
         dielecConstant (float): Dielectric constant for the CSRB preconditioner. (Optional)
         wrap_string (bool): Whether to wrap string values in apostrophes.
     """
     return fill_values(
-        type=type,
+        type_=type_,
         scaling=scaling,
         spinScaling=spinScaling,
         dielecConstant=dielecConstant,
