@@ -1,3 +1,4 @@
+import builtins
 import keyword
 import os
 
@@ -69,7 +70,7 @@ def _set(obj: dict, path: str, value):
 
 
 def _get_safe_parameter_name(name: str):
-    if keyword.iskeyword(name):
+    if keyword.iskeyword(name) or name in dir(builtins):
         name = name + "_"
     return name
 
@@ -131,7 +132,7 @@ def _get_input_arg(key, entry, indent=indent):
         t = f"Optional[{t}] = None"
     elif units != "":
         t = f'u({t}, units="{units}")'
-    t = f"{indent}{key}: {t},"
+    t = f"{indent}{_get_safe_parameter_name(key)}: {t},"
     return t
 
 
@@ -148,14 +149,12 @@ def _rename_keys(data):
 
 def _get_function(
     data,
-    function_name,
+    function_name: list[str],
     predefined=predefined,
-    indent=indent,
-    n_indent=0,
     is_kwarg=False,
 ):
     d = _rename_keys(data)
-    func = ["@units", "@staticmethod", f"def {function_name}("]
+    func = []
     if is_kwarg:
         func.append(f"{indent}wrap_string: bool = True,")
         func.append(f"{indent}**kwargs")
@@ -170,18 +169,22 @@ def _get_function(
         func.append(f"{indent}wrap_string: bool = True,")
     func.append("):")
     docstring = _get_docstring(d, d.get("description", None))
-    output = [indent + "return fill_values("]
+    output = [f"{indent}return fill_values("]
     if is_kwarg:
-        output.append(2 * indent + "wrap_string=wrap_string,")
-        output.append(2 * indent + "**kwargs")
+        output.append(f"{2 * indent}wrap_string=wrap_string,")
+        output.append(f"{2 * indent}**kwargs")
     else:
         output.extend(
-            [2 * indent + f"{key}={key}," for key in d.keys() if key not in predefined]
+            [
+                f"{2 * indent}{_get_safe_parameter_name(key)}={_get_safe_parameter_name(key)},"
+                for key in d.keys()
+                if key not in predefined
+            ]
         )
-        output.append(2 * indent + "wrap_string=wrap_string,")
-    output.append(indent + ")")
+        output.append(f"{2 * indent}wrap_string=wrap_string,")
+    output.append(f"{indent})")
     result = func + docstring + output
-    return "\n".join([indent * n_indent + line for line in result])
+    return "\n".join(result)
 
 
 def _get_all_function_names(all_data, head="", predefined=predefined):
@@ -193,19 +196,19 @@ def _get_all_function_names(all_data, head="", predefined=predefined):
     return key_lst
 
 
-def _get_class(all_data, indent=indent):
+def _get_class(all_data):
     fnames = _get_all_function_names(all_data)
     txt = ""
     for name in fnames:
         names = name.split("/")
-        txt += indent * (len(names) - 1) + "class {}:\n".format(
-            _get_safe_parameter_name(names[-1])
-        )
+        if len(names) > 1:
+            txt += f"@func_in_func({'.'.join(names[:-1])})\n"
+        txt += "@units\n"
+        txt += f"def {'__'.join(names)}(\n"
         txt += (
             _get_function(
                 _get(all_data, name),
-                "create",
-                n_indent=len(names),
+                ["sphinx"],
                 is_kwarg=names[-1] == "main",
             )
             + "\n\n"
@@ -221,6 +224,7 @@ def _get_file_content(yml_file_name="input_data.yml"):
     all_data = _replace_alias(all_data)
     file_content = _get_class(all_data)
     imports = [
+        "from functools import wraps",
         "from typing import Optional",
         "",
         "import numpy as np",
@@ -228,6 +232,14 @@ def _get_file_content(yml_file_name="input_data.yml"):
         "from semantikon.metadata import u",
         "",
         "from sphinx_parser.toolkit import fill_values",
+        "",
+        "",
+        "def func_in_func(parentfunc):",
+        "    @wraps(parentfunc)",
+        "    def register(childfunc):",
+        "        parentfunc.__dict__[childfunc.__name__.split('__')[-1]] = childfunc",
+        "        return parentfunc",
+        "    return register",
     ]
     file_content = "\n".join(imports) + "\n\n\n" + file_content
     file_content = format_str(file_content, mode=FileMode())

@@ -12,9 +12,9 @@ def get_paw_from_structure(structure):
 
 
 def get_paw_from_chemical_symbols(chemical_symbols):
-    return sphinx.pawPot.create(
+    return sphinx.pawPot(
         species=[
-            sphinx.pawPot.species.create(
+            sphinx.pawPot.species(
                 potential=get_potential_path(c),
                 potType="AtomPAW",
                 element=c,
