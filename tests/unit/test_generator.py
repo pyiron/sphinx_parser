@@ -17,7 +17,7 @@ class TestGenerator(unittest.TestCase):
             file_content = f.read()
         all_data = yaml.safe_load(file_content)
         all_data = generator._replace_alias(all_data)
-        self.assertTrue("def __new__" in generator._get_class(all_data))
+        self.assertTrue("def sphinx" in generator._get_class(all_data))
 
     def test_all_content(self):
         with open(self.current_dir + "/../../sphinx_parser/input.py", "r") as f:
