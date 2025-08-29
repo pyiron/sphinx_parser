@@ -196,9 +196,9 @@ def _get_class(all_data):
     txt = ""
     for name in fnames:
         names = name.split("/")
-        txt += "@units\n"
         if len(names) > 1:
-            txt += f"@func_in_func({'__'.join(names[:-1])})\n"
+            txt += f"@func_in_func({'.'.join(names[:-1])})\n"
+        txt += "@units\n"
         txt += f"def {'__'.join(names)}(\n"
         txt += (
             _get_function(
@@ -219,6 +219,7 @@ def _get_file_content(yml_file_name="input_data.yml"):
     all_data = _replace_alias(all_data)
     file_content = _get_class(all_data)
     imports = [
+        "from functools import wraps",
         "from typing import Optional",
         "",
         "import numpy as np",
@@ -229,6 +230,7 @@ def _get_file_content(yml_file_name="input_data.yml"):
         "",
         "",
         "def func_in_func(parentfunc):",
+        "    @wraps(parentfunc)",
         "    def register(childfunc):",
         "        parentfunc.__dict__[childfunc.__name__.split('__')[-1]] = childfunc",
         "        return parentfunc",
