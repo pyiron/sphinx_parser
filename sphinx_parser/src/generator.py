@@ -148,14 +148,12 @@ def _rename_keys(data):
 
 def _get_function(
     data,
-    function_name,
+    function_name: list[str],
     predefined=predefined,
-    indent=indent,
-    n_indent=0,
     is_kwarg=False,
 ):
     d = _rename_keys(data)
-    func = ["@units", f"def {function_name}(cls, "]
+    func = []
     if is_kwarg:
         func.append(f"{indent}wrap_string: bool = True,")
         func.append(f"{indent}**kwargs")
@@ -170,18 +168,18 @@ def _get_function(
         func.append(f"{indent}wrap_string: bool = True,")
     func.append("):")
     docstring = _get_docstring(d, d.get("description", None))
-    output = [indent + "return fill_values("]
+    output = [f"{indent}return fill_values("]
     if is_kwarg:
-        output.append(2 * indent + "wrap_string=wrap_string,")
-        output.append(2 * indent + "**kwargs")
+        output.append(f"{2 * indent}wrap_string=wrap_string,")
+        output.append(f"{2 * indent}**kwargs")
     else:
         output.extend(
-            [2 * indent + f"{key}={key}," for key in d.keys() if key not in predefined]
+            [f"{2 * indent}{key}={key}," for key in d.keys() if key not in predefined]
         )
-        output.append(2 * indent + "wrap_string=wrap_string,")
-    output.append(indent + ")")
+        output.append(f"{2 * indent}wrap_string=wrap_string,")
+    output.append(f"{indent})")
     result = func + docstring + output
-    return "\n".join([indent * n_indent + line for line in result])
+    return "\n".join(result)
 
 
 def _get_all_function_names(all_data, head="", predefined=predefined):
@@ -193,19 +191,19 @@ def _get_all_function_names(all_data, head="", predefined=predefined):
     return key_lst
 
 
-def _get_class(all_data, indent=indent):
+def _get_class(all_data):
     fnames = _get_all_function_names(all_data)
     txt = ""
     for name in fnames:
         names = name.split("/")
-        txt += indent * (len(names) - 1) + "class {}:\n".format(
-            _get_safe_parameter_name(names[-1])
-        )
+        txt += "@units\n"
+        if  len(names) > 1:
+            txt += f"@func_in_func({'__'.join(names[:-1])})\n"
+        txt += f"def {'__'.join(names)}(\n"
         txt += (
             _get_function(
                 _get(all_data, name),
-                "__new__",
-                n_indent=len(names),
+                ["sphinx"],
                 is_kwarg=names[-1] == "main",
             )
             + "\n\n"
@@ -228,6 +226,13 @@ def _get_file_content(yml_file_name="input_data.yml"):
         "from semantikon.metadata import u",
         "",
         "from sphinx_parser.toolkit import fill_values",
+        "",
+        "",
+        "def func_in_func(parentfunc):",
+        "    def register(childfunc):",
+        "        parentfunc.__dict__[childfunc.__name__.split('__')[-1]] = childfunc",
+        "        return parentfunc",
+        "    return register",
     ]
     file_content = "\n".join(imports) + "\n\n\n" + file_content
     file_content = format_str(file_content, mode=FileMode())
