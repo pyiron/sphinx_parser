@@ -177,7 +177,8 @@ def _get_function(
         output.extend(
             [
                 f"{2 * indent}{_get_safe_parameter_name(key)}={_get_safe_parameter_name(key)},"
-                for key in d.keys() if key not in predefined
+                for key in d.keys()
+                if key not in predefined
             ]
         )
         output.append(f"{2 * indent}wrap_string=wrap_string,")
