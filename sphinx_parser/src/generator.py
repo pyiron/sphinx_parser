@@ -197,7 +197,7 @@ def _get_class(all_data):
     for name in fnames:
         names = name.split("/")
         txt += "@units\n"
-        if  len(names) > 1:
+        if len(names) > 1:
             txt += f"@func_in_func({'__'.join(names[:-1])})\n"
         txt += f"def {'__'.join(names)}(\n"
         txt += (
