@@ -1,7 +1,7 @@
 # Sphinx
 
 [![Push-Pull](https://github.com/pyiron/sphinx_parser/actions/workflows/push-pull.yml/badge.svg)](https://github.com/pyiron/sphinx_parser/actions/workflows/push-pull.yml)
-[![Coverage Status](https://coveralls.io/repos/github/pyiron/sphinx_parser/badge.svg?branch=main)](https://coveralls.io/github/pyiron/sphinx_parser?branch=main)
+[![codecov](https://codecov.io/gh/pyiron/sphinx_parser/graph/badge.svg?token=YNZE8VS78Y)](https://codecov.io/gh/pyiron/sphinx_parser)
 
 ## Overview
 

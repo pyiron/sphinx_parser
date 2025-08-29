@@ -16,4 +16,7 @@ jobs:
       python-version-alt2: '3.11'
       python-version: '3.12'
       python-version-alt3: '3.13'
+      do-codecov: true
+      do-codacy: false
+      do-coveralls: false
     secrets: inherit

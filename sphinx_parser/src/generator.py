@@ -1,3 +1,4 @@
+import builtins
 import keyword
 import os
 import yaml
@@ -69,7 +70,7 @@ def _set(obj: dict, path: str, value):
 
 
 def _get_safe_parameter_name(name: str) -> str:
-    if keyword.iskeyword(name):
+    if keyword.iskeyword(name) or name in dir(builtins):
         name = name + "_"
     return name
 
@@ -136,7 +137,7 @@ def _get_input_arg(key: str, entry: dict, indent: str = indent) -> str:
         t = f"Optional[{t}] = None"
     elif units != "":
         t = f'u({t}, units="{units}")'
-    t = f"{indent}{key}: {t},"
+    t = f"{indent}{_get_safe_parameter_name(key)}: {t},"
     return t
 
 
@@ -179,7 +180,11 @@ def _get_function(
         output.append(f"{2 * indent}**kwargs")
     else:
         output.extend(
-            [f"{2 * indent}{key}={key}," for key in d.keys() if key not in predefined]
+            [
+                f"{2 * indent}{_get_safe_parameter_name(key)}={_get_safe_parameter_name(key)},"
+                for key in d.keys()
+                if key not in predefined
+            ]
         )
         output.append(f"{2 * indent}wrap_string=wrap_string,")
     output.append(f"{indent})")
