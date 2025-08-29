@@ -1,9 +1,10 @@
 import builtins
 import keyword
 import os
+from typing import Any
+
 import yaml
 from black import FileMode, format_str
-from typing import Any
 
 indent = 4 * " "
 predefined = ["description", "default", "data_type", "required", "alias", "units"]
