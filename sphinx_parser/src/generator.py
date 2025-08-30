@@ -212,7 +212,10 @@ def _get_class(all_data: dict) -> str:
         if len(names) > 1:
             txt += f"@func_in_func({'.'.join(names[:-1])})\n"
         txt += "@units\n"
-        txt += f"def {'__'.join(names)}(\n"
+        if len(names) > 1:
+            txt += f"def _{'__'.join(names)}(\n"
+        else:
+            txt += f"def {'__'.join(names)}(\n"
         txt += (
             _get_function(
                 _get(all_data, name),
