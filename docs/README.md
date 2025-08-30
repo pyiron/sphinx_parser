@@ -15,7 +15,7 @@ Stinx's input parser is created from the yaml-file located at `src/input_data.ym
 from sphinx_parser.input import sphinx
 ```
 
-This instance `sphinx` is used to create all possible input classes for Sphinx by choosing the class via dot-notation and call `create`. For example in order to generate the class `kPoints`, you can run:
+This instance `sphinx` is used to create all possible input classes for Sphinx by choosing the class via dot-notation and call it. For example in order to generate the class `kPoints`, you can run:
 
 ```pythoon
 kPoints = sphinx.basis.kPoints()
