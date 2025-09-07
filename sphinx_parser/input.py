@@ -8,7 +8,7 @@ from semantikon.metadata import u
 from sphinx_parser.toolkit import fill_values
 
 
-def func_in_func(parentfunc):
+def _func_in_func(parentfunc):
     @wraps(parentfunc)
     def register(childfunc):
         parentfunc.__dict__[childfunc.__name__.split("__")[-1]] = childfunc
@@ -59,7 +59,7 @@ def sphinx(
     )
 
 
-@func_in_func(sphinx)
+@_func_in_func(sphinx)
 @units
 def _sphinx__structure(
     cell: u(list, units="bohr"),
@@ -94,7 +94,7 @@ def _sphinx__structure(
     )
 
 
-@func_in_func(sphinx.structure)
+@_func_in_func(sphinx.structure)
 @units
 def _sphinx__structure__species(
     element: Optional[str] = None,
@@ -114,7 +114,7 @@ def _sphinx__structure__species(
     )
 
 
-@func_in_func(sphinx.structure.species)
+@_func_in_func(sphinx.structure.species)
 @units
 def _sphinx__structure__species__atom(
     coords: u(Optional[np.ndarray], units="bohr") = None,
@@ -152,7 +152,7 @@ def _sphinx__structure__species__atom(
     )
 
 
-@func_in_func(sphinx.structure)
+@_func_in_func(sphinx.structure)
 @units
 def _sphinx__structure__symmetry(
     operator: Optional[dict] = None,
@@ -169,7 +169,7 @@ def _sphinx__structure__symmetry(
     )
 
 
-@func_in_func(sphinx.structure.symmetry)
+@_func_in_func(sphinx.structure.symmetry)
 @units
 def _sphinx__structure__symmetry__operator(
     S: list,
@@ -186,7 +186,7 @@ def _sphinx__structure__symmetry__operator(
     )
 
 
-@func_in_func(sphinx)
+@_func_in_func(sphinx)
 @units
 def _sphinx__basis(
     eCut: float,
@@ -224,7 +224,7 @@ def _sphinx__basis(
     )
 
 
-@func_in_func(sphinx.basis)
+@_func_in_func(sphinx.basis)
 @units
 def _sphinx__basis__kPoint(
     coords: np.ndarray,
@@ -247,7 +247,7 @@ def _sphinx__basis__kPoint(
     )
 
 
-@func_in_func(sphinx.basis)
+@_func_in_func(sphinx.basis)
 @units
 def _sphinx__basis__kPoints(
     relative: Optional[bool] = None,
@@ -273,7 +273,7 @@ def _sphinx__basis__kPoints(
     )
 
 
-@func_in_func(sphinx.basis.kPoints)
+@_func_in_func(sphinx.basis.kPoints)
 @units
 def _sphinx__basis__kPoints__from(
     coords: u(np.ndarray, units="1/bohr"),
@@ -298,7 +298,7 @@ def _sphinx__basis__kPoints__from(
     )
 
 
-@func_in_func(sphinx.basis.kPoints)
+@_func_in_func(sphinx.basis.kPoints)
 @units
 def _sphinx__basis__kPoints__to(
     coords: u(np.ndarray, units="1/bohr"),
@@ -329,7 +329,7 @@ def _sphinx__basis__kPoints__to(
     )
 
 
-@func_in_func(sphinx)
+@_func_in_func(sphinx)
 @units
 def _sphinx__pawPot(
     species: Optional[dict] = None,
@@ -348,7 +348,7 @@ def _sphinx__pawPot(
     )
 
 
-@func_in_func(sphinx.pawPot)
+@_func_in_func(sphinx.pawPot)
 @units
 def _sphinx__pawPot__species(
     potential: str,
@@ -389,7 +389,7 @@ def _sphinx__pawPot__species(
     )
 
 
-@func_in_func(sphinx)
+@_func_in_func(sphinx)
 @units
 def _sphinx__PAWHamiltonian(
     xc: str,
@@ -442,7 +442,7 @@ def _sphinx__PAWHamiltonian(
     )
 
 
-@func_in_func(sphinx.PAWHamiltonian)
+@_func_in_func(sphinx.PAWHamiltonian)
 @units
 def _sphinx__PAWHamiltonian__vExt(
     file: str,
@@ -461,7 +461,7 @@ def _sphinx__PAWHamiltonian__vExt(
     )
 
 
-@func_in_func(sphinx.PAWHamiltonian)
+@_func_in_func(sphinx.PAWHamiltonian)
 @units
 def _sphinx__PAWHamiltonian__xcMesh(
     eCut: float,
@@ -486,7 +486,7 @@ def _sphinx__PAWHamiltonian__xcMesh(
     )
 
 
-@func_in_func(sphinx.PAWHamiltonian)
+@_func_in_func(sphinx.PAWHamiltonian)
 @units
 def _sphinx__PAWHamiltonian__vdwCorrection(
     method: str,
@@ -508,7 +508,7 @@ def _sphinx__PAWHamiltonian__vdwCorrection(
     )
 
 
-@func_in_func(sphinx.PAWHamiltonian)
+@_func_in_func(sphinx.PAWHamiltonian)
 @units
 def _sphinx__PAWHamiltonian__HubbardU(
     verbose: Optional[bool] = None,
@@ -533,7 +533,7 @@ def _sphinx__PAWHamiltonian__HubbardU(
     )
 
 
-@func_in_func(sphinx.PAWHamiltonian.HubbardU)
+@_func_in_func(sphinx.PAWHamiltonian.HubbardU)
 @units
 def _sphinx__PAWHamiltonian__HubbardU__AO(
     orbital: Optional[dict] = None,
@@ -552,7 +552,7 @@ def _sphinx__PAWHamiltonian__HubbardU__AO(
     )
 
 
-@func_in_func(sphinx.PAWHamiltonian.HubbardU.AO)
+@_func_in_func(sphinx.PAWHamiltonian.HubbardU.AO)
 @units
 def _sphinx__PAWHamiltonian__HubbardU__AO__orbital(
     file: str,
@@ -580,7 +580,7 @@ def _sphinx__PAWHamiltonian__HubbardU__AO__orbital(
     )
 
 
-@func_in_func(sphinx.PAWHamiltonian.HubbardU)
+@_func_in_func(sphinx.PAWHamiltonian.HubbardU)
 @units
 def _sphinx__PAWHamiltonian__HubbardU__MO(
     element: str,
@@ -638,7 +638,7 @@ def _sphinx__PAWHamiltonian__HubbardU__MO(
     )
 
 
-@func_in_func(sphinx.PAWHamiltonian.HubbardU.MO)
+@_func_in_func(sphinx.PAWHamiltonian.HubbardU.MO)
 @units
 def _sphinx__PAWHamiltonian__HubbardU__MO__orbital(
     file: str,
@@ -666,7 +666,7 @@ def _sphinx__PAWHamiltonian__HubbardU__MO__orbital(
     )
 
 
-@func_in_func(sphinx)
+@_func_in_func(sphinx)
 @units
 def _sphinx__spinConstraint(
     label: Optional[str] = None,
@@ -689,7 +689,7 @@ def _sphinx__spinConstraint(
     )
 
 
-@func_in_func(sphinx)
+@_func_in_func(sphinx)
 @units
 def _sphinx__initialGuess(
     noWavesStorage: Optional[bool] = None,
@@ -723,7 +723,7 @@ def _sphinx__initialGuess(
     )
 
 
-@func_in_func(sphinx.initialGuess)
+@_func_in_func(sphinx.initialGuess)
 @units
 def _sphinx__initialGuess__waves(
     file: Optional[str] = None,
@@ -749,7 +749,7 @@ def _sphinx__initialGuess__waves(
     )
 
 
-@func_in_func(sphinx.initialGuess.waves)
+@_func_in_func(sphinx.initialGuess.waves)
 @units
 def _sphinx__initialGuess__waves__lcao(
     maxSteps: Optional[int] = None,
@@ -769,7 +769,7 @@ def _sphinx__initialGuess__waves__lcao(
     )
 
 
-@func_in_func(sphinx.initialGuess)
+@_func_in_func(sphinx.initialGuess)
 @units
 def _sphinx__initialGuess__rho(
     file: Optional[str] = None,
@@ -804,7 +804,7 @@ def _sphinx__initialGuess__rho(
     )
 
 
-@func_in_func(sphinx.initialGuess.rho)
+@_func_in_func(sphinx.initialGuess.rho)
 @units
 def _sphinx__initialGuess__rho__atomicSpin(
     spin: Optional[float] = None,
@@ -829,7 +829,7 @@ def _sphinx__initialGuess__rho__atomicSpin(
     )
 
 
-@func_in_func(sphinx.initialGuess.rho)
+@_func_in_func(sphinx.initialGuess.rho)
 @units
 def _sphinx__initialGuess__rho__charged(
     charge: float,
@@ -855,7 +855,7 @@ def _sphinx__initialGuess__rho__charged(
     )
 
 
-@func_in_func(sphinx.initialGuess)
+@_func_in_func(sphinx.initialGuess)
 @units
 def _sphinx__initialGuess__occupations(
     kPoints: Optional[dict] = None,
@@ -880,7 +880,7 @@ def _sphinx__initialGuess__occupations(
     )
 
 
-@func_in_func(sphinx.initialGuess.occupations)
+@_func_in_func(sphinx.initialGuess.occupations)
 @units
 def _sphinx__initialGuess__occupations__kPoints(
     spin: Optional[dict] = None,
@@ -900,7 +900,7 @@ def _sphinx__initialGuess__occupations__kPoints(
     )
 
 
-@func_in_func(sphinx.initialGuess.occupations.kPoints)
+@_func_in_func(sphinx.initialGuess.occupations.kPoints)
 @units
 def _sphinx__initialGuess__occupations__kPoints__spin(
     bands: Optional[dict] = None,
@@ -917,7 +917,7 @@ def _sphinx__initialGuess__occupations__kPoints__spin(
     )
 
 
-@func_in_func(sphinx.initialGuess.occupations.kPoints.spin)
+@_func_in_func(sphinx.initialGuess.occupations.kPoints.spin)
 @units
 def _sphinx__initialGuess__occupations__kPoints__spin__bands(
     value: list,
@@ -940,7 +940,7 @@ def _sphinx__initialGuess__occupations__kPoints__spin__bands(
     )
 
 
-@func_in_func(sphinx.initialGuess.occupations.kPoints)
+@_func_in_func(sphinx.initialGuess.occupations.kPoints)
 @units
 def _sphinx__initialGuess__occupations__kPoints__bands(
     value: list,
@@ -963,7 +963,7 @@ def _sphinx__initialGuess__occupations__kPoints__bands(
     )
 
 
-@func_in_func(sphinx.initialGuess.occupations)
+@_func_in_func(sphinx.initialGuess.occupations)
 @units
 def _sphinx__initialGuess__occupations__spin(
     bands: Optional[dict] = None,
@@ -980,7 +980,7 @@ def _sphinx__initialGuess__occupations__spin(
     )
 
 
-@func_in_func(sphinx.initialGuess.occupations.spin)
+@_func_in_func(sphinx.initialGuess.occupations.spin)
 @units
 def _sphinx__initialGuess__occupations__spin__bands(
     value: list,
@@ -1003,7 +1003,7 @@ def _sphinx__initialGuess__occupations__spin__bands(
     )
 
 
-@func_in_func(sphinx.initialGuess.occupations)
+@_func_in_func(sphinx.initialGuess.occupations)
 @units
 def _sphinx__initialGuess__occupations__bands(
     value: list,
@@ -1026,7 +1026,7 @@ def _sphinx__initialGuess__occupations__bands(
     )
 
 
-@func_in_func(sphinx.initialGuess)
+@_func_in_func(sphinx.initialGuess)
 @units
 def _sphinx__initialGuess__exchange(
     file: Optional[str] = None,
@@ -1045,7 +1045,7 @@ def _sphinx__initialGuess__exchange(
     )
 
 
-@func_in_func(sphinx)
+@_func_in_func(sphinx)
 @units
 def _sphinx__pseudoPot(
     species: Optional[dict] = None,
@@ -1066,7 +1066,7 @@ def _sphinx__pseudoPot(
     )
 
 
-@func_in_func(sphinx.pseudoPot)
+@_func_in_func(sphinx.pseudoPot)
 @units
 def _sphinx__pseudoPot__species(
     name: str,
@@ -1116,7 +1116,7 @@ def _sphinx__pseudoPot__species(
     )
 
 
-@func_in_func(sphinx)
+@_func_in_func(sphinx)
 @units
 def _sphinx__PWHamiltonian(
     xc: str,
@@ -1157,7 +1157,7 @@ def _sphinx__PWHamiltonian(
     )
 
 
-@func_in_func(sphinx)
+@_func_in_func(sphinx)
 @units
 def _sphinx__main(wrap_string: bool = True, **kwargs):
     """
@@ -1174,7 +1174,7 @@ def _sphinx__main(wrap_string: bool = True, **kwargs):
     return fill_values(wrap_string=wrap_string, **kwargs)
 
 
-@func_in_func(sphinx.main)
+@_func_in_func(sphinx.main)
 @units
 def _sphinx__main__scfDiag(
     dEnergy: u(Optional[float], units="hartree") = None,
@@ -1250,7 +1250,7 @@ def _sphinx__main__scfDiag(
     )
 
 
-@func_in_func(sphinx.main.scfDiag)
+@_func_in_func(sphinx.main.scfDiag)
 @units
 def _sphinx__main__scfDiag__CCG(
     dEnergy: Optional[float] = None,
@@ -1299,7 +1299,7 @@ def _sphinx__main__scfDiag__CCG(
     )
 
 
-@func_in_func(sphinx.main.scfDiag)
+@_func_in_func(sphinx.main.scfDiag)
 @units
 def _sphinx__main__scfDiag__blockCCG(
     dRelEps: Optional[float] = None,
@@ -1336,7 +1336,7 @@ def _sphinx__main__scfDiag__blockCCG(
     )
 
 
-@func_in_func(sphinx.main.scfDiag)
+@_func_in_func(sphinx.main.scfDiag)
 @units
 def _sphinx__main__scfDiag__preconditioner(
     type_: str,
@@ -1364,7 +1364,7 @@ def _sphinx__main__scfDiag__preconditioner(
     )
 
 
-@func_in_func(sphinx.main)
+@_func_in_func(sphinx.main)
 @units
 def _sphinx__main__QN(
     maxSteps: Optional[int] = None,
@@ -1404,7 +1404,7 @@ def _sphinx__main__QN(
     )
 
 
-@func_in_func(sphinx.main.QN)
+@_func_in_func(sphinx.main.QN)
 @units
 def _sphinx__main__QN__bornOppenheimer(
     scfDiag: Optional[dict] = None,
@@ -1423,7 +1423,7 @@ def _sphinx__main__QN__bornOppenheimer(
     )
 
 
-@func_in_func(sphinx.main.QN.bornOppenheimer)
+@_func_in_func(sphinx.main.QN.bornOppenheimer)
 @units
 def _sphinx__main__QN__bornOppenheimer__scfDiag(
     dEnergy: u(Optional[float], units="hartree") = None,
@@ -1499,7 +1499,7 @@ def _sphinx__main__QN__bornOppenheimer__scfDiag(
     )
 
 
-@func_in_func(sphinx.main.QN.bornOppenheimer.scfDiag)
+@_func_in_func(sphinx.main.QN.bornOppenheimer.scfDiag)
 @units
 def _sphinx__main__QN__bornOppenheimer__scfDiag__CCG(
     dEnergy: Optional[float] = None,
@@ -1548,7 +1548,7 @@ def _sphinx__main__QN__bornOppenheimer__scfDiag__CCG(
     )
 
 
-@func_in_func(sphinx.main.QN.bornOppenheimer.scfDiag)
+@_func_in_func(sphinx.main.QN.bornOppenheimer.scfDiag)
 @units
 def _sphinx__main__QN__bornOppenheimer__scfDiag__blockCCG(
     dRelEps: Optional[float] = None,
@@ -1585,7 +1585,7 @@ def _sphinx__main__QN__bornOppenheimer__scfDiag__blockCCG(
     )
 
 
-@func_in_func(sphinx.main.QN.bornOppenheimer.scfDiag)
+@_func_in_func(sphinx.main.QN.bornOppenheimer.scfDiag)
 @units
 def _sphinx__main__QN__bornOppenheimer__scfDiag__preconditioner(
     type_: str,
@@ -1613,7 +1613,7 @@ def _sphinx__main__QN__bornOppenheimer__scfDiag__preconditioner(
     )
 
 
-@func_in_func(sphinx.main)
+@_func_in_func(sphinx.main)
 @units
 def _sphinx__main__linQN(
     maxSteps: Optional[int] = None,
@@ -1656,7 +1656,7 @@ def _sphinx__main__linQN(
     )
 
 
-@func_in_func(sphinx.main.linQN)
+@_func_in_func(sphinx.main.linQN)
 @units
 def _sphinx__main__linQN__bornOppenheimer(
     scfDiag: Optional[dict] = None,
@@ -1675,7 +1675,7 @@ def _sphinx__main__linQN__bornOppenheimer(
     )
 
 
-@func_in_func(sphinx.main.linQN.bornOppenheimer)
+@_func_in_func(sphinx.main.linQN.bornOppenheimer)
 @units
 def _sphinx__main__linQN__bornOppenheimer__scfDiag(
     dEnergy: u(Optional[float], units="hartree") = None,
@@ -1751,7 +1751,7 @@ def _sphinx__main__linQN__bornOppenheimer__scfDiag(
     )
 
 
-@func_in_func(sphinx.main.linQN.bornOppenheimer.scfDiag)
+@_func_in_func(sphinx.main.linQN.bornOppenheimer.scfDiag)
 @units
 def _sphinx__main__linQN__bornOppenheimer__scfDiag__CCG(
     dEnergy: Optional[float] = None,
@@ -1800,7 +1800,7 @@ def _sphinx__main__linQN__bornOppenheimer__scfDiag__CCG(
     )
 
 
-@func_in_func(sphinx.main.linQN.bornOppenheimer.scfDiag)
+@_func_in_func(sphinx.main.linQN.bornOppenheimer.scfDiag)
 @units
 def _sphinx__main__linQN__bornOppenheimer__scfDiag__blockCCG(
     dRelEps: Optional[float] = None,
@@ -1837,7 +1837,7 @@ def _sphinx__main__linQN__bornOppenheimer__scfDiag__blockCCG(
     )
 
 
-@func_in_func(sphinx.main.linQN.bornOppenheimer.scfDiag)
+@_func_in_func(sphinx.main.linQN.bornOppenheimer.scfDiag)
 @units
 def _sphinx__main__linQN__bornOppenheimer__scfDiag__preconditioner(
     type_: str,
@@ -1865,7 +1865,7 @@ def _sphinx__main__linQN__bornOppenheimer__scfDiag__preconditioner(
     )
 
 
-@func_in_func(sphinx.main)
+@_func_in_func(sphinx.main)
 @units
 def _sphinx__main__ricQN(
     maxSteps: Optional[int] = None,
@@ -1906,7 +1906,7 @@ def _sphinx__main__ricQN(
     )
 
 
-@func_in_func(sphinx.main.ricQN)
+@_func_in_func(sphinx.main.ricQN)
 @units
 def _sphinx__main__ricQN__bornOppenheimer(
     scfDiag: Optional[dict] = None,
@@ -1925,7 +1925,7 @@ def _sphinx__main__ricQN__bornOppenheimer(
     )
 
 
-@func_in_func(sphinx.main.ricQN.bornOppenheimer)
+@_func_in_func(sphinx.main.ricQN.bornOppenheimer)
 @units
 def _sphinx__main__ricQN__bornOppenheimer__scfDiag(
     dEnergy: u(Optional[float], units="hartree") = None,
@@ -2001,7 +2001,7 @@ def _sphinx__main__ricQN__bornOppenheimer__scfDiag(
     )
 
 
-@func_in_func(sphinx.main.ricQN.bornOppenheimer.scfDiag)
+@_func_in_func(sphinx.main.ricQN.bornOppenheimer.scfDiag)
 @units
 def _sphinx__main__ricQN__bornOppenheimer__scfDiag__CCG(
     dEnergy: Optional[float] = None,
@@ -2050,7 +2050,7 @@ def _sphinx__main__ricQN__bornOppenheimer__scfDiag__CCG(
     )
 
 
-@func_in_func(sphinx.main.ricQN.bornOppenheimer.scfDiag)
+@_func_in_func(sphinx.main.ricQN.bornOppenheimer.scfDiag)
 @units
 def _sphinx__main__ricQN__bornOppenheimer__scfDiag__blockCCG(
     dRelEps: Optional[float] = None,
@@ -2087,7 +2087,7 @@ def _sphinx__main__ricQN__bornOppenheimer__scfDiag__blockCCG(
     )
 
 
-@func_in_func(sphinx.main.ricQN.bornOppenheimer.scfDiag)
+@_func_in_func(sphinx.main.ricQN.bornOppenheimer.scfDiag)
 @units
 def _sphinx__main__ricQN__bornOppenheimer__scfDiag__preconditioner(
     type_: str,
@@ -2115,7 +2115,7 @@ def _sphinx__main__ricQN__bornOppenheimer__scfDiag__preconditioner(
     )
 
 
-@func_in_func(sphinx.main)
+@_func_in_func(sphinx.main)
 @units
 def _sphinx__main__ric(
     maxDist: u(Optional[float], units="bohr") = None,
@@ -2152,7 +2152,7 @@ def _sphinx__main__ric(
     )
 
 
-@func_in_func(sphinx.main.ric)
+@_func_in_func(sphinx.main.ric)
 @units
 def _sphinx__main__ric__bornOppenheimer(
     scfDiag: Optional[dict] = None,
@@ -2171,7 +2171,7 @@ def _sphinx__main__ric__bornOppenheimer(
     )
 
 
-@func_in_func(sphinx.main.ric.bornOppenheimer)
+@_func_in_func(sphinx.main.ric.bornOppenheimer)
 @units
 def _sphinx__main__ric__bornOppenheimer__scfDiag(
     dEnergy: u(Optional[float], units="hartree") = None,
@@ -2247,7 +2247,7 @@ def _sphinx__main__ric__bornOppenheimer__scfDiag(
     )
 
 
-@func_in_func(sphinx.main.ric.bornOppenheimer.scfDiag)
+@_func_in_func(sphinx.main.ric.bornOppenheimer.scfDiag)
 @units
 def _sphinx__main__ric__bornOppenheimer__scfDiag__CCG(
     dEnergy: Optional[float] = None,
@@ -2296,7 +2296,7 @@ def _sphinx__main__ric__bornOppenheimer__scfDiag__CCG(
     )
 
 
-@func_in_func(sphinx.main.ric.bornOppenheimer.scfDiag)
+@_func_in_func(sphinx.main.ric.bornOppenheimer.scfDiag)
 @units
 def _sphinx__main__ric__bornOppenheimer__scfDiag__blockCCG(
     dRelEps: Optional[float] = None,
@@ -2333,7 +2333,7 @@ def _sphinx__main__ric__bornOppenheimer__scfDiag__blockCCG(
     )
 
 
-@func_in_func(sphinx.main.ric.bornOppenheimer.scfDiag)
+@_func_in_func(sphinx.main.ric.bornOppenheimer.scfDiag)
 @units
 def _sphinx__main__ric__bornOppenheimer__scfDiag__preconditioner(
     type_: str,
@@ -2361,7 +2361,7 @@ def _sphinx__main__ric__bornOppenheimer__scfDiag__preconditioner(
     )
 
 
-@func_in_func(sphinx.main)
+@_func_in_func(sphinx.main)
 @units
 def _sphinx__main__ricTS(
     maxSteps: Optional[int] = None,
@@ -2413,7 +2413,7 @@ def _sphinx__main__ricTS(
     )
 
 
-@func_in_func(sphinx.main.ricTS)
+@_func_in_func(sphinx.main.ricTS)
 @units
 def _sphinx__main__ricTS__bornOppenheimer(
     scfDiag: Optional[dict] = None,
@@ -2432,7 +2432,7 @@ def _sphinx__main__ricTS__bornOppenheimer(
     )
 
 
-@func_in_func(sphinx.main.ricTS.bornOppenheimer)
+@_func_in_func(sphinx.main.ricTS.bornOppenheimer)
 @units
 def _sphinx__main__ricTS__bornOppenheimer__scfDiag(
     dEnergy: u(Optional[float], units="hartree") = None,
@@ -2508,7 +2508,7 @@ def _sphinx__main__ricTS__bornOppenheimer__scfDiag(
     )
 
 
-@func_in_func(sphinx.main.ricTS.bornOppenheimer.scfDiag)
+@_func_in_func(sphinx.main.ricTS.bornOppenheimer.scfDiag)
 @units
 def _sphinx__main__ricTS__bornOppenheimer__scfDiag__CCG(
     dEnergy: Optional[float] = None,
@@ -2557,7 +2557,7 @@ def _sphinx__main__ricTS__bornOppenheimer__scfDiag__CCG(
     )
 
 
-@func_in_func(sphinx.main.ricTS.bornOppenheimer.scfDiag)
+@_func_in_func(sphinx.main.ricTS.bornOppenheimer.scfDiag)
 @units
 def _sphinx__main__ricTS__bornOppenheimer__scfDiag__blockCCG(
     dRelEps: Optional[float] = None,
@@ -2594,7 +2594,7 @@ def _sphinx__main__ricTS__bornOppenheimer__scfDiag__blockCCG(
     )
 
 
-@func_in_func(sphinx.main.ricTS.bornOppenheimer.scfDiag)
+@_func_in_func(sphinx.main.ricTS.bornOppenheimer.scfDiag)
 @units
 def _sphinx__main__ricTS__bornOppenheimer__scfDiag__preconditioner(
     type_: str,
@@ -2622,7 +2622,7 @@ def _sphinx__main__ricTS__bornOppenheimer__scfDiag__preconditioner(
     )
 
 
-@func_in_func(sphinx.main)
+@_func_in_func(sphinx.main)
 @units
 def _sphinx__main__evalForces(
     file: str,
