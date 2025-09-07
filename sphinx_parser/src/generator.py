@@ -210,7 +210,7 @@ def _get_class(all_data: dict) -> str:
     for name in fnames:
         names = name.split("/")
         if len(names) > 1:
-            txt += f"@func_in_func({'.'.join(names[:-1])})\n"
+            txt += f"@_func_in_func({'.'.join(names[:-1])})\n"
         txt += "@units\n"
         if len(names) > 1:
             txt += f"def _{'__'.join(names)}(\n"
@@ -245,7 +245,7 @@ def _get_file_content(yml_file_name: str = "input_data.yml") -> str:
         "from sphinx_parser.toolkit import fill_values",
         "",
         "",
-        "def func_in_func(parentfunc):",
+        "def _func_in_func(parentfunc):",
         "    @wraps(parentfunc)",
         "    def register(childfunc):",
         "        parentfunc.__dict__[childfunc.__name__.split('__')[-1]] = childfunc",
