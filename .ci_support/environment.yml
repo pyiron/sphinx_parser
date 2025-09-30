@@ -10,4 +10,4 @@ dependencies:
 - ase =3.26.0
 - sphinxdft-data =0.0.1
 - semantikon =0.0.22
-- pint =0.24.4
+- pint =0.25
