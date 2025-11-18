@@ -17,3 +17,4 @@ dependencies:
 - sphinxdft-data =0.0.1
 - semantikon =0.0.26
 - pint =0.25.2
+- pyyaml =6.0.3
