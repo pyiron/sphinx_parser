@@ -1,4 +1,5 @@
 from pathlib import Path
+
 from ase.calculators.calculator import FileIOCalculator, FileIORules, StandardProfile
 
 from sphinx_parser.ase import get_structure_group
