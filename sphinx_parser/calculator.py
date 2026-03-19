@@ -14,7 +14,7 @@ class SphinxDft(FileIOCalculator):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs, profile=StandardProfile(command="sphinx"))
-        self.fileio_rules = FileIORules(stdout_name="log.sx")
+        self.fileio_rules = FileIORules(stdout_name="sphinx.log")
 
     def write_input(self, atoms, properties=None, system_changes=None):
         super().write_input(atoms, properties, system_changes)
@@ -48,6 +48,6 @@ class SphinxDft(FileIOCalculator):
             f.write(to_sphinx(input_sx))
 
     def read_results(self):
-        parser = SphinxLogParser.load_from_path(Path(self.directory) / "log.sx")
+        parser = SphinxLogParser.load_from_path(Path(self.directory) / "sphinx.log")
         self.results["energy"] = parser.get_energy_free()[-1][-1]
         self.results["forces"] = parser.get_forces()[-1]
