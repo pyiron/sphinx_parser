@@ -1,6 +1,7 @@
 from pathlib import Path
 
 from ase.calculators.calculator import FileIOCalculator, FileIORules, StandardProfile
+from ase.units import Hartree, Bohr
 
 from sphinx_parser.ase import get_structure_group
 from sphinx_parser.input import sphinx
@@ -30,5 +31,6 @@ class SphinxDft(FileIOCalculator):
 
     def read_results(self):
         parser = SphinxLogParser.load_from_path(Path(self.directory) / "sphinx.log")
-        self.results["energy"] = parser.get_energy_free()[-1][-1]
-        self.results["forces"] = parser.get_forces()[-1]
+        self.results["energy"] = parser.get_energy_free()[-1][-1] * Hartree
+        forces_au = parser.get_forces()[-1]
+        self.results["forces"] = forces_au * Hartree / Bohr
