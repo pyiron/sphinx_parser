@@ -14,8 +14,8 @@ from sphinx_parser.toolkit import to_sphinx
 class SphinxDft(FileIOCalculator):
     implemented_properties = ["energy", "forces"]
 
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs, profile=StandardProfile(command="sphinx"))
+    def __init__(self, *args, command: str = "sphinx", **kwargs):
+        super().__init__(*args, **kwargs, profile=StandardProfile(command=command))
         self.fileio_rules = FileIORules(stdout_name="sphinx.log")
 
     def write_input(self, atoms, properties=None, system_changes=None):
