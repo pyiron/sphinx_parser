@@ -33,7 +33,7 @@ class SphinxDft(FileIOCalculator):
             directory="./run",
             potentials={
                 "Fe": {"potential": Path("/pots/Fe_GGA.atomicdata"), "potType": "AtomPAW"},
-                "Al": {"potential": Path("/pots/Al_VASP.atomicdata"), "potType": "VASP"},
+                "Al": {"potential": Path("/pots/Al_VASP.POTCAR"), "potType": "VASP"},
             },
         )
     """
