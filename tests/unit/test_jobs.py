@@ -1,4 +1,5 @@
 import unittest
+from pathlib import Path
 
 from ase.build import bulk
 
@@ -12,6 +13,17 @@ class TestJobs(unittest.TestCase):
         self.assertTrue("atomicSpin" in to_sphinx(set_base_parameters(structure)))
         structure = bulk("Al", cubic=True)
         self.assertFalse("atomicSpin" in to_sphinx(set_base_parameters(structure)))
+
+    def test_potentials_forwarded(self):
+        structure = bulk("Al", cubic=True)
+        custom_path = Path("/custom/Al_GGA.atomicdata")
+        input_sx = set_base_parameters(
+            structure,
+            potentials={"Al": {"potential": custom_path, "potType": "VaspPAW"}},
+        )
+        output = to_sphinx(input_sx)
+        self.assertIn(str(custom_path), output)
+        self.assertIn("VaspPAW", output)
 
     def test_calc_minimize(self):
         structure = bulk("Fe", cubic=True)
