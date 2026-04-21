@@ -8,7 +8,9 @@ from sphinx_parser.input import sphinx
 
 
 def get_paw_from_structure(structure, potentials=None):
-    return get_paw_from_chemical_symbols(structure.get_chemical_symbols(), potentials)
+    return get_paw_from_chemical_symbols(
+        structure.get_chemical_symbols(), potentials=potentials
+    )
 
 
 def get_paw_from_chemical_symbols(chemical_symbols, potentials=None):
