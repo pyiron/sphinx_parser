@@ -139,7 +139,7 @@ def collect_eval_forces(file_name, index_permutation=None):
     _check_permutation(index_permutation)
     with open(str(file_name), "r") as f:
         file_content = "".join(f.readlines())
-    n_steps = max(len(re.findall("// --- step \d", file_content, re.MULTILINE)), 1)
+    n_steps = max(len(re.findall(r"// --- step \d", file_content, re.MULTILINE)), 1)
     f_v = ",".join(3 * [r"\s*([\d.-]+)"])
 
     def get_value(term, f=file_content, n=n_steps, p=index_permutation):
@@ -251,7 +251,7 @@ class SphinxLogParser:
     @property
     def _log_k_points(self):
         start_match = re.search(
-            "-ik-     -x-      -y-       -z-    \|  -weight-    -nG-    -label-",
+            r"-ik-     -x-      -y-       -z-    \|  -weight-    -nG-    -label-",
             self.log_file,
         )
         log_part = self.log_file[start_match.end() + 1 :]
@@ -287,7 +287,7 @@ class SphinxLogParser:
     def counter(self):
         return [
             int(re.sub("[^0-9]", "", line.split("=")[0]))
-            for line in re.findall("F\(.*$", self.log_main, re.MULTILINE)
+            for line in re.findall(r"F\(.*$", self.log_main, re.MULTILINE)
         ]
 
     def _get_energy(self, pattern):
@@ -304,7 +304,7 @@ class SphinxLogParser:
     def n_atoms(self):
         if self._n_atoms is None:
             self._n_atoms = len(
-                np.unique(re.findall("^Species.*\{", self.log_main, re.MULTILINE))
+                np.unique(re.findall(r"^Species.*\{", self.log_main, re.MULTILINE))
             )
         return self._n_atoms
 
@@ -313,7 +313,7 @@ class SphinxLogParser:
         Returns:
             (numpy.ndarray): Forces of the shape (n_steps, n_atoms, 3)
         """
-        str_fl = "([-+]?[0-9]*\.?[0-9]+(?:[eE][-+]?[0-9]+)?)"
+        str_fl = r"([-+]?[0-9]*\.?[0-9]+(?:[eE][-+]?[0-9]+)?)"
         pattern = r"Atom: (\d+)\t{" + ",".join(3 * [str_fl]) + r"\}"
         arr = np.array(re.findall(pattern, self.log_file))
         if len(arr) == 0:
@@ -331,7 +331,7 @@ class SphinxLogParser:
         """
         magnetic_forces = [
             float(line.split()[-1])
-            for line in re.findall("^nu\(.*$", self.log_main, re.MULTILINE)
+            for line in re.findall(r"^nu\(.*$", self.log_main, re.MULTILINE)
         ]
         if len(magnetic_forces) != 0:
             magnetic_forces = np.array(magnetic_forces).reshape(-1, self.n_atoms)
@@ -342,7 +342,7 @@ class SphinxLogParser:
 
     @property
     def n_steps(self):
-        return len(re.findall("\| SCF calculation", self.log_file, re.MULTILINE))
+        return len(re.findall(r"\| SCF calculation", self.log_file, re.MULTILINE))
 
     def _parse_band(self, term):
         content = re.findall(term, self.log_main, re.MULTILINE)
@@ -355,7 +355,7 @@ class SphinxLogParser:
         return arr.reshape(shape)
 
     def get_band_energy(self):
-        return self._parse_band("final eig \[eV\]:(.*)$")
+        return self._parse_band(r"final eig \[eV\]:(.*)$")
 
     def get_occupancy(self):
         return self._parse_band("final focc:(.*)$")
@@ -365,7 +365,7 @@ class SphinxLogParser:
             "WARNING: Maximum number of steps exceeded": False,
             "Convergence reached.": True,
         }
-        key = "|".join(list(conv_dict.keys())).replace(".", "\.")
+        key = "|".join(list(conv_dict.keys())).replace(".", r"\.")
         items = re.findall(key, self.log_main, re.MULTILINE)
         convergence = [conv_dict[k] for k in items]
         diff = self.n_steps - len(convergence)
