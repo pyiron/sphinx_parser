@@ -24,7 +24,11 @@ class TestPotential(unittest.TestCase):
     # Repeated species blocks are stored as "species", "species___0", ...
     @staticmethod
     def _all_species(paw_dict):
-        return [v for k, v in paw_dict.items() if k == "species" or k.startswith("species___")]
+        return [
+            v
+            for k, v in paw_dict.items()
+            if k == "species" or k.startswith("species___")
+        ]
 
     def test_injected_potential_used(self):
         custom_path = Path("/custom/pots/Ag_custom.atomicdata")
@@ -49,7 +53,9 @@ class TestPotential(unittest.TestCase):
         # Ag is not in the injected dict, so it must fall back to the env path
         result = get_paw_from_chemical_symbols(
             ["Ag"],
-            potentials={"Fe": {"potential": Path("/pots/Fe.atomicdata"), "potType": "AtomPAW"}},
+            potentials={
+                "Fe": {"potential": Path("/pots/Fe.atomicdata"), "potType": "AtomPAW"}
+            },
         )
         species = self._all_species(result)
         self.assertEqual(len(species), 1)
@@ -58,7 +64,9 @@ class TestPotential(unittest.TestCase):
 
     def test_fallback_when_potentials_none(self):
         result = get_paw_from_chemical_symbols(["Ag"], potentials=None)
-        self.assertIn(get_potential_path("Ag"), self._all_species(result)[0]["potential"])
+        self.assertIn(
+            get_potential_path("Ag"), self._all_species(result)[0]["potential"]
+        )
 
     def test_mixed_injected_and_fallback(self):
         custom_path = Path("/pots/Fe_custom.atomicdata")

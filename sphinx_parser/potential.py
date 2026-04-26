@@ -28,9 +28,7 @@ def get_paw_from_chemical_symbols(chemical_symbols, potentials=None):
             element=element,
         )
 
-    return sphinx.pawPot(
-        species=[_species(c) for c in np.unique(chemical_symbols)]
-    )
+    return sphinx.pawPot(species=[_species(c) for c in np.unique(chemical_symbols)])
 
 
 def get_potential_path(element: str):
