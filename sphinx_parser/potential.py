@@ -7,21 +7,28 @@ import numpy as np
 from sphinx_parser.input import sphinx
 
 
-def get_paw_from_structure(structure):
-    return get_paw_from_chemical_symbols(structure.get_chemical_symbols())
-
-
-def get_paw_from_chemical_symbols(chemical_symbols):
-    return sphinx.pawPot(
-        species=[
-            sphinx.pawPot.species(
-                potential=get_potential_path(c),
-                potType="AtomPAW",
-                element=c,
-            )
-            for c in np.unique(chemical_symbols)
-        ]
+def get_paw_from_structure(structure, potentials=None):
+    return get_paw_from_chemical_symbols(
+        structure.get_chemical_symbols(), potentials=potentials
     )
+
+
+def get_paw_from_chemical_symbols(chemical_symbols, potentials=None):
+    def _species(element):
+        if potentials and element in potentials:
+            entry = potentials[element]
+            return sphinx.pawPot.species(
+                potential=str(entry["potential"]),
+                potType=entry["potType"],
+                element=element,
+            )
+        return sphinx.pawPot.species(
+            potential=get_potential_path(element),
+            potType="AtomPAW",
+            element=element,
+        )
+
+    return sphinx.pawPot(species=[_species(c) for c in np.unique(chemical_symbols)])
 
 
 def get_potential_path(element: str):
