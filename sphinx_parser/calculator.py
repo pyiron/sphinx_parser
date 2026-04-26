@@ -1,53 +1,63 @@
 from pathlib import Path
 
 from ase.calculators.calculator import FileIOCalculator, FileIORules, StandardProfile
+from ase.units import Hartree, Bohr
 
-from sphinx_parser.ase import get_structure_group
-from sphinx_parser.input import sphinx
+from sphinx_parser.jobs import set_base_parameters
 from sphinx_parser.output import SphinxLogParser
-from sphinx_parser.potential import get_paw_from_structure
 from sphinx_parser.toolkit import to_sphinx
 
 
 class SphinxDft(FileIOCalculator):
+    """ASE FileIOCalculator interface for the Sphinx DFT code.
+
+    Writes a Sphinx input file, runs the Sphinx binary, and parses the
+    resulting log for energy and forces.
+
+    Args:
+        command (str): Sphinx executable name or path. Defaults to "sphinx".
+        potentials (dict[str, dict] | None): Optional per-element PAW potential
+            overrides. Each key is an element symbol; each value is a dict with:
+                - ``potential`` (Path | str): path to the potential file.
+                - ``potType`` (str): potential type, e.g. ``"AtomPAW"`` or
+                  ``"VASP"``.
+            Elements absent from this dict fall back to the JTH-GGA-PBE
+            potentials found under ``$CONDA_PREFIX``.
+        *args, **kwargs: Forwarded to :class:`ase.calculators.calculator.FileIOCalculator`.
+
+    Example::
+
+        calc = SphinxDft(directory="./run")
+
+        calc = SphinxDft(
+            directory="./run",
+            potentials={
+                "Fe": {"potential": Path("/pots/Fe_GGA.atomicdata"), "potType": "AtomPAW"},
+                "Al": {"potential": Path("/pots/Al_VASP.POTCAR"), "potType": "VASP"},
+            },
+        )
+    """
+
     implemented_properties = ["energy", "forces"]
 
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs, profile=StandardProfile(command="sphinx"))
-        self.fileio_rules = FileIORules(stdout_name="log.sx")
+    def __init__(self, *args, command: str = "sphinx", potentials=None, **kwargs):
+        super().__init__(*args, **kwargs, profile=StandardProfile(command=command))
+        self.fileio_rules = FileIORules(stdout_name="sphinx.log")
+        self.potentials = potentials
 
     def write_input(self, atoms, properties=None, system_changes=None):
         super().write_input(atoms, properties, system_changes)
 
-        struct_group = get_structure_group(atoms)[0]
-        main_group = sphinx.main(
-            scfDiag=sphinx.main.scfDiag(maxSteps=10, blockCCG={}),
-            evalForces=sphinx.main.evalForces("forces.txt"),
-        )
-        pawPot_group = get_paw_from_structure(atoms)
-        basis_group = sphinx.basis(
-            eCut=25, kPoint=sphinx.basis.kPoint(coords=3 * [0.5])
-        )
-        paw_group = sphinx.PAWHamiltonian(xc=1, spinPolarized=False, ekt=0.2)
-        initial_guess_group = sphinx.initialGuess(
-            waves=sphinx.initialGuess.waves(lcao=sphinx.initialGuess.waves.lcao()),
-            rho=sphinx.initialGuess.rho(atomicOrbitals=True),
-        )
-
-        input_sx = sphinx(
-            pawPot=pawPot_group,
-            structure=struct_group,
-            main=main_group,
-            basis=basis_group,
-            PAWHamiltonian=paw_group,
-            initialGuess=initial_guess_group,
-        )
+        # Reuse the shared helper to build the Sphinx input structure,
+        # avoiding divergence from the defaults defined in jobs.set_base_parameters.
+        input_sx = set_base_parameters(atoms, potentials=self.potentials)
 
         cwd = self.directory
         with open(Path(cwd) / "input.sx", "w") as f:
             f.write(to_sphinx(input_sx))
 
     def read_results(self):
-        parser = SphinxLogParser.load_from_path(Path(self.directory) / "log.sx")
-        self.results["energy"] = parser.get_energy_free()[-1][-1]
-        self.results["forces"] = parser.get_forces()[-1]
+        parser = SphinxLogParser.load_from_path(Path(self.directory) / "sphinx.log")
+        self.results["energy"] = parser.get_energy_free()[-1][-1] * Hartree
+        forces_au = parser.get_forces()[-1]
+        self.results["forces"] = forces_au * Hartree / Bohr
