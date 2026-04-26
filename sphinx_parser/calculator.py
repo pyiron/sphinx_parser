@@ -1,7 +1,7 @@
 from pathlib import Path
 
 from ase.calculators.calculator import FileIOCalculator, FileIORules, StandardProfile
-from ase.units import Hartree, Bohr
+from ase.units import Bohr, Hartree
 
 from sphinx_parser.jobs import set_base_parameters
 from sphinx_parser.output import SphinxLogParser
