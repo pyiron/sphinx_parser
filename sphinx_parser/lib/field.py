@@ -3,108 +3,145 @@
 # Distributed under the terms of "New BSD License", see the LICENSE file.
 
 import numpy as np
-from pyiron_atomistics.sphinx.base import Group
+from typing import Optional, Dict, Any
+from ase import Atoms
+from sphinx_parser.input import sphinx
+from sphinx_parser.toolkit import fill_values
+import numpy as np
 
 
-class HighFieldJob:
-    num_of_jobs = 0
-    HARTREE_TO_EV = 27.2114
+def create_sphinx_input(
+    structure: Atoms,
+    e_field: float,
+    en_cut: float,
+    k_cut: list[float],
+    z_height: float = 2.0,
+    index: Optional[int] = None,
+    vdw: bool = False,
+    PES_xy: bool = False,
+    TS: bool = False,
+    preconditioner: str = "ELLIPTIC",
+    rhomixing: float = 0.7,
+    preconscaling: float = 0.3,
+    ekt: float = 0.1,
+    e_energy: float = 1e-7,
+    i_energy: float = 1e-3,
+) -> Dict[str, Any]:
+    """
+    Create a dictionary for SPHInX input using sphinx_parser.input.
+
+    Args:
+        structure (Atoms): ASE structure object.
+        e_field (float): Electric field in V/Å.
+        en_cut (float): Energy cutoff in eV.
+        k_cut (list[float]): K-point mesh.
+        z_height (float): Height of layers to be fixed in Å.
+        index (Optional[int]): Index of the evaporating atom.
+        vdw (bool): Whether to include van der Waals corrections.
+        PES_xy (bool): Whether to calculate PES along xy.
+        TS (bool): Whether to perform transition state optimization.
+        preconditioner (str): Preconditioner type.
+        rhomixing (float): Rho mixing value.
+        preconscaling (float): Preconditioner scaling value.
+        ekt (float): Electronic temperature in eV.
+        e_energy (float): Electronic energy convergence criterion.
+        i_energy (float): Ionic energy convergence criterion.
+
+    Returns:
+        Dict[str, Any]: SPHInX input dictionary.
+    """
+    # Convert electric field to atomic units
+    right_field = e_field / 51.4  # atomic units (1 E_h/ea_0 ≈ 51.4 V/Å)
+    left_field = 0.0
+
+    # Convert structure cell to Bohr
     ANGSTROM_TO_BOHR = 1.8897
-    preconditioner = "ELLIPTIC"
-    rhomixing = str(0.7)
-    preconscaling = 0.3
-    ekt = 0.1
-    ekt_scheme = "Fermi"
-    e_energy = 1e-7
-    i_energy = 1e-3
+    cell = structure.cell * ANGSTROM_TO_BOHR
+    area = np.linalg.norm(np.cross(cell[0], cell[1]))
 
-    def __init__(self, pr, e_field, en_cut, k_cut):
-        """HighFieldJob instance which has pr a pyiron project attribute, structure attribute, job_name attribute,
-        eField as the electric field (V/A) to be applied attribute, en_cut as the energy cutoff attribute in eV and
-        k_cut as the k_point mesh."""
-        self.pr = pr
-        self.e_field = e_field
-        self.en_cut = en_cut
-        self.k_cut = k_cut
-        HighFieldJob.num_of_jobs += 1
+    # Calculate total charge
+    total_charge = (right_field - left_field) * area / (4 * np.pi)
 
-    def gdc_evaporation(
-        self, structure, job_name, index, z_height=2, vdw=False, PES_xy=False, TS=False
-    ):
-        """Function to set up charged slab calculations with eField in Volts/Angstrom, and fixing layers below the
-        specified z_height (Angstroms). The function take HighFieldJob instance as input with additional arguments
-        of index for field evaporating atom. Set PES_xy to True to calculate PES along xy.
+    # Sort positions and determine fixed layers
+    positions = [p[2] for p in structure.positions]
+    sort_positions = np.sort(positions)
+    fixed_layers = np.where(np.asarray(positions) < z_height)[0]
 
-        :param TS: Set to True for transition state optimization calculation
-        :param PES_xy: Set to True for potential energy surface calculation along xy
-        :param vdw: set to True to include van derWalls corrections of D2 type
-        :param z_height: height of layers to be fixed
-        :param index: index of the evaporating (interested) atom
-        :param job_name: name of pyiron job
-        :param structure: pyiron structure object
+    # Create structure group
+    struct_group = sphinx.structure(
+        cell=structure.cell.tolist(),
+        species={},
+        wrap_string=True,
+    )
 
-        :return: a pyiron job
-        """
-        job = self.pr.create_job(job_type=self.pr.job_type.Sphinx, job_name=job_name)
-        job.set_occupancy_smearing(self.ekt_scheme, width=self.ekt)
-        job.structure = structure
-        job.set_encut(self.en_cut)  # in eV
-        job.set_kpoints(self.k_cut, center_shift=[0.5, 0.5, 0.25])
-        job.set_convergence_precision(
-            electronic_energy=self.e_energy, ionic_energy_tolerance=self.i_energy
+    # Add selective dynamics
+    selective_dynamics = np.full((len(structure), 3), True)
+    selective_dynamics[fixed_layers] = [False, False, False]
+    if PES_xy:
+        selective_dynamics[index] = [False, False, True]
+    selective_dynamics[index] = [True, True, False]
+
+    # Create main group
+    main_group = sphinx.main(
+        ricQN=sphinx.main.ricQN(
+            bornOppenheimer=sphinx.main.ricQN.bornOppenheimer(
+                scfDiag=sphinx.main.ricQN.bornOppenheimer.scfDiag(
+                    rhoMixing=rhomixing,
+                    preconditioner=sphinx.main.ricQN.bornOppenheimer.scfDiag.preconditioner(
+                        type_=preconditioner,
+                        scaling=preconscaling,
+                    ),
+                )
+            )
         )
-        positions = [p[2] for p in job.structure.positions]
-        job.structure.add_tag(selective_dynamics=(True, True, True))
-        job.structure.selective_dynamics[
-            np.where(np.asarray(positions) < z_height)[0]
-        ] = (False, False, False)
-        if PES_xy:
-            job.structure.selective_dynamics[index] = (False, False, True)
-        job.structure.selective_dynamics[index] = (True, True, False)
-        job.calc_minimize(ionic_steps=100, electronic_steps=100)
-        right_field = self.e_field / 51.4  # atomic units (1 E_h/ea_0 ~= 51.4 V/Å)
-        left_field = 0.0
-        cell = job.structure.cell * self.ANGSTROM_TO_BOHR
-        area = np.linalg.norm(np.cross(cell[0], cell[1]))
-        total_charge = (right_field - left_field) * area / (4 * np.pi)
-        sort_positions = np.sort(positions)
-        job.input.sphinx.initialGuess.rho.charged = Group({})
-        job.input.sphinx.initialGuess.rho.charged.charge = total_charge
-        job.input.sphinx.initialGuess.rho.charged.z = (
-            sort_positions[-2] * self.ANGSTROM_TO_BOHR
+    )
+
+    # Add transition state optimization if TS is True
+    if TS:
+        main_group["ricTS"] = main_group.pop("ricQN")
+        main_group["ricTS"].set_group("transPath")
+        tp = main_group["ricTS"]["transPath"]
+        tp["atomId"] = index + 1  # Python to SPHInX index adjustment
+        tp["dir"] = [0, 0, 1]
+
+    # Create PAWHamiltonian group
+    paw_group = sphinx.PAWHamiltonian(
+        xc="PBE",
+        spinPolarized=False,
+        ekt=ekt,
+        nExcessElectrons=-total_charge,
+        dipoleCorrection=True,
+        zField=left_field * 27.2114,  # Convert to atomic units
+    )
+    if vdw:
+        paw_group["vdwCorrection"] = sphinx.PAWHamiltonian.vdwCorrection(
+            method="D2"
         )
-        if vdw:
-            job.input.sphinx.PAWHamiltonian.vdwCorrection = Group({})
-            job.input.sphinx.PAWHamiltonian.vdwCorrection.method = '"D2"'
-        job.input.sphinx.PAWHamiltonian.nExcessElectrons = -total_charge
-        job.input.sphinx.PAWHamiltonian.dipoleCorrection = True
-        job.input.sphinx.PAWHamiltonian.zField = left_field * self.HARTREE_TO_EV
-        job.input["sphinx"]["main"]["ricQN"]["bornOppenheimer"]["scfDiag"][
-            "rhoMixing"
-        ] = self.rhomixing  # using conservative mixing can help with convergence.
-        job.input["sphinx"]["main"]["ricQN"]["bornOppenheimer"]["scfDiag"][
-            "preconditioner"
-        ]["type"] = self.preconditioner
-        job.input["sphinx"]["main"]["ricQN"]["bornOppenheimer"]["scfDiag"][
-            "preconditioner"
-        ]["scaling"] = self.preconscaling
-        if TS:
-            mainGroup = job.input.sphinx["main"]
-            # rename ricQN group inside mainGroup to ricTS group
-            mainGroup["ricTS"] = mainGroup.pop("ricQN")
-            # now add the transition path group inside ricTS
-            # atomId must be the atom index of the evaporating atom
-            mainGroup["ricTS"].set_group("transPath")
-            tp = mainGroup["ricTS"]["transPath"]
-            tp["atomId"] = index + 1  # python to sphinx change in indices
-            tp["dir"] = [0, 0, 1]
-            job.input["sphinx"]["main"]["ricTS"]["bornOppenheimer"]["scfDiag"][
-                "rhoMixing"
-            ] = self.rhomixing  # using conservative mixing can help with convergence.
-            job.input["sphinx"]["main"]["ricTS"]["bornOppenheimer"]["scfDiag"][
-                "preconditioner"
-            ]["type"] = self.preconditioner
-            job.input["sphinx"]["main"]["ricTS"]["bornOppenheimer"]["scfDiag"][
-                "preconditioner"
-            ]["scaling"] = self.preconscaling
-        return job
+
+    # Create initial guess group
+    initial_guess_group = sphinx.initialGuess(
+        rho=sphinx.initialGuess.rho(
+            charged=sphinx.initialGuess.rho.charged(
+                charge=total_charge,
+                z=sort_positions[-2] * ANGSTROM_TO_BOHR,
+            ),
+            atomicOrbitals=True,
+        )
+    )
+
+    # Create basis group
+    basis_group = sphinx.basis(
+        eCut=en_cut,
+        kPoint=sphinx.basis.kPoint(coords=k_cut),
+    )
+
+    # Combine all groups into the SPHInX input dictionary
+    input_dict = sphinx(
+        structure=struct_group,
+        main=main_group,
+        PAWHamiltonian=paw_group,
+        initialGuess=initial_guess_group,
+        basis=basis_group,
+    )
+
+    return input_dict
