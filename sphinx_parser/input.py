@@ -1,5 +1,5 @@
 from functools import wraps
-from typing import Optional, Annotated
+from typing import Annotated, Optional
 
 import numpy as np
 from semantikon.converter import units
