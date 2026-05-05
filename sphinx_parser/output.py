@@ -2,11 +2,15 @@ import re
 import warnings
 from functools import cached_property
 from pathlib import Path
+from typing import Optional, Union
 
 import numpy as np
+from numpy.typing import NDArray
 
 
-def _splitter(arr, counter):
+def _splitter(
+    arr: Union[NDArray, list], counter: Union[NDArray, list]
+) -> list:
     if len(arr) == 0 or len(counter) == 0:
         return []
     arr_new = []
@@ -17,7 +21,7 @@ def _splitter(arr, counter):
     return arr_new
 
 
-def collect_energy_dat(file_name="energy.dat"):
+def collect_energy_dat(file_name: Union[str, Path] = "energy.dat") -> dict:
     """
 
     Args:
@@ -39,7 +43,7 @@ def collect_energy_dat(file_name="energy.dat"):
     }
 
 
-def collect_residue_dat(file_name="residue.dat"):
+def collect_residue_dat(file_name: Union[str, Path] = "residue.dat") -> dict:
     """
 
     Args:
@@ -54,7 +58,7 @@ def collect_residue_dat(file_name="residue.dat"):
     return {"scf_residue": _splitter(residue[:, 1:].squeeze(), residue[:, 0])}
 
 
-def _collect_eps_dat(file_name="eps.dat"):
+def _collect_eps_dat(file_name: Union[str, Path] = "eps.dat") -> NDArray:
     """
 
     Args:
@@ -66,7 +70,11 @@ def _collect_eps_dat(file_name="eps.dat"):
     return np.loadtxt(str(file_name), ndmin=2)[..., 1:]
 
 
-def collect_eps_dat(file_name=None, cwd=None, spins=True):
+def collect_eps_dat(
+    file_name: Optional[Union[str, Path]] = None,
+    cwd: Optional[Union[str, Path]] = None,
+    spins: bool = True,
+) -> dict:
     if file_name is not None:
         values = [_collect_eps_dat(file_name=file_name)]
     elif cwd is None:
@@ -83,7 +91,9 @@ def collect_eps_dat(file_name=None, cwd=None, spins=True):
     return {"bands_eigen_values": values.reshape((-1,) + values.shape)}
 
 
-def collect_energy_struct(file_name="energy-structOpt.dat"):
+def collect_energy_struct(
+    file_name: Union[str, Path] = "energy-structOpt.dat",
+) -> dict:
     """
 
     Args:
@@ -96,7 +106,7 @@ def collect_energy_struct(file_name="energy-structOpt.dat"):
     return {"energy_free": np.loadtxt(str(file_name), ndmin=2).reshape(-1, 2)[:, 1]}
 
 
-def _check_permutation(index_permutation):
+def _check_permutation(index_permutation: Optional[NDArray]) -> None:
     if index_permutation is None:
         return
     unique_indices = np.unique(index_permutation)
@@ -105,7 +115,10 @@ def _check_permutation(index_permutation):
     assert np.max(index_permutation) == len(index_permutation) - 1
 
 
-def collect_spins_dat(file_name="spins.dat", index_permutation=None):
+def collect_spins_dat(
+    file_name: Union[str, Path] = "spins.dat",
+    index_permutation: Optional[NDArray] = None,
+) -> dict:
     """
 
     Args:
@@ -125,7 +138,10 @@ def collect_spins_dat(file_name="spins.dat", index_permutation=None):
     return {"atom_scf_spins": _splitter(s, spins[:, 0])}
 
 
-def collect_eval_forces(file_name, index_permutation=None):
+def collect_eval_forces(
+    file_name: Union[str, Path],
+    index_permutation: Optional[NDArray] = None,
+) -> dict:
     """
     Args:
         file_name (str): file name
@@ -142,7 +158,7 @@ def collect_eval_forces(file_name, index_permutation=None):
     n_steps = max(len(re.findall(r"// --- step \d", file_content, re.MULTILINE)), 1)
     f_v = ",".join(3 * [r"\s*([\d.-]+)"])
 
-    def get_value(term, f=file_content, n=n_steps, p=index_permutation):
+    def get_value(term: str, f: str = file_content, n: int = n_steps, p: Optional[NDArray] = index_permutation) -> NDArray:
         value = (
             np.array(re.findall(term, f, re.MULTILINE)).astype(float).reshape(n, -1, 3)
         )
@@ -164,23 +180,27 @@ def collect_eval_forces(file_name, index_permutation=None):
 
 
 class SphinxLogParser:
-    def __init__(self, file_content, index_permutation=None):
+    def __init__(
+        self,
+        file_content: str,
+        index_permutation: Optional[NDArray] = None,
+    ) -> None:
         """
         Args:
             file_name (str): file name
             index_permutation (numpy.ndarray): Indices for the permutation
 
         """
-        self.log_file = file_content
-        self._n_atoms = None
+        self.log_file: str = file_content
+        self._n_atoms: Optional[int] = None
         _check_permutation(index_permutation)
         self._index_permutation = index_permutation
-        self.generic_dict = {
+        self.generic_dict: dict = {
             "volume": self.get_volume,
             "forces": self.get_forces,
             "job_finished": self.job_finished,
         }
-        self.dft_dict = {
+        self.dft_dict: dict = {
             "n_valence": self.get_n_valence,
             "bands_k_weights": self.get_bands_k_weights,
             "kpoints_cartesian": self.get_kpoints_cartesian,
@@ -194,7 +214,11 @@ class SphinxLogParser:
         }
 
     @classmethod
-    def load_from_path(cls, path, index_permutation=None):
+    def load_from_path(
+        cls,
+        path: Union[str, Path],
+        index_permutation: Optional[NDArray] = None,
+    ) -> "SphinxLogParser":
         """
         Args:
             path (str): file name
@@ -209,15 +233,15 @@ class SphinxLogParser:
         return cls(file_content, index_permutation)
 
     @property
-    def index_permutation(self):
+    def index_permutation(self) -> Optional[NDArray]:
         return self._index_permutation
 
     @property
-    def spin_enabled(self):
+    def spin_enabled(self) -> bool:
         return len(re.findall("Spin moment:", self.log_file)) > 0
 
     @cached_property
-    def log_main(self):
+    def log_main(self) -> Optional[str]:
         term = "Enter Main Loop"
         matches = re.finditer(rf"\b{re.escape(term)}\b", self.log_file)
         positions = [(match.start(), match.end()) for match in matches]
@@ -231,7 +255,7 @@ class SphinxLogParser:
         log_main = positions[-1][-1] + 1
         return self.log_file[log_main:]
 
-    def job_finished(self):
+    def job_finished(self) -> bool:
         if (
             len(re.findall("Program exited normally.", self.log_file, re.MULTILINE))
             == 0
@@ -240,7 +264,7 @@ class SphinxLogParser:
             return False
         return True
 
-    def get_n_valence(self):
+    def get_n_valence(self) -> dict:
         log = self.log_file.split("\n")
         return {
             log[ii - 1].split()[1]: int(ll.split("=")[-1])
@@ -249,66 +273,76 @@ class SphinxLogParser:
         }
 
     @property
-    def _log_k_points(self):
+    def _log_k_points(self) -> list:
         start_match = re.search(
             r"-ik-     -x-      -y-       -z-    \|  -weight-    -nG-    -label-",
             self.log_file,
         )
+        assert start_match is not None
         log_part = self.log_file[start_match.end() + 1 :]
-        log_part = log_part[: re.search("^\n", log_part, re.MULTILINE).start()]
+        end_match = re.search("^\n", log_part, re.MULTILINE)
+        assert end_match is not None
+        log_part = log_part[: end_match.start()]
         return log_part.split("\n")[:-2]
 
-    def get_bands_k_weights(self):
+    def get_bands_k_weights(self) -> NDArray:
         return np.array([float(kk.split()[6]) for kk in self._log_k_points])
 
     @property
-    def _rec_cell(self):
+    def _rec_cell(self) -> NDArray:
         log_extract = re.findall("b[1-3]:.*$", self.log_file, re.MULTILINE)
         return (np.array([ll.split()[1:4] for ll in log_extract]).astype(float))[:3]
 
-    def get_kpoints_cartesian(self):
+    def get_kpoints_cartesian(self) -> NDArray:
         return np.einsum("ni,ij->nj", self.k_points, self._rec_cell)
 
     @property
-    def k_points(self):
+    def k_points(self) -> NDArray:
         return np.array(
             [[float(kk.split()[i]) for i in range(2, 5)] for kk in self._log_k_points]
         )
 
-    def get_volume(self):
-        volume = re.findall("Omega:.*$", self.log_file, re.MULTILINE)
-        if len(volume) > 0:
-            volume = float(volume[0].split()[1])
+    def get_volume(self) -> NDArray:
+        volume_matches = re.findall("Omega:.*$", self.log_file, re.MULTILINE)
+        volume: float
+        if len(volume_matches) > 0:
+            volume = float(volume_matches[0].split()[1])
         else:
-            volume = 0
+            volume = 0.0
         return np.array(self.n_steps * [volume])
 
     @property
-    def counter(self):
+    def counter(self) -> list:
+        log_main = self.log_main
+        assert log_main is not None
         return [
             int(re.sub("[^0-9]", "", line.split("=")[0]))
-            for line in re.findall(r"F\(.*$", self.log_main, re.MULTILINE)
+            for line in re.findall(r"F\(.*$", log_main, re.MULTILINE)
         ]
 
-    def _get_energy(self, pattern):
-        c, F = np.array(re.findall(pattern, self.log_main, re.MULTILINE)).T
+    def _get_energy(self, pattern: str) -> list:
+        log_main = self.log_main
+        assert log_main is not None
+        c, F = np.array(re.findall(pattern, log_main, re.MULTILINE)).T
         return _splitter(F.astype(float), c.astype(int))
 
-    def get_energy_free(self):
+    def get_energy_free(self) -> list:
         return self._get_energy(pattern=r"F\((\d+)\)=(-?\d+\.\d+)")
 
-    def get_energy_int(self):
+    def get_energy_int(self) -> list:
         return self._get_energy(pattern=r"eTot\((\d+)\)=(-?\d+\.\d+)")
 
     @property
-    def n_atoms(self):
+    def n_atoms(self) -> int:
         if self._n_atoms is None:
+            log_main = self.log_main
+            assert log_main is not None
             self._n_atoms = len(
-                np.unique(re.findall(r"^Species.*\{", self.log_main, re.MULTILINE))
+                np.unique(re.findall(r"^Species.*\{", log_main, re.MULTILINE))
             )
         return self._n_atoms
 
-    def get_forces(self):
+    def get_forces(self) -> Union[NDArray, list]:
         """
         Returns:
             (numpy.ndarray): Forces of the shape (n_steps, n_atoms, 3)
@@ -324,14 +358,16 @@ class SphinxLogParser:
                 forces[ii] = ff[self.index_permutation]
         return forces
 
-    def get_magnetic_forces(self):
+    def get_magnetic_forces(self) -> list:
         """
         Returns:
             (numpy.ndarray): Magnetic forces of the shape (n_steps, n_atoms)
         """
-        magnetic_forces = [
+        log_main = self.log_main
+        assert log_main is not None
+        magnetic_forces: Union[list, NDArray] = [
             float(line.split()[-1])
-            for line in re.findall(r"^nu\(.*$", self.log_main, re.MULTILINE)
+            for line in re.findall(r"^nu\(.*$", log_main, re.MULTILINE)
         ]
         if len(magnetic_forces) != 0:
             magnetic_forces = np.array(magnetic_forces).reshape(-1, self.n_atoms)
@@ -341,47 +377,57 @@ class SphinxLogParser:
         return _splitter(magnetic_forces, self.counter)
 
     @property
-    def n_steps(self):
+    def n_steps(self) -> int:
         return len(re.findall(r"\| SCF calculation", self.log_file, re.MULTILINE))
 
-    def _parse_band(self, term):
-        content = re.findall(term, self.log_main, re.MULTILINE)
+    def _parse_band(self, term: str) -> Union[NDArray, list]:
+        log_main = self.log_main
+        assert log_main is not None
+        content = re.findall(term, log_main, re.MULTILINE)
         if len(content) == 0:
             return []
         arr = np.loadtxt(content, ndmin=2)
-        shape = (-1, len(self.k_points), arr.shape[-1])
+        n_k = len(self.k_points)
+        n_bands = arr.shape[-1]
+        shape: tuple[int, ...]
         if self.spin_enabled:
-            shape = (-1, 2, len(self.k_points), shape[-1])
+            shape = (-1, 2, n_k, n_bands)
+        else:
+            shape = (-1, n_k, n_bands)
         return arr.reshape(shape)
 
-    def get_band_energy(self):
+    def get_band_energy(self) -> Union[NDArray, list]:
         return self._parse_band(r"final eig \[eV\]:(.*)$")
 
-    def get_occupancy(self):
+    def get_occupancy(self) -> Union[NDArray, list]:
         return self._parse_band("final focc:(.*)$")
 
-    def get_convergence(self):
+    def get_convergence(self) -> list:
+        log_main = self.log_main
+        assert log_main is not None
         conv_dict = {
             "WARNING: Maximum number of steps exceeded": False,
             "Convergence reached.": True,
         }
         key = "|".join(list(conv_dict.keys())).replace(".", r"\.")
-        items = re.findall(key, self.log_main, re.MULTILINE)
+        items = re.findall(key, log_main, re.MULTILINE)
         convergence = [conv_dict[k] for k in items]
         diff = self.n_steps - len(convergence)
         for _ in range(diff):
             convergence.append(False)
         return convergence
 
-    def get_fermi(self):
+    def get_fermi(self) -> NDArray:
+        log_main = self.log_main
+        assert log_main is not None
         pattern = r"Fermi energy:\s+(-?\d+\.\d+)\s+eV"
-        return np.array(re.findall(pattern, self.log_main)).astype(float)
+        return np.array(re.findall(pattern, log_main)).astype(float)
 
     @property
-    def results(self):
+    def results(self) -> dict:
         if self.log_main is None:
             return {}
-        results = {"generic": {}, "dft": {}}
+        results: dict = {"generic": {}, "dft": {}}
         for key, func in self.generic_dict.items():
             value = func()
             if key == "job_finished" or len(value) > 0:
