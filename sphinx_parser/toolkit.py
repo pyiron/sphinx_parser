@@ -1,5 +1,6 @@
-import numpy as np
 from typing import Any
+
+import numpy as np
 
 
 def format_value(v: Any, indent: int = 0):
@@ -7,7 +8,7 @@ def format_value(v: Any, indent: int = 0):
         return f" = {v};".lower()
     elif isinstance(v, list) and not isinstance(v[0], dict):
         return f" = {v};"
-    elif isinstance(v, dict) or isinstance(v, list):
+    elif isinstance(v, dict):
         if len(v) == 0:
             return " {}"
         else:
@@ -53,7 +54,7 @@ def append_item(group: dict, key: str, value: Any, n_max: int = int(1e8)) -> dic
 
 
 def fill_values(wrap_string: bool = True, **kwargs) -> dict:
-    group = {}
+    group: dict[str, Any] = {}
     for k, v in kwargs.items():
         while k.endswith("_"):
             k = k[:-1]
