@@ -8,9 +8,7 @@ import numpy as np
 from numpy.typing import NDArray
 
 
-def _splitter(
-    arr: Union[NDArray, list], counter: Union[NDArray, list]
-) -> list:
+def _splitter(arr: Union[NDArray, list], counter: Union[NDArray, list]) -> list:
     if len(arr) == 0 or len(counter) == 0:
         return []
     arr_new = []
@@ -158,7 +156,12 @@ def collect_eval_forces(
     n_steps = max(len(re.findall(r"// --- step \d", file_content, re.MULTILINE)), 1)
     f_v = ",".join(3 * [r"\s*([\d.-]+)"])
 
-    def get_value(term: str, f: str = file_content, n: int = n_steps, p: Optional[NDArray] = index_permutation) -> NDArray:
+    def get_value(
+        term: str,
+        f: str = file_content,
+        n: int = n_steps,
+        p: Optional[NDArray] = index_permutation,
+    ) -> NDArray:
         value = (
             np.array(re.findall(term, f, re.MULTILINE)).astype(float).reshape(n, -1, 3)
         )
