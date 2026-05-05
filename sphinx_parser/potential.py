@@ -11,7 +11,7 @@ def get_paw_from_structure(structure):
     return get_paw_from_chemical_symbols(structure.get_chemical_symbols())
 
 
-def get_paw_from_chemical_symbols(chemical_symbols):
+def get_paw_from_chemical_symbols(chemical_symbols: list[str]) -> dict:
     return sphinx.pawPot(
         species=[
             sphinx.pawPot.species(
@@ -24,7 +24,7 @@ def get_paw_from_chemical_symbols(chemical_symbols):
     )
 
 
-def get_potential_path(element: str):
+def get_potential_path(element: str) -> str:
     """
     Get the path to the potential file for the given element.
 
@@ -34,11 +34,11 @@ def get_potential_path(element: str):
     Returns:
         str: The path to the potential file.
     """
-    path = os.path.join(os.getenv("CONDA_PREFIX"), "share", "sphinxdft", "jth-gga-pbe")
+    path = os.path.join(os.environ["CONDA_PREFIX"], "share", "sphinxdft", "jth-gga-pbe")
     return os.path.join(path, f"{element}_GGA.atomicdata")
 
 
-def _remove_hash_tag(text):
+def _remove_hash_tag(text: str) -> str:
     """
     Remove all lines starting with a hash tag.
 
@@ -52,7 +52,7 @@ def _remove_hash_tag(text):
     return re.sub(r"\n+", "\n", result).strip()
 
 
-def _is_vasp_potential(file_content, min_hits=2):
+def _is_vasp_potential(file_content: str, min_hits: int = 2) -> bool:
     """
     Check if the file content is a VASP potential.
 
@@ -75,7 +75,7 @@ def _is_vasp_potential(file_content, min_hits=2):
     return False
 
 
-def _is_jth_potential(file_content, min_hits=9):
+def _is_jth_potential(file_content: str, min_hits: int = 9) -> bool:
     """
     Check if the file content is a JTH potential.
 

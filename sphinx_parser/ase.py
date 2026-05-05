@@ -1,15 +1,19 @@
+from typing import Optional
+
 import numpy as np
+from ase import Atoms
 from ase.io.vasp import _handle_ase_constraints
+from numpy.typing import NDArray
 from pint import UnitRegistry
 
 from sphinx_parser.input import sphinx
 
 
-def _get_spin_label(spin):
+def _get_spin_label(spin: float) -> str:
     return f"spin_{spin}"
 
 
-def _get_movable(selective):
+def _get_movable(selective: NDArray[np.bool_]) -> dict:
     if all(selective):
         return {"movable": True}
     elif any(selective):
@@ -18,7 +22,12 @@ def _get_movable(selective):
         return {"movable": False}
 
 
-def _get_atom_list(positions, spins, movable, elm_list):
+def _get_atom_list(
+    positions: NDArray,
+    spins: NDArray,
+    movable: NDArray[np.bool_],
+    elm_list: NDArray[np.bool_],
+) -> list:
     atom_list = []
     for elm_pos, elm_magmom, selective in zip(
         positions[elm_list],
@@ -34,7 +43,12 @@ def _get_atom_list(positions, spins, movable, elm_list):
     return atom_list
 
 
-def _get_species_list(positions, elements, spins, movable):
+def _get_species_list(
+    positions: NDArray,
+    elements: NDArray[np.str_],
+    spins: NDArray,
+    movable: NDArray[np.bool_],
+) -> list:
     species = []
     for elm_species in np.unique(elements):
         elm_list = elements == elm_species
@@ -43,7 +57,7 @@ def _get_species_list(positions, elements, spins, movable):
     return species
 
 
-def _get_spin_list(spins):
+def _get_spin_list(spins: NDArray) -> list:
     return [
         sphinx.initialGuess.rho.atomicSpin(
             label=_get_spin_label(spin),
@@ -53,7 +67,9 @@ def _get_spin_list(spins):
     ]
 
 
-def get_structure_group(structure, use_symmetry=True):
+def get_structure_group(
+    structure: Atoms, use_symmetry: bool = True
+) -> tuple[dict, Optional[list]]:
     """
     create a SPHInX Group object based on structure
 
@@ -90,7 +106,7 @@ def get_structure_group(structure, use_symmetry=True):
     return structure_group, spin_list
 
 
-def id_ase_to_spx(structure):
+def id_ase_to_spx(structure: Atoms) -> NDArray[np.intp]:
     """
     Translate the ASE ordering of the atoms to the SPHInX ordering
 
@@ -107,7 +123,7 @@ def id_ase_to_spx(structure):
     return np.argsort(indices)
 
 
-def id_spx_to_ase(structure):
+def id_spx_to_ase(structure: Atoms) -> NDArray[np.intp]:
     """
     Translate the SPHInX ordering of the atoms to the ASE ordering
 
