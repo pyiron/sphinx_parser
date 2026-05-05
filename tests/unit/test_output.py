@@ -11,7 +11,7 @@ class TestOutput(unittest.TestCase):
     def setUpClass(cls):
         # Get the path to the folder of this file
         d = os.path.dirname(os.path.realpath(__file__))
-        cls.file_path = os.path.join(d, "..", "static")
+        cls.file_path = os.path.join(d, r"..", "static")
 
     def _find_file(self, file_name):
         for root, dirs, files in os.walk(self.file_path):
