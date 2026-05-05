@@ -2,20 +2,19 @@
 # Copyright (c) - Max-Planck-Institut für Eisenforschung GmbH Computational Materials Design (CM) Department, MPIE.
 # Distributed under the terms of "New BSD License", see the LICENSE file.
 
-import numpy as np
 from typing import Optional, Dict, Any
+from typing_extensions import Annotated
 from ase import Atoms
 from sphinx_parser.input import sphinx
-from sphinx_parser.toolkit import fill_values
 import numpy as np
 
 
 def create_sphinx_input(
     structure: Atoms,
-    e_field: float,
-    en_cut: float,
+    e_field: Annotated[float, {"units": "V/Å"}],
+    en_cut: Annotated[float, {"units": "eV"}],
     k_cut: list[float],
-    z_height: float = 2.0,
+    z_height: Annotated[float, {"units": "Å"}] = 2.0,
     index: Optional[int] = None,
     vdw: bool = False,
     PES_xy: bool = False,
@@ -23,9 +22,9 @@ def create_sphinx_input(
     preconditioner: str = "ELLIPTIC",
     rhomixing: float = 0.7,
     preconscaling: float = 0.3,
-    ekt: float = 0.1,
-    e_energy: float = 1e-7,
-    i_energy: float = 1e-3,
+    ekt: Annotated[float, {"units": "eV"}] = 0.1,
+    e_energy: Annotated[float, {"units": "hartree"}] = 1e-7,
+    i_energy: Annotated[float, {"units": "hartree"}] = 1e-3,
 ) -> Dict[str, Any]:
     """
     Create a dictionary for SPHInX input using sphinx_parser.input.
@@ -44,23 +43,16 @@ def create_sphinx_input(
         rhomixing (float): Rho mixing value.
         preconscaling (float): Preconditioner scaling value.
         ekt (float): Electronic temperature in eV.
-        e_energy (float): Electronic energy convergence criterion.
-        i_energy (float): Ionic energy convergence criterion.
+        e_energy (float): Electronic energy convergence criterion in hartree.
+        i_energy (float): Ionic energy convergence criterion in hartree.
 
     Returns:
         Dict[str, Any]: SPHInX input dictionary.
     """
-    # Convert electric field to atomic units
-    right_field = e_field / 51.4  # atomic units (1 E_h/ea_0 ≈ 51.4 V/Å)
-    left_field = 0.0
-
-    # Convert structure cell to Bohr
-    ANGSTROM_TO_BOHR = 1.8897
-    cell = structure.cell * ANGSTROM_TO_BOHR
+    # Calculate total charge based on the electric field and cell area
+    cell = structure.cell
     area = np.linalg.norm(np.cross(cell[0], cell[1]))
-
-    # Calculate total charge
-    total_charge = (right_field - left_field) * area / (4 * np.pi)
+    total_charge = (e_field * area) / (4 * np.pi)
 
     # Sort positions and determine fixed layers
     positions = [p[2] for p in structure.positions]
@@ -111,7 +103,7 @@ def create_sphinx_input(
         ekt=ekt,
         nExcessElectrons=-total_charge,
         dipoleCorrection=True,
-        zField=left_field * 27.2114,  # Convert to atomic units
+        zField=0.0,  # Left field is 0.0 in this case
     )
     if vdw:
         paw_group["vdwCorrection"] = sphinx.PAWHamiltonian.vdwCorrection(
@@ -123,7 +115,7 @@ def create_sphinx_input(
         rho=sphinx.initialGuess.rho(
             charged=sphinx.initialGuess.rho.charged(
                 charge=total_charge,
-                z=sort_positions[-2] * ANGSTROM_TO_BOHR,
+                z=sort_positions[-2],
             ),
             atomicOrbitals=True,
         )
