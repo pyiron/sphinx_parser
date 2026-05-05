@@ -236,7 +236,7 @@ def _get_file_content(yml_file_name: str = "input_data.yml") -> str:
     file_content = _get_class(all_data)
     imports = [
         "from functools import wraps",
-        "from typing import Optional, Annotated",
+        "from typing import Annotated, Optional",
         "",
         "import numpy as np",
         "from semantikon.converter import units",
