@@ -133,11 +133,11 @@ def _get_input_arg(key: str, entry: dict, indent: str = indent) -> str:
     t = entry.get("data_type", "dict")
     units = "".join(entry.get("units", "").split())
     if not entry.get("required", False) and units != "":
-        t = f'u(Optional[{t}], units="{units}") = None'
+        t = f'Annotated[Optional[{t}], {{"units": "{units}"}}] = None'
     elif not entry.get("required", False):
         t = f"Optional[{t}] = None"
     elif units != "":
-        t = f'u({t}, units="{units}")'
+        t = f'Annotated[{t}, {{"units": "{units}"}}]'
     t = f"{indent}{_get_safe_parameter_name(key)}: {t},"
     return t
 
@@ -236,11 +236,10 @@ def _get_file_content(yml_file_name: str = "input_data.yml") -> str:
     file_content = _get_class(all_data)
     imports = [
         "from functools import wraps",
-        "from typing import Optional",
+        "from typing import Optional, Annotated",
         "",
         "import numpy as np",
         "from semantikon.converter import units",
-        "from semantikon.metadata import u",
         "",
         "from sphinx_parser.toolkit import fill_values",
         "",

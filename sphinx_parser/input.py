@@ -1,9 +1,8 @@
 from functools import wraps
-from typing import Optional
+from typing import Optional, Annotated
 
 import numpy as np
 from semantikon.converter import units
-from semantikon.metadata import u
 
 from sphinx_parser.toolkit import fill_values
 
@@ -62,7 +61,7 @@ def sphinx(
 @_func_in_func(sphinx)
 @units
 def _sphinx__structure(
-    cell: u(list, units="bohr"),
+    cell: Annotated[list, {"units": "bohr"}],
     movable: Optional[bool] = None,
     movableX: Optional[bool] = None,
     movableY: Optional[bool] = None,
@@ -117,7 +116,7 @@ def _sphinx__structure__species(
 @_func_in_func(sphinx.structure.species)
 @units
 def _sphinx__structure__species__atom(
-    coords: u(Optional[np.ndarray], units="bohr") = None,
+    coords: Annotated[Optional[np.ndarray], {"units": "bohr"}] = None,
     relative: Optional[bool] = None,
     movableLine: Optional[list] = None,
     label: Optional[str] = None,
@@ -251,7 +250,7 @@ def _sphinx__basis__kPoint(
 @units
 def _sphinx__basis__kPoints(
     relative: Optional[bool] = None,
-    dK: u(Optional[float], units="1/bohr") = None,
+    dK: Annotated[Optional[float], {"units": "1/bohr"}] = None,
     from_: Optional[dict] = None,
     to: Optional[dict] = None,
     wrap_string: bool = True,
@@ -276,7 +275,7 @@ def _sphinx__basis__kPoints(
 @_func_in_func(sphinx.basis.kPoints)
 @units
 def _sphinx__basis__kPoints__from(
-    coords: u(np.ndarray, units="1/bohr"),
+    coords: Annotated[np.ndarray, {"units": "1/bohr"}],
     relative: Optional[bool] = None,
     label: Optional[str] = None,
     wrap_string: bool = True,
@@ -301,10 +300,10 @@ def _sphinx__basis__kPoints__from(
 @_func_in_func(sphinx.basis.kPoints)
 @units
 def _sphinx__basis__kPoints__to(
-    coords: u(np.ndarray, units="1/bohr"),
+    coords: Annotated[np.ndarray, {"units": "1/bohr"}],
     relative: Optional[bool] = None,
     label: Optional[str] = None,
-    dK: u(Optional[float], units="1/bohr") = None,
+    dK: Annotated[Optional[float], {"units": "1/bohr"}] = None,
     nPoints: Optional[int] = None,
     wrap_string: bool = True,
 ):
@@ -393,14 +392,14 @@ def _sphinx__pawPot__species(
 @units
 def _sphinx__PAWHamiltonian(
     xc: str,
-    ekt: u(Optional[float], units="eV") = None,
+    ekt: Annotated[Optional[float], {"units": "eV"}] = None,
     MethfesselPaxton: Optional[float] = None,
     FermiDirac: Optional[int] = None,
     nEmptyStates: Optional[int] = None,
     nExcessElectrons: Optional[int] = None,
     spinPolarized: Optional[bool] = None,
     dipoleCorrection: Optional[bool] = None,
-    zField: u(Optional[float], units="hartree/bohr") = None,
+    zField: Annotated[Optional[float], {"units": "hartree/bohr"}] = None,
     vExt: Optional[dict] = None,
     xcMesh: Optional[dict] = None,
     vdwCorrection: Optional[dict] = None,
@@ -587,16 +586,16 @@ def _sphinx__PAWHamiltonian__HubbardU__MO(
     orbital: Optional[dict] = None,
     species: Optional[int] = None,
     label: Optional[str] = None,
-    maxDist: u(Optional[float], units="bohr") = None,
-    minDist: u(Optional[float], units="bohr") = None,
+    maxDist: Annotated[Optional[float], {"units": "bohr"}] = None,
+    minDist: Annotated[Optional[float], {"units": "bohr"}] = None,
     nInterpolate: Optional[int] = None,
     nRadGrid: Optional[int] = None,
-    rCut: u(Optional[float], units="bohr") = None,
-    cutWidth: u(Optional[float], units="bohr") = None,
+    rCut: Annotated[Optional[float], {"units": "bohr"}] = None,
+    cutWidth: Annotated[Optional[float], {"units": "bohr"}] = None,
     mMO: Optional[int] = None,
     sign: Optional[int] = None,
-    U: u(Optional[float], units="eV") = None,
-    shift: u(Optional[float], units="eV") = None,
+    U: Annotated[Optional[float], {"units": "eV"}] = None,
+    shift: Annotated[Optional[float], {"units": "eV"}] = None,
     wrap_string: bool = True,
 ):
     """
@@ -835,7 +834,7 @@ def _sphinx__initialGuess__rho__charged(
     charge: float,
     beta: Optional[float] = None,
     z: Optional[float] = None,
-    coords: u(Optional[np.ndarray], units="bohr") = None,
+    coords: Annotated[Optional[np.ndarray], {"units": "bohr"}] = None,
     wrap_string: bool = True,
 ):
     """
@@ -1120,14 +1119,14 @@ def _sphinx__pseudoPot__species(
 @units
 def _sphinx__PWHamiltonian(
     xc: str,
-    ekt: u(Optional[float], units="eV") = None,
+    ekt: Annotated[Optional[float], {"units": "eV"}] = None,
     MethfesselPaxton: Optional[float] = None,
     FermiDirac: Optional[float] = None,
     nEmptyStates: Optional[int] = None,
     nExcessElectrons: Optional[int] = None,
     spinPolarized: Optional[bool] = None,
     dipoleCorrection: Optional[bool] = None,
-    zField: u(Optional[float], units="eV/bohr") = None,
+    zField: Annotated[Optional[float], {"units": "eV/bohr"}] = None,
     wrap_string: bool = True,
 ):
     """
@@ -1177,7 +1176,7 @@ def _sphinx__main(wrap_string: bool = True, **kwargs):
 @_func_in_func(sphinx.main)
 @units
 def _sphinx__main__scfDiag(
-    dEnergy: u(Optional[float], units="hartree") = None,
+    dEnergy: Annotated[Optional[float], {"units": "hartree"}] = None,
     maxSteps: Optional[int] = None,
     maxResidue: Optional[float] = None,
     printSteps: Optional[int] = None,
@@ -1189,7 +1188,7 @@ def _sphinx__main__scfDiag(
     keepOccFixed: Optional[bool] = None,
     keepSpinFixed: Optional[bool] = None,
     spinMoment: Optional[float] = None,
-    ekt: u(Optional[float], units="eV") = None,
+    ekt: Annotated[Optional[float], {"units": "eV"}] = None,
     dipoleCorrection: Optional[bool] = None,
     dSpinMoment: Optional[float] = None,
     noRhoStorage: Optional[bool] = None,
@@ -1260,7 +1259,7 @@ def _sphinx__main__scfDiag__CCG(
     finalDiag: Optional[bool] = None,
     kappa: Optional[float] = None,
     keepOccFixed: Optional[bool] = None,
-    ekt: u(Optional[float], units="eV") = None,
+    ekt: Annotated[Optional[float], {"units": "eV"}] = None,
     dipoleCorrection: Optional[bool] = None,
     noRhoStorage: Optional[bool] = None,
     noWavesStorage: Optional[bool] = None,
@@ -1368,10 +1367,10 @@ def _sphinx__main__scfDiag__preconditioner(
 @units
 def _sphinx__main__QN(
     maxSteps: Optional[int] = None,
-    dX: u(Optional[float], units="bohr") = None,
-    dF: u(Optional[float], units="hartree/bohr") = None,
-    dEnergy: u(Optional[float], units="hartree") = None,
-    maxStepLength: u(Optional[float], units="bohr") = None,
+    dX: Annotated[Optional[float], {"units": "bohr"}] = None,
+    dF: Annotated[Optional[float], {"units": "hartree/bohr"}] = None,
+    dEnergy: Annotated[Optional[float], {"units": "hartree"}] = None,
+    maxStepLength: Annotated[Optional[float], {"units": "bohr"}] = None,
     hessian: Optional[str] = None,
     driftFilter: Optional[bool] = None,
     bornOppenheimer: Optional[dict] = None,
@@ -1426,7 +1425,7 @@ def _sphinx__main__QN__bornOppenheimer(
 @_func_in_func(sphinx.main.QN.bornOppenheimer)
 @units
 def _sphinx__main__QN__bornOppenheimer__scfDiag(
-    dEnergy: u(Optional[float], units="hartree") = None,
+    dEnergy: Annotated[Optional[float], {"units": "hartree"}] = None,
     maxSteps: Optional[int] = None,
     maxResidue: Optional[float] = None,
     printSteps: Optional[int] = None,
@@ -1438,7 +1437,7 @@ def _sphinx__main__QN__bornOppenheimer__scfDiag(
     keepOccFixed: Optional[bool] = None,
     keepSpinFixed: Optional[bool] = None,
     spinMoment: Optional[float] = None,
-    ekt: u(Optional[float], units="eV") = None,
+    ekt: Annotated[Optional[float], {"units": "eV"}] = None,
     dipoleCorrection: Optional[bool] = None,
     dSpinMoment: Optional[float] = None,
     noRhoStorage: Optional[bool] = None,
@@ -1509,7 +1508,7 @@ def _sphinx__main__QN__bornOppenheimer__scfDiag__CCG(
     finalDiag: Optional[bool] = None,
     kappa: Optional[float] = None,
     keepOccFixed: Optional[bool] = None,
-    ekt: u(Optional[float], units="eV") = None,
+    ekt: Annotated[Optional[float], {"units": "eV"}] = None,
     dipoleCorrection: Optional[bool] = None,
     noRhoStorage: Optional[bool] = None,
     noWavesStorage: Optional[bool] = None,
@@ -1617,10 +1616,10 @@ def _sphinx__main__QN__bornOppenheimer__scfDiag__preconditioner(
 @units
 def _sphinx__main__linQN(
     maxSteps: Optional[int] = None,
-    dX: u(Optional[float], units="bohr") = None,
-    dF: u(Optional[float], units="hartree/bohr") = None,
-    dEnergy: u(Optional[float], units="hartree") = None,
-    maxStepLength: u(Optional[float], units="bohr") = None,
+    dX: Annotated[Optional[float], {"units": "bohr"}] = None,
+    dF: Annotated[Optional[float], {"units": "hartree/bohr"}] = None,
+    dEnergy: Annotated[Optional[float], {"units": "hartree"}] = None,
+    maxStepLength: Annotated[Optional[float], {"units": "bohr"}] = None,
     nProjectors: Optional[int] = None,
     hessian: Optional[str] = None,
     driftFilter: Optional[bool] = None,
@@ -1678,7 +1677,7 @@ def _sphinx__main__linQN__bornOppenheimer(
 @_func_in_func(sphinx.main.linQN.bornOppenheimer)
 @units
 def _sphinx__main__linQN__bornOppenheimer__scfDiag(
-    dEnergy: u(Optional[float], units="hartree") = None,
+    dEnergy: Annotated[Optional[float], {"units": "hartree"}] = None,
     maxSteps: Optional[int] = None,
     maxResidue: Optional[float] = None,
     printSteps: Optional[int] = None,
@@ -1690,7 +1689,7 @@ def _sphinx__main__linQN__bornOppenheimer__scfDiag(
     keepOccFixed: Optional[bool] = None,
     keepSpinFixed: Optional[bool] = None,
     spinMoment: Optional[float] = None,
-    ekt: u(Optional[float], units="eV") = None,
+    ekt: Annotated[Optional[float], {"units": "eV"}] = None,
     dipoleCorrection: Optional[bool] = None,
     dSpinMoment: Optional[float] = None,
     noRhoStorage: Optional[bool] = None,
@@ -1761,7 +1760,7 @@ def _sphinx__main__linQN__bornOppenheimer__scfDiag__CCG(
     finalDiag: Optional[bool] = None,
     kappa: Optional[float] = None,
     keepOccFixed: Optional[bool] = None,
-    ekt: u(Optional[float], units="eV") = None,
+    ekt: Annotated[Optional[float], {"units": "eV"}] = None,
     dipoleCorrection: Optional[bool] = None,
     noRhoStorage: Optional[bool] = None,
     noWavesStorage: Optional[bool] = None,
@@ -1869,12 +1868,12 @@ def _sphinx__main__linQN__bornOppenheimer__scfDiag__preconditioner(
 @units
 def _sphinx__main__ricQN(
     maxSteps: Optional[int] = None,
-    dX: u(Optional[float], units="bohr") = None,
-    dF: u(Optional[float], units="hartree/bohr") = None,
-    dEnergy: u(Optional[float], units="hartree") = None,
-    maxStepLength: u(Optional[float], units="bohr") = None,
+    dX: Annotated[Optional[float], {"units": "bohr"}] = None,
+    dF: Annotated[Optional[float], {"units": "hartree/bohr"}] = None,
+    dEnergy: Annotated[Optional[float], {"units": "hartree"}] = None,
+    maxStepLength: Annotated[Optional[float], {"units": "bohr"}] = None,
     nProjectors: Optional[int] = None,
-    softModeDamping: u(Optional[float], units="hartree/bohr**2") = None,
+    softModeDamping: Annotated[Optional[float], {"units": "hartree/bohr**2"}] = None,
     driftFilter: Optional[bool] = None,
     bornOppenheimer: Optional[dict] = None,
     wrap_string: bool = True,
@@ -1928,7 +1927,7 @@ def _sphinx__main__ricQN__bornOppenheimer(
 @_func_in_func(sphinx.main.ricQN.bornOppenheimer)
 @units
 def _sphinx__main__ricQN__bornOppenheimer__scfDiag(
-    dEnergy: u(Optional[float], units="hartree") = None,
+    dEnergy: Annotated[Optional[float], {"units": "hartree"}] = None,
     maxSteps: Optional[int] = None,
     maxResidue: Optional[float] = None,
     printSteps: Optional[int] = None,
@@ -1940,7 +1939,7 @@ def _sphinx__main__ricQN__bornOppenheimer__scfDiag(
     keepOccFixed: Optional[bool] = None,
     keepSpinFixed: Optional[bool] = None,
     spinMoment: Optional[float] = None,
-    ekt: u(Optional[float], units="eV") = None,
+    ekt: Annotated[Optional[float], {"units": "eV"}] = None,
     dipoleCorrection: Optional[bool] = None,
     dSpinMoment: Optional[float] = None,
     noRhoStorage: Optional[bool] = None,
@@ -2011,7 +2010,7 @@ def _sphinx__main__ricQN__bornOppenheimer__scfDiag__CCG(
     finalDiag: Optional[bool] = None,
     kappa: Optional[float] = None,
     keepOccFixed: Optional[bool] = None,
-    ekt: u(Optional[float], units="eV") = None,
+    ekt: Annotated[Optional[float], {"units": "eV"}] = None,
     dipoleCorrection: Optional[bool] = None,
     noRhoStorage: Optional[bool] = None,
     noWavesStorage: Optional[bool] = None,
@@ -2118,7 +2117,7 @@ def _sphinx__main__ricQN__bornOppenheimer__scfDiag__preconditioner(
 @_func_in_func(sphinx.main)
 @units
 def _sphinx__main__ric(
-    maxDist: u(Optional[float], units="bohr") = None,
+    maxDist: Annotated[Optional[float], {"units": "bohr"}] = None,
     typifyThreshold: Optional[float] = None,
     rmsThreshold: Optional[float] = None,
     planeCutLimit: Optional[float] = None,
@@ -2174,7 +2173,7 @@ def _sphinx__main__ric__bornOppenheimer(
 @_func_in_func(sphinx.main.ric.bornOppenheimer)
 @units
 def _sphinx__main__ric__bornOppenheimer__scfDiag(
-    dEnergy: u(Optional[float], units="hartree") = None,
+    dEnergy: Annotated[Optional[float], {"units": "hartree"}] = None,
     maxSteps: Optional[int] = None,
     maxResidue: Optional[float] = None,
     printSteps: Optional[int] = None,
@@ -2186,7 +2185,7 @@ def _sphinx__main__ric__bornOppenheimer__scfDiag(
     keepOccFixed: Optional[bool] = None,
     keepSpinFixed: Optional[bool] = None,
     spinMoment: Optional[float] = None,
-    ekt: u(Optional[float], units="eV") = None,
+    ekt: Annotated[Optional[float], {"units": "eV"}] = None,
     dipoleCorrection: Optional[bool] = None,
     dSpinMoment: Optional[float] = None,
     noRhoStorage: Optional[bool] = None,
@@ -2257,7 +2256,7 @@ def _sphinx__main__ric__bornOppenheimer__scfDiag__CCG(
     finalDiag: Optional[bool] = None,
     kappa: Optional[float] = None,
     keepOccFixed: Optional[bool] = None,
-    ekt: u(Optional[float], units="eV") = None,
+    ekt: Annotated[Optional[float], {"units": "eV"}] = None,
     dipoleCorrection: Optional[bool] = None,
     noRhoStorage: Optional[bool] = None,
     noWavesStorage: Optional[bool] = None,
@@ -2435,7 +2434,7 @@ def _sphinx__main__ricTS__bornOppenheimer(
 @_func_in_func(sphinx.main.ricTS.bornOppenheimer)
 @units
 def _sphinx__main__ricTS__bornOppenheimer__scfDiag(
-    dEnergy: u(Optional[float], units="hartree") = None,
+    dEnergy: Annotated[Optional[float], {"units": "hartree"}] = None,
     maxSteps: Optional[int] = None,
     maxResidue: Optional[float] = None,
     printSteps: Optional[int] = None,
@@ -2447,7 +2446,7 @@ def _sphinx__main__ricTS__bornOppenheimer__scfDiag(
     keepOccFixed: Optional[bool] = None,
     keepSpinFixed: Optional[bool] = None,
     spinMoment: Optional[float] = None,
-    ekt: u(Optional[float], units="eV") = None,
+    ekt: Annotated[Optional[float], {"units": "eV"}] = None,
     dipoleCorrection: Optional[bool] = None,
     dSpinMoment: Optional[float] = None,
     noRhoStorage: Optional[bool] = None,
@@ -2518,7 +2517,7 @@ def _sphinx__main__ricTS__bornOppenheimer__scfDiag__CCG(
     finalDiag: Optional[bool] = None,
     kappa: Optional[float] = None,
     keepOccFixed: Optional[bool] = None,
-    ekt: u(Optional[float], units="eV") = None,
+    ekt: Annotated[Optional[float], {"units": "eV"}] = None,
     dipoleCorrection: Optional[bool] = None,
     noRhoStorage: Optional[bool] = None,
     noWavesStorage: Optional[bool] = None,
