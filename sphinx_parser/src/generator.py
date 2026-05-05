@@ -64,8 +64,8 @@ def _set(obj: dict, path: str, value):
         path (str): The path to the value.
         value (Any): The value.
     """
-    *path, last = path.split("/")
-    for bit in path:
+    *path_parts, last = path.split("/")
+    for bit in path_parts:
         obj = obj.setdefault(bit, {})
     obj[last] = value
 
