@@ -1,7 +1,8 @@
 import numpy as np
+from typing import Any
 
 
-def format_value(v, indent=0):
+def format_value(v: Any, indent: int = 0):
     if isinstance(v, bool):
         return f" = {v};".lower()
     elif isinstance(v, list) and not isinstance(v[0], dict):
@@ -22,7 +23,7 @@ def format_value(v, indent=0):
         return " = {!s};".format(v)
 
 
-def to_sphinx(obj, indent=0, include_format=True):
+def to_sphinx(obj: dict, indent: int = 0, include_format: bool = True) -> str:
     if include_format and "PAWHamiltonian" in obj:
         line = "format paw;\n\n"
     elif include_format and "PWHamiltonian" in obj and "pseudoPot" in obj:
@@ -39,7 +40,7 @@ def to_sphinx(obj, indent=0, include_format=True):
     return line
 
 
-def append_item(group, key, value, n_max=int(1e8)):
+def append_item(group: dict, key: str, value: Any, n_max: int = int(1e8)) -> dict:
     if key not in group:
         group[key] = value
         return group
@@ -51,7 +52,7 @@ def append_item(group, key, value, n_max=int(1e8)):
     raise ValueError("Too many items in group")
 
 
-def fill_values(wrap_string=True, **kwargs):
+def fill_values(wrap_string: bool = True, **kwargs) -> dict:
     group = {}
     for k, v in kwargs.items():
         while k.endswith("_"):
@@ -67,5 +68,5 @@ def fill_values(wrap_string=True, **kwargs):
     return group
 
 
-def _wrap_string(string: str):
+def _wrap_string(string: str) -> str:
     return f'"{string}"'

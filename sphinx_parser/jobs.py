@@ -10,7 +10,7 @@ def set_base_parameters(
     maxSteps: int = 30,
     ekt: float = 0.2,
     k_point_coords: list = [0.5, 0.5, 0.5],
-):
+) -> dict:
     """
     Set the base parameters for the sphinx input file
 
@@ -52,7 +52,9 @@ def set_base_parameters(
     return input_sx
 
 
-def apply_minimization(sphinx_input, mode="linQN", dEnergy=1.0e-6, maxSteps=50):
+def apply_minimization(
+    sphinx_input: dict, mode: str = "linQN", dEnergy: float = 1.0e-6, maxSteps: int = 50
+) -> dict:
     """
     Apply minimization to the sphinx input file
 
