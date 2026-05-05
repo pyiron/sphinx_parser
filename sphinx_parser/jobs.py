@@ -10,6 +10,7 @@ def set_base_parameters(
     maxSteps: int = 30,
     ekt: float = 0.2,
     k_point_coords: list = [0.5, 0.5, 0.5],
+    potentials=None,
 ):
     """
     Set the base parameters for the sphinx input file
@@ -32,7 +33,7 @@ def set_base_parameters(
             maxSteps=maxSteps, blockCCG=sphinx.main.scfDiag.blockCCG()
         )
     )
-    pawPot_group = get_paw_from_structure(structure)
+    pawPot_group = get_paw_from_structure(structure, potentials)
     basis_group = sphinx.basis(
         eCut=eCut, kPoint=sphinx.basis.kPoint(coords=k_point_coords)
     )
