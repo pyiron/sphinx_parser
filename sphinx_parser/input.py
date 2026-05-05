@@ -400,7 +400,7 @@ def _sphinx__PAWHamiltonian(
     nExcessElectrons: Optional[int] = None,
     spinPolarized: Optional[bool] = None,
     dipoleCorrection: Optional[bool] = None,
-    zField: u(Optional[float], units="eV/bohr") = None,
+    zField: u(Optional[float], units="hartree/bohr") = None,
     vExt: Optional[dict] = None,
     xcMesh: Optional[dict] = None,
     vdwCorrection: Optional[dict] = None,
@@ -417,7 +417,7 @@ def _sphinx__PAWHamiltonian(
         nExcessElectrons (int): The number of excess electrons to include in the calculation. (Optional)
         spinPolarized (bool): Whether to perform a spin-polarized calculation. (Optional)
         dipoleCorrection (bool): Use the dipole correction for slab systems. The in-plane lattice must be perpendicular to the z-axis, and the third basis vector must be aligned with the z-axis. For charged calculation, this requests the generalized dipole correction, which may need some care for initializing the charge (see charged in the initialGuess group). (Optional)
-        zField (float): Use an additional electric field along z when using the dipole correction. Units: eV/bohr. (Optional)
+        zField (float): Use an additional electric field along z when using the dipole correction. Units: hartree/bohr. (Optional)
         vExt (dict): External potential. (Optional)
         xcMesh (dict): Mesh for the exchange-correlation potential. (Optional)
         vdwCorrection (dict): Van der Waals correction. (Optional)

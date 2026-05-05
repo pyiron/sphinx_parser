@@ -225,7 +225,7 @@ sphinx:
       description: Use the dipole correction for slab systems. The in-plane lattice must be perpendicular to the z-axis, and the third basis vector must be aligned with the z-axis. For charged calculation, this requests the generalized dipole correction, which may need some care for initializing the charge (see charged in the initialGuess group).
     zField:
       data_type: float
-      units: eV/bohr
+      units: hartree/bohr
       required: false
       description: Use an additional electric field along z when using the dipole correction
     vExt:
