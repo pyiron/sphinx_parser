@@ -1,9 +1,9 @@
 [build-system]
 requires = [
-    "setuptools",
-    "versioneer[toml]==0.29",
+    "hatchling==1.29.0",
+    "hatch-vcs==0.5.0",
 ]
-build-backend = "setuptools.build_meta"
+build-backend = "hatchling.build"
 
 [project]
 name = "sphinx_parser"
@@ -26,13 +26,13 @@ dependencies = [
    "numpy==2.4.3",
    "ase==3.28.0",
    "h5py==3.16.0",
-   "semantikon==1.0.0",
+   "sphinx_parser==1.0.0",
    "pint==0.25.3",
    "pyyaml==6.0.3",
 ]
 dynamic = [ "version",]
 authors = [
-    { name = "Lorem Ipsum", email = "lorem@ipsum.com" },
+    { name = "Sam Waseda", email = "waseda@mpie.de" },
 ]
 
 [project.license]
@@ -43,15 +43,34 @@ Homepage = "https://pyiron.org/"
 Documentation = "https://sphinx_parser.readthedocs.io"
 Repository = "https://github.com/pyiron/sphinx_parser"
 
-[tool.versioneer]
-VCS = "git"
-style = "pep440-pre"
-versionfile_source = "sphinx_parser/_version.py"
-parentdir_prefix = "sphinx_parser"
-tag_prefix = "sphinx_parser-"
+[tool.hatch.build]
+include = [
+    "sphinx_parser"
+]
 
-[tool.setuptools.packages.find]
-include = [ "sphinx_parser*",]
+[tool.hatch.build.hooks.vcs]
+version-file = "sphinx_parser/_version.py"
 
-[tool.setuptools.dynamic.version]
-attr = "sphinx_parser.__version__"
+[tool.hatch.build.targets.sdist]
+include = [
+    "sphinx_parser"
+]
+
+[tool.hatch.build.targets.wheel]
+packages = [
+    "sphinx_parser"
+]
+
+[tool.hatch.version]
+source = "vcs"
+path = "sphinx_parser/_version.py"
+
+[tool.mypy]
+exclude = [
+    "^docs/conf\\.py$",
+    "^tests/",
+]
+ignore_missing_imports = true
+strict_equality = true
+non_interactive = true
+install_types = true
