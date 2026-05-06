@@ -14,6 +14,7 @@ from sphinx_parser.lib.field import (
     create_sphinx_input,
     angstrom_to_bohr,
 )
+from sphinx_parser.toolkit import to_sphinx
 
 
 def _make_slab():
@@ -237,7 +238,7 @@ class TestCreateSphinxInput(unittest.TestCase):
         self.assertTrue(result["PAWHamiltonian"]["dipoleCorrection"])
 
     def test_pes_xy_false_uses_fixed_line(self):
-        """With PES_xy=False the constrained atom should only move along z."""
+        """With PES_xy=False the constrained atom can only move along z (FixedLine)."""
         result = create_sphinx_input(
             structure=self.structure,
             e_field=self.e_field,
@@ -246,10 +247,23 @@ class TestCreateSphinxInput(unittest.TestCase):
             index=self.index,
             PES_xy=False,
         )
-        self.assertIsInstance(result, dict)
+        # FixedLine along z means movableX=False, movableY=False, movableZ=True for
+        # the constrained atom. The sphinx structure text should contain movableX
+        # or movableY entries equal to false.
+        structure_text = to_sphinx(result["structure"])
+        self.assertIn(
+            "movableX = false",
+            structure_text,
+            "FixedLine constraint should restrict X movement",
+        )
+        self.assertIn(
+            "movableY = false",
+            structure_text,
+            "FixedLine constraint should restrict Y movement",
+        )
 
     def test_pes_xy_true(self):
-        """With PES_xy=True the constrained atom should only move in the xy plane."""
+        """With PES_xy=True the constrained atom can only move in the xy plane (FixedPlane)."""
         result = create_sphinx_input(
             structure=self.structure,
             e_field=self.e_field,
@@ -258,7 +272,13 @@ class TestCreateSphinxInput(unittest.TestCase):
             index=self.index,
             PES_xy=True,
         )
-        self.assertIsInstance(result, dict)
+        # FixedPlane with normal [0,0,1] means movableZ=False for the constrained atom.
+        structure_text = to_sphinx(result["structure"])
+        self.assertIn(
+            "movableZ = false",
+            structure_text,
+            "FixedPlane constraint should restrict Z movement",
+        )
 
 
 if __name__ == "__main__":
