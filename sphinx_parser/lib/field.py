@@ -111,6 +111,7 @@ def create_sphinx_input(
         nExcessElectrons=-total_charge,
         dipoleCorrection=True,
         zField=0.0,  # Left field is 0.0 in this case
+        MethfesselPaxton=1,
     )
     if vdw:
         paw_group["vdwCorrection"] = sphinx.PAWHamiltonian.vdwCorrection(method="D2")
@@ -120,7 +121,7 @@ def create_sphinx_input(
         rho=sphinx.initialGuess.rho(
             charged=sphinx.initialGuess.rho.charged(
                 charge=total_charge,
-                z=sort_positions[-2],
+                z=np.sort(structure.positions[:, -1])[-2] * angstrom_to_bohr,
             ),
             atomicOrbitals=True,
         )
