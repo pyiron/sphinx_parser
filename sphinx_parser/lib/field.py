@@ -4,6 +4,7 @@
 
 from typing import Optional, Dict, Any
 from typing_extensions import Annotated
+from semantikon.converter import units
 from sphinx_parser.input import sphinx
 from sphinx_parser.ase import get_structure_group
 import ase
@@ -12,6 +13,7 @@ import numpy as np
 angstrom_to_bohr = 1.8897259886
 
 
+@units
 def create_sphinx_input(
     structure: ase.Atoms,
     e_field: Annotated[float, {"units": "hartree/bohr"}],
