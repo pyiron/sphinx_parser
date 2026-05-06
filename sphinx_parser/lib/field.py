@@ -2,7 +2,7 @@
 # Copyright (c) - Max-Planck-Institut für Eisenforschung GmbH Computational Materials Design (CM) Department, MPIE.
 # Distributed under the terms of "New BSD License", see the LICENSE file.
 
-from typing import Any, Dict, Optional
+from typing import Any, Dict
 
 import ase
 import numpy as np

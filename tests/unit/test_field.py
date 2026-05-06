@@ -5,7 +5,7 @@
 import unittest
 
 import numpy as np
-from ase.build import bulk, fcc111
+from ase.build import fcc111
 from ase.constraints import FixAtoms, FixedLine, FixedPlane
 
 from sphinx_parser.lib.field import (
