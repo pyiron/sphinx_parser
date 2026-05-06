@@ -9,12 +9,15 @@ from sphinx_parser.input import sphinx
 import numpy as np
 
 
+angstrom_to_bohr = 1.8897259886
+
+
 def create_sphinx_input(
     structure: Atoms,
-    e_field: Annotated[float, {"units": "V/Å"}],
-    en_cut: Annotated[float, {"units": "eV"}],
+    e_field: Annotated[float, {"units": "hartree/bohr"}],
+    en_cut: Annotated[float, {"units": "hartree"}],
     k_cut: list[float],
-    z_height: Annotated[float, {"units": "Å"}] = 2.0,
+    z_height: Annotated[float, {"units": "angstrom"}] = 2.0,
     index: Optional[int] = None,
     vdw: bool = False,
     PES_xy: bool = False,
@@ -31,8 +34,8 @@ def create_sphinx_input(
 
     Args:
         structure (Atoms): ASE structure object.
-        e_field (float): Electric field in V/Å.
-        en_cut (float): Energy cutoff in eV.
+        e_field (float): Electric field in hartree/bohr.
+        en_cut (float): Energy cutoff in hartree.
         k_cut (list[float]): K-point mesh.
         z_height (float): Height of layers to be fixed in Å.
         index (Optional[int]): Index of the evaporating atom.
@@ -50,7 +53,7 @@ def create_sphinx_input(
         Dict[str, Any]: SPHInX input dictionary.
     """
     # Calculate total charge based on the electric field and cell area
-    cell = structure.cell
+    cell = structure.cell * angstrom_to_bohr  # Convert cell to bohr
     area = np.linalg.norm(np.cross(cell[0], cell[1]))
     total_charge = (e_field * area) / (4 * np.pi)
 
