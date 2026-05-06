@@ -3,7 +3,7 @@ import unittest
 from pint import UnitRegistry
 
 from sphinx_parser.input import sphinx
-from sphinx_parser.toolkit import to_sphinx
+from sphinx_parser.toolkit import fill_values, to_sphinx
 
 
 class TestInput(unittest.TestCase):
@@ -51,8 +51,8 @@ class TestInput(unittest.TestCase):
 
     def test_boolean(self):
         self.assertEqual(
-            to_sphinx({"hello": True, "world": False}),
-            "hello = true;\nworld = false;\n"
+            to_sphinx(fill_values(hello=True, world=[{"a": True}, {"a": False}])),
+            "hello = true;\nworld {\n\ta = true;\n}\nworld {\n\ta = false;\n}\n"
         )
 
 
