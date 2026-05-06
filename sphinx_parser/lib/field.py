@@ -4,8 +4,9 @@
 
 from typing import Optional, Dict, Any
 from typing_extensions import Annotated
-from ase import Atoms
 from sphinx_parser.input import sphinx
+from sphinx_parser.ase import get_structure_group
+import ase
 import numpy as np
 
 
@@ -13,7 +14,7 @@ angstrom_to_bohr = 1.8897259886
 
 
 def create_sphinx_input(
-    structure: Atoms,
+    structure: ase.Atoms,
     e_field: Annotated[float, {"units": "hartree/bohr"}],
     en_cut: Annotated[float, {"units": "hartree"}],
     k_cut: list[float],
@@ -33,7 +34,7 @@ def create_sphinx_input(
     Create a dictionary for SPHInX input using sphinx_parser.input.
 
     Args:
-        structure (Atoms): ASE structure object.
+        structure (ase.Atoms): ASE structure object.
         e_field (float): Electric field in hartree/bohr.
         en_cut (float): Energy cutoff in hartree.
         k_cut (list[float]): K-point mesh.
@@ -60,21 +61,18 @@ def create_sphinx_input(
     # Sort positions and determine fixed layers
     positions = [p[2] for p in structure.positions]
     sort_positions = np.sort(positions)
-    fixed_layers = np.where(np.asarray(positions) < z_height)[0]
-
-    # Create structure group
-    struct_group = sphinx.structure(
-        cell=structure.cell.tolist(),
-        species={},
-        wrap_string=True,
-    )
+    fixed_layers = np.where(structure.positions.T[2] < z_height)[0]
 
     # Add selective dynamics
-    selective_dynamics = np.full((len(structure), 3), True)
-    selective_dynamics[fixed_layers] = [False, False, False]
+    fix_atoms = ase.constraints.FixAtoms(indices=fixed_layers)
     if PES_xy:
-        selective_dynamics[index] = [False, False, True]
-    selective_dynamics[index] = [True, True, False]
+        fix_index = ase.constraints.FixedPlane(indices=index, direction=[0, 0, 1])
+    else:
+        fix_index = ase.constraints.FixedLine(indices=index, direction=[0, 0, 1])
+    structure.set_constraint([fix_atoms, fix_index])
+
+    # Create structure group
+    struct_group = get_structure_group(structure)
 
     # Create main group
     main_group = sphinx.main(
