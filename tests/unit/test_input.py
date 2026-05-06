@@ -49,6 +49,12 @@ class TestInput(unittest.TestCase):
             {"dEnergy": 3.6749322175664394e-09, "maxSteps": 10, "blockCCG": {}},
         )
 
+    def test_boolean(self):
+        self.assertEqual(
+            to_sphinx({"hello": True, "world": False}),
+            "hello = true;\nworld = false;\n"
+        )
+
 
 if __name__ == "__main__":
     unittest.main()
