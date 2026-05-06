@@ -240,7 +240,7 @@ def _get_file_content(yml_file_name: str = "input_data.yml") -> str:
         "import numpy as np",
         "from semantikon.converter import units",
         "",
-        "from sphinx_parser.toolkit import fill_values, _func_in_func",
+        "from sphinx_parser.toolkit import _func_in_func, fill_values",
         "",
         "",
     ]
