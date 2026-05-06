@@ -35,12 +35,16 @@ class TestApplyConstraint(unittest.TestCase):
 
     def test_fixed_layers_applied(self):
         z_height = 3.0
-        result = _apply_constraint(self.structure, index=0, z_height=z_height, PES_xy=False)
+        result = _apply_constraint(
+            self.structure, index=0, z_height=z_height, PES_xy=False
+        )
         fixed_indices = np.where(self.structure.positions[:, 2] < z_height)[0]
         fix_atoms_constraint = next(
             (c for c in result.constraints if isinstance(c, FixAtoms)), None
         )
-        self.assertIsNotNone(fix_atoms_constraint, "FixAtoms constraint should be present")
+        self.assertIsNotNone(
+            fix_atoms_constraint, "FixAtoms constraint should be present"
+        )
         np.testing.assert_array_equal(
             np.sort(fix_atoms_constraint.index), np.sort(fixed_indices)
         )
@@ -50,14 +54,18 @@ class TestApplyConstraint(unittest.TestCase):
         fixed_line = next(
             (c for c in result.constraints if isinstance(c, FixedLine)), None
         )
-        self.assertIsNotNone(fixed_line, "FixedLine constraint should be present when PES_xy=False")
+        self.assertIsNotNone(
+            fixed_line, "FixedLine constraint should be present when PES_xy=False"
+        )
 
     def test_pes_xy_true_uses_fixed_plane(self):
         result = _apply_constraint(self.structure, index=0, z_height=0.0, PES_xy=True)
         fixed_plane = next(
             (c for c in result.constraints if isinstance(c, FixedPlane)), None
         )
-        self.assertIsNotNone(fixed_plane, "FixedPlane constraint should be present when PES_xy=True")
+        self.assertIsNotNone(
+            fixed_plane, "FixedPlane constraint should be present when PES_xy=True"
+        )
 
     def test_no_fixed_layer_when_z_height_is_zero(self):
         result = _apply_constraint(self.structure, index=0, z_height=0.0, PES_xy=False)
@@ -197,7 +205,9 @@ class TestCreateSphinxInput(unittest.TestCase):
             vdw=True,
         )
         paw = result["PAWHamiltonian"]
-        self.assertIn("vdwCorrection", paw, "vdwCorrection should be present when vdw=True")
+        self.assertIn(
+            "vdwCorrection", paw, "vdwCorrection should be present when vdw=True"
+        )
 
     def test_without_vdw(self):
         result = create_sphinx_input(
