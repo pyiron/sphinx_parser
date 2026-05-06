@@ -13,7 +13,9 @@ import numpy as np
 angstrom_to_bohr = 1.8897259886
 
 
-def _apply_constraint(structure: ase.Atoms, index: int, z_height: float, PES_xy: bool) -> ase.Atoms:
+def _apply_constraint(
+    structure: ase.Atoms, index: int, z_height: float, PES_xy: bool
+) -> ase.Atoms:
     """
     Apply selective dynamics constraints to the structure.
 
@@ -102,7 +104,7 @@ def create_sphinx_input(
     struct_group, spin_lst = get_structure_group(structure)
 
     # Create main group
-    bornOppenheimer=sphinx.main.ricQN.bornOppenheimer(
+    bornOppenheimer = sphinx.main.ricQN.bornOppenheimer(
         scfDiag=sphinx.main.ricQN.bornOppenheimer.scfDiag(
             rhoMixing=rhomixing,
             preconditioner=sphinx.main.ricQN.bornOppenheimer.scfDiag.preconditioner(
@@ -127,10 +129,7 @@ def create_sphinx_input(
         )
     else:
         main_group = sphinx.main(
-            ricQN=sphinx.main.ricQN(
-                bornOppenheimer=bornOppenheimer,
-                dEnergy=i_energy
-            )
+            ricQN=sphinx.main.ricQN(bornOppenheimer=bornOppenheimer, dEnergy=i_energy)
         )
 
     # Create PAWHamiltonian group
@@ -158,17 +157,13 @@ def create_sphinx_input(
             ),
             atomicOrbitals=True,
             atomicSpin=spin_lst,
-        )
+        ),
     )
 
     # Create basis group
     basis_group = sphinx.basis(
         eCut=en_cut,
-        kPoint=sphinx.basis.kPoint(
-            coords=[0.5, 0.5, 0.25],
-            weight=1,
-            relative=True
-        ),
+        kPoint=sphinx.basis.kPoint(coords=[0.5, 0.5, 0.25], weight=1, relative=True),
         folding=k_cut,
     )
 
