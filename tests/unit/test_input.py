@@ -52,7 +52,7 @@ class TestInput(unittest.TestCase):
     def test_boolean(self):
         self.assertEqual(
             to_sphinx(fill_values(hello=True, world=[{"a": True}, {"a": False}])),
-            "hello = true;\nworld {\n\ta = true;\n}\nworld {\n\ta = false;\n}\n"
+            "hello = true;\nworld {\n\ta = true;\n}\nworld {\n\ta = false;\n}\n",
         )
 
 
