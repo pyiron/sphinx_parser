@@ -58,8 +58,6 @@ def create_sphinx_input(
     total_charge = (e_field * area) / (4 * np.pi)
 
     # Sort positions and determine fixed layers
-    positions = [p[2] for p in structure.positions]
-    sort_positions = np.sort(positions)
     fixed_layers = np.where(structure.positions.T[2] < z_height)[0]
 
     # Add selective dynamics
