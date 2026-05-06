@@ -1,19 +1,9 @@
-from functools import wraps
 from typing import Annotated, Optional
 
 import numpy as np
 from semantikon.converter import units
 
-from sphinx_parser.toolkit import fill_values
-
-
-def _func_in_func(parentfunc):
-    @wraps(parentfunc)
-    def register(childfunc):
-        parentfunc.__dict__[childfunc.__name__.split("__")[-1]] = childfunc
-        return parentfunc
-
-    return register
+from sphinx_parser.toolkit import _func_in_func, fill_values
 
 
 @units

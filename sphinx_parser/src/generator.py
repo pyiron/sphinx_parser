@@ -235,21 +235,14 @@ def _get_file_content(yml_file_name: str = "input_data.yml") -> str:
     all_data = _replace_alias(all_data)
     file_content = _get_class(all_data)
     imports = [
-        "from functools import wraps",
         "from typing import Annotated, Optional",
         "",
         "import numpy as np",
         "from semantikon.converter import units",
         "",
-        "from sphinx_parser.toolkit import fill_values",
+        "from sphinx_parser.toolkit import _func_in_func, fill_values",
         "",
         "",
-        "def _func_in_func(parentfunc):",
-        "    @wraps(parentfunc)",
-        "    def register(childfunc):",
-        "        parentfunc.__dict__[childfunc.__name__.split('__')[-1]] = childfunc",
-        "        return parentfunc",
-        "    return register",
     ]
     file_content = "\n".join(imports) + "\n\n\n" + file_content
     file_content = format_str(file_content, mode=FileMode())
@@ -258,7 +251,7 @@ def _get_file_content(yml_file_name: str = "input_data.yml") -> str:
 
 def export_class(yml_file_name: str = "input_data.yml", py_file_name: str = "input.py"):
     file_content = _get_file_content(yml_file_name)
-    with open(os.path.join(os.path.dirname(__file__), "..", py_file_name), "w") as f:
+    with open(os.path.join(os.path.dirname(__file__), r"..", py_file_name), "w") as f:
         f.write(file_content)
 
 
