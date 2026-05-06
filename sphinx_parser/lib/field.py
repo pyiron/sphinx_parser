@@ -13,6 +13,45 @@ import numpy as np
 angstrom_to_bohr = 1.8897259886
 
 
+def _apply_constraint(structure: ase.Atoms, index: int, z_height: float, PES_xy: bool) -> ase.Atoms:
+    """
+    Apply selective dynamics constraints to the structure.
+
+    Args:
+        structure (ase.Atoms): ASE structure object.
+        index (int): Index of the evaporating atom.
+        z_height (float): Height of layers to be fixed in Å.
+        PES_xy (bool): Whether to calculate PES along xy.
+
+    Returns:
+        ase.Atoms: Structure with applied constraints.
+    """
+    fixed_layers = np.where(structure.positions.T[2] < z_height)[0]
+    fix_atoms = ase.constraints.FixAtoms(indices=fixed_layers)
+    if PES_xy:
+        fix_index = ase.constraints.FixedPlane(indices=index, direction=[0, 0, 1])
+    else:
+        fix_index = ase.constraints.FixedLine(indices=index, direction=[0, 0, 1])
+    structure_copy = structure.copy()
+    structure_copy.set_constraint([fix_atoms, fix_index])
+    return structure_copy
+
+
+def _get_total_charge(e_field: float, cell: np.ndarray) -> float:
+    """
+    Calculate total charge based on the electric field and cell area.
+
+    Args:
+        e_field (float): Electric field in hartree/bohr.
+        cell (np.ndarray): Cell vectors in bohr.
+
+    Returns:
+        float: Total charge.
+    """
+    area = np.linalg.norm(np.cross(cell[0], cell[1]))
+    return (e_field * area) / (4 * np.pi)
+
+
 @units
 def create_sphinx_input(
     structure: ase.Atoms,
@@ -55,24 +94,12 @@ def create_sphinx_input(
         Dict[str, Any]: SPHInX input dictionary.
     """
     # Calculate total charge based on the electric field and cell area
-    cell = structure.cell * angstrom_to_bohr  # Convert cell to bohr
-    area = np.linalg.norm(np.cross(cell[0], cell[1]))
-    total_charge = (e_field * area) / (4 * np.pi)
+    total_charge = _get_total_charge(e_field, structure.cell * angstrom_to_bohr)
 
-    # Sort positions and determine fixed layers
-    fixed_layers = np.where(structure.positions.T[2] < z_height)[0]
-
-    # Add selective dynamics
-    fix_atoms = ase.constraints.FixAtoms(indices=fixed_layers)
-    if PES_xy:
-        fix_index = ase.constraints.FixedPlane(indices=index, direction=[0, 0, 1])
-    else:
-        fix_index = ase.constraints.FixedLine(indices=index, direction=[0, 0, 1])
-    structure.set_constraint([fix_atoms, fix_index])
+    structure = _apply_constraint(structure, index, z_height, PES_xy)
 
     # Create structure group
     struct_group, spin_lst = get_structure_group(structure)
-    spinPolarized = spin_lst is not None
 
     # Create main group
     bornOppenheimer=sphinx.main.ricQN.bornOppenheimer(
@@ -109,7 +136,7 @@ def create_sphinx_input(
     # Create PAWHamiltonian group
     paw_group = sphinx.PAWHamiltonian(
         xc="PBE",
-        spinPolarized=False,
+        spinPolarized=spin_lst is not None,
         ekt=ekt,
         nExcessElectrons=-total_charge,
         dipoleCorrection=True,
@@ -121,6 +148,9 @@ def create_sphinx_input(
 
     # Create initial guess group
     initial_guess_group = sphinx.initialGuess(
+        waves=sphinx.initialGuess.waves(
+            lcao=sphinx.initialGuess.waves.lcao(),
+        ),
         rho=sphinx.initialGuess.rho(
             charged=sphinx.initialGuess.rho.charged(
                 charge=total_charge,
