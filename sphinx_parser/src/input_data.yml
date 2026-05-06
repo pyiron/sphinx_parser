@@ -1033,6 +1033,20 @@ sphinx:
         description: Drift filter
       bornOppenheimer:
         alias: sphinx.main.QN.bornOppenheimer
+      transPath:
+        description: The transPath group denes initial guess for the atomic displacement pattern along the negative curvature (transition direction). Either atomId or atomIds must be set. dir contains the x,y,zdisplacements for each atom (3 values for atomId or 3 values for each index in atomIds).
+        atomId:
+          data_type: int
+          required: false
+          description: Atom id (starting from 1) for which to set the transition direction.
+        atomIds:
+          data_type: list
+          required: false
+          description: List of atom ids (starting from 1) for which to set the transition direction.
+        dir:
+          data_type: list
+          required: true
+          description: List of x,y,z displacements for each atom (3 values for atomId or 3 values for each index in atomIds).
     evalForces:
       description: The evalForces group is used to calculate forces and write them to a file in sx-format. This is useful for single-point calculations without a structure optimization. It should be used after an electronic loop.
       file:
