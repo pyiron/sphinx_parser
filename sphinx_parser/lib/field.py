@@ -26,8 +26,8 @@ def create_sphinx_input(
     rhomixing: float = 0.7,
     preconscaling: float = 0.3,
     ekt: Annotated[float, {"units": "eV"}] = 0.1,
-    e_energy: Annotated[float, {"units": "hartree"}] = 1e-7,
-    i_energy: Annotated[float, {"units": "hartree"}] = 1e-3,
+    e_energy: Annotated[float, {"units": "hartree"}] = 1e-8,
+    i_energy: Annotated[float, {"units": "hartree"}] = 1e-4,
 ) -> Dict[str, Any]:
     """
     Create a dictionary for SPHInX input using sphinx_parser.input.
@@ -79,6 +79,7 @@ def create_sphinx_input(
                 type_=preconditioner,
                 scaling=preconscaling,
             ),
+            dEnergy=e_energy,
         )
     )
 
@@ -91,11 +92,15 @@ def create_sphinx_input(
                     atomId=index + 1,  # Python to SPHInX index adjustment
                     dir_=[0, 0, 1],
                 ),
+                dEnergy=i_energy,
             )
         )
     else:
         main_group = sphinx.main(
-            ricQN=sphinx.main.ricQN(bornOppenheimer=bornOppenheimer)
+            ricQN=sphinx.main.ricQN(
+                bornOppenheimer=bornOppenheimer,
+                dEnergy=i_energy
+            )
         )
 
     # Create PAWHamiltonian group
@@ -128,12 +133,10 @@ def create_sphinx_input(
     )
 
     # Combine all groups into the SPHInX input dictionary
-    input_dict = sphinx(
+    return sphinx(
         structure=struct_group,
         main=main_group,
         PAWHamiltonian=paw_group,
         initialGuess=initial_guess_group,
         basis=basis_group,
     )
-
-    return input_dict
