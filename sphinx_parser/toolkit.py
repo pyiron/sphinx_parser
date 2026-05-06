@@ -43,6 +43,8 @@ def to_sphinx(obj: dict, indent: int = 0, include_format: bool = True) -> str:
 
 
 def append_item(group: dict, key: str, value: Any, n_max: int = int(1e8)) -> dict:
+    if isinstance(value, np.generic):
+        value = value.item()
     if key not in group:
         group[key] = value
         return group
