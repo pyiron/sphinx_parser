@@ -83,18 +83,22 @@ def create_sphinx_input(
             ),
         )
     )
-    if TS:
-        main_group["ricTS"] = main_group.pop("ricQN")
-        main_group["ricTS"].set_group("transPath")
-        tp = main_group["ricTS"]["transPath"]
-        tp["atomId"] = index + 1  # Python to SPHInX index adjustment
-        tp["dir"] = [0, 0, 1]
-    else:
-        main_group = sphinx.main(
-            ricQN=sphinx.main.ricQN(bornOppenheimer=borhnOppenheimer)
-        )
 
     # Add transition state optimization if TS is True
+    if TS:
+        main_group = sphinx.main(
+            ricTS=sphinx.main.ricTS(
+                bornOppenheimer=bornOppenheimer,
+                transPath=sphinx.main.ricTS.transPath(
+                    atomId=index + 1,  # Python to SPHInX index adjustment
+                    dir_=[0, 0, 1],
+                ),
+            )
+        )
+    else:
+        main_group = sphinx.main(
+            ricQN=sphinx.main.ricQN(bornOppenheimer=bornOppenheimer)
+        )
 
     # Create PAWHamiltonian group
     paw_group = sphinx.PAWHamiltonian(
