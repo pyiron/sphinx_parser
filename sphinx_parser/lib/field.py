@@ -9,7 +9,6 @@ from sphinx_parser.ase import get_structure_group
 import ase
 import numpy as np
 
-
 angstrom_to_bohr = 1.8897259886
 
 
@@ -107,9 +106,7 @@ def create_sphinx_input(
         zField=0.0,  # Left field is 0.0 in this case
     )
     if vdw:
-        paw_group["vdwCorrection"] = sphinx.PAWHamiltonian.vdwCorrection(
-            method="D2"
-        )
+        paw_group["vdwCorrection"] = sphinx.PAWHamiltonian.vdwCorrection(method="D2")
 
     # Create initial guess group
     initial_guess_group = sphinx.initialGuess(
