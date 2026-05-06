@@ -8,8 +8,9 @@ import ase
 import numpy as np
 from semantikon.converter import units
 from typing_extensions import Annotated
-from sphinx_parser.input import sphinx
+
 from sphinx_parser.ase import get_structure_group
+from sphinx_parser.input import sphinx
 
 angstrom_to_bohr = 1.8897259886
 
