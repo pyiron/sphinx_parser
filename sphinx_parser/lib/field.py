@@ -74,27 +74,27 @@ def create_sphinx_input(
     struct_group = get_structure_group(structure)
 
     # Create main group
-    main_group = sphinx.main(
-        ricQN=sphinx.main.ricQN(
-            bornOppenheimer=sphinx.main.ricQN.bornOppenheimer(
-                scfDiag=sphinx.main.ricQN.bornOppenheimer.scfDiag(
-                    rhoMixing=rhomixing,
-                    preconditioner=sphinx.main.ricQN.bornOppenheimer.scfDiag.preconditioner(
-                        type_=preconditioner,
-                        scaling=preconscaling,
-                    ),
-                )
-            )
+    bornOppenheimer=sphinx.main.ricQN.bornOppenheimer(
+        scfDiag=sphinx.main.ricQN.bornOppenheimer.scfDiag(
+            rhoMixing=rhomixing,
+            preconditioner=sphinx.main.ricQN.bornOppenheimer.scfDiag.preconditioner(
+                type_=preconditioner,
+                scaling=preconscaling,
+            ),
         )
     )
-
-    # Add transition state optimization if TS is True
     if TS:
         main_group["ricTS"] = main_group.pop("ricQN")
         main_group["ricTS"].set_group("transPath")
         tp = main_group["ricTS"]["transPath"]
         tp["atomId"] = index + 1  # Python to SPHInX index adjustment
         tp["dir"] = [0, 0, 1]
+    else:
+        main_group = sphinx.main(
+            ricQN=sphinx.main.ricQN(bornOppenheimer=borhnOppenheimer)
+        )
+
+    # Add transition state optimization if TS is True
 
     # Create PAWHamiltonian group
     paw_group = sphinx.PAWHamiltonian(
