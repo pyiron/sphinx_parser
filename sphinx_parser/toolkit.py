@@ -1,3 +1,4 @@
+from functools import wraps
 from typing import Any
 
 import numpy as np
@@ -42,6 +43,8 @@ def to_sphinx(obj: dict, indent: int = 0, include_format: bool = True) -> str:
 
 
 def append_item(group: dict, key: str, value: Any, n_max: int = int(1e8)) -> dict:
+    if isinstance(value, np.generic):
+        value = value.item()
     if key not in group:
         group[key] = value
         return group
@@ -71,3 +74,12 @@ def fill_values(wrap_string: bool = True, **kwargs) -> dict:
 
 def _wrap_string(string: str) -> str:
     return f'"{string}"'
+
+
+def _func_in_func(parentfunc):
+    @wraps(parentfunc)
+    def register(childfunc):
+        parentfunc.__dict__[childfunc.__name__.split("__")[-1]] = childfunc
+        return parentfunc
+
+    return register
