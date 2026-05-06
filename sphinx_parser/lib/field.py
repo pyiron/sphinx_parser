@@ -71,7 +71,8 @@ def create_sphinx_input(
     structure.set_constraint([fix_atoms, fix_index])
 
     # Create structure group
-    struct_group = get_structure_group(structure)
+    struct_group, spin_lst = get_structure_group(structure)
+    spinPolarized = spin_lst is not None
 
     # Create main group
     bornOppenheimer=sphinx.main.ricQN.bornOppenheimer(
@@ -126,13 +127,19 @@ def create_sphinx_input(
                 z=np.sort(structure.positions[:, -1])[-2] * angstrom_to_bohr,
             ),
             atomicOrbitals=True,
+            atomicSpin=spin_lst,
         )
     )
 
     # Create basis group
     basis_group = sphinx.basis(
         eCut=en_cut,
-        kPoint=sphinx.basis.kPoint(coords=k_cut),
+        kPoint=sphinx.basis.kPoint(
+            coords=[0.5, 0.5, 0.25],
+            weight=1,
+            relative=True
+        ),
+        folding=k_cut,
     )
 
     # Combine all groups into the SPHInX input dictionary
