@@ -61,7 +61,7 @@ def fill_values(wrap_string: bool = True, **kwargs) -> dict:
     for k, v in kwargs.items():
         while k.endswith("_"):
             k = k[:-1]
-        if v is not None and v is not False:
+        if v is not None:
             if isinstance(v, list) and len(v) > 0 and isinstance(v[0], dict):
                 for i, vv in enumerate(v):
                     group = append_item(group, k, vv)

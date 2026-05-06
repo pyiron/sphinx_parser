@@ -3,7 +3,7 @@ import unittest
 from pint import UnitRegistry
 
 from sphinx_parser.input import sphinx
-from sphinx_parser.toolkit import to_sphinx
+from sphinx_parser.toolkit import fill_values, to_sphinx
 
 
 class TestInput(unittest.TestCase):
@@ -47,6 +47,12 @@ class TestInput(unittest.TestCase):
         self.assertEqual(
             sphinx.main.scfDiag(dEnergy=1.0e-7 * ureg.eV, maxSteps=10, blockCCG={}),
             {"dEnergy": 3.6749322175664394e-09, "maxSteps": 10, "blockCCG": {}},
+        )
+
+    def test_boolean(self):
+        self.assertEqual(
+            to_sphinx(fill_values(hello=True, world=[{"a": True}, {"a": False}])),
+            "hello = true;\nworld {\n\ta = true;\n}\nworld {\n\ta = false;\n}\n",
         )
 
 
