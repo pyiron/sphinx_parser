@@ -11,8 +11,8 @@ from ase.constraints import FixAtoms, FixedLine, FixedPlane
 from sphinx_parser.lib.field import (
     _apply_constraint,
     _get_total_charge,
-    create_sphinx_input,
     angstrom_to_bohr,
+    create_sphinx_input,
 )
 from sphinx_parser.toolkit import to_sphinx
 
