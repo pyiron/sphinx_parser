@@ -2,13 +2,14 @@
 # Copyright (c) - Max-Planck-Institut für Eisenforschung GmbH Computational Materials Design (CM) Department, MPIE.
 # Distributed under the terms of "New BSD License", see the LICENSE file.
 
-from typing import Optional, Dict, Any
-from typing_extensions import Annotated
-from semantikon.converter import units
-from sphinx_parser.input import sphinx
-from sphinx_parser.ase import get_structure_group
+from typing import Any, Dict, Optional
+
 import ase
 import numpy as np
+from semantikon.converter import units
+from typing_extensions import Annotated
+from sphinx_parser.input import sphinx
+from sphinx_parser.ase import get_structure_group
 
 angstrom_to_bohr = 1.8897259886
 
