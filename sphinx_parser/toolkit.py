@@ -1,3 +1,4 @@
+from functools import wraps
 from typing import Any
 
 import numpy as np
@@ -71,3 +72,12 @@ def fill_values(wrap_string: bool = True, **kwargs) -> dict:
 
 def _wrap_string(string: str) -> str:
     return f'"{string}"'
+
+
+def _func_in_func(parentfunc):
+    @wraps(parentfunc)
+    def register(childfunc):
+        parentfunc.__dict__[childfunc.__name__.split("__")[-1]] = childfunc
+        return parentfunc
+
+    return register
