@@ -3,7 +3,7 @@ from typing import Annotated, Optional
 import numpy as np
 from semantikon.converter import units
 
-from sphinx_parser.toolkit import fill_values, _func_in_func
+from sphinx_parser.toolkit import _func_in_func, fill_values
 
 
 @units
