@@ -2365,6 +2365,7 @@ def _sphinx__main__ricTS(
     scheme: Optional[int] = None,
     driftFilter: Optional[bool] = None,
     bornOppenheimer: Optional[dict] = None,
+    transPath: Optional[dict] = None,
     wrap_string: bool = True,
 ):
     """
@@ -2383,6 +2384,7 @@ def _sphinx__main__ricTS(
         scheme (int): Hesse update scheme (0=Murtagh-Sargent, 1=Powell symmetric Broyden, 2=Borrell, 3=Farkas-Schlegel, see [11], Eqs. 6-10). Default: 1. (Optional)
         driftFilter (bool): Drift filter. (Optional)
         bornOppenheimer (dict): The bornOppenheimer group defines the electronic loop within a geometry optimization. It contains one or more of the electronic loop groups. If more than one minimizer is used, the complete electronic loop sequence is executed at each ionic step. (Optional)
+        transPath (dict): The transPath group defines initial guess for the atomic displacement pattern along the negative curvature (transition direction). Either atomId or atomIds must be set. dir contains the x, y, z displacements for each atom (3 values for atomId or 3 values for each index in atomIds). (Optional)
         wrap_string (bool): Whether to wrap string values in apostrophes.
     """
     return fill_values(
@@ -2398,6 +2400,7 @@ def _sphinx__main__ricTS(
         scheme=scheme,
         driftFilter=driftFilter,
         bornOppenheimer=bornOppenheimer,
+        transPath=transPath,
         wrap_string=wrap_string,
     )
 
@@ -2607,6 +2610,31 @@ def _sphinx__main__ricTS__bornOppenheimer__scfDiag__preconditioner(
         scaling=scaling,
         spinScaling=spinScaling,
         dielecConstant=dielecConstant,
+        wrap_string=wrap_string,
+    )
+
+
+@_func_in_func(sphinx.main.ricTS)
+@units
+def _sphinx__main__ricTS__transPath(
+    dir_: list,
+    atomId: Optional[int] = None,
+    atomIds: Optional[list] = None,
+    wrap_string: bool = True,
+):
+    """
+    The transPath group defines initial guess for the atomic displacement pattern along the negative curvature (transition direction). Either atomId or atomIds must be set. dir contains the x, y, z displacements for each atom (3 values for atomId or 3 values for each index in atomIds).
+
+    Args:
+        dir_ (list): List of x,y,z displacements for each atom (3 values for atomId or 3 values for each index in atomIds).
+        atomId (int): Atom id (starting from 1) for which to set the transition direction. (Optional)
+        atomIds (list): List of atom ids (starting from 1) for which to set the transition direction. (Optional)
+        wrap_string (bool): Whether to wrap string values in apostrophes.
+    """
+    return fill_values(
+        dir_=dir_,
+        atomId=atomId,
+        atomIds=atomIds,
         wrap_string=wrap_string,
     )
 
