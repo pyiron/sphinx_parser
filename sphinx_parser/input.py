@@ -2623,7 +2623,7 @@ def _sphinx__main__ricTS__transPath(
     wrap_string: bool = True,
 ):
     """
-    The transPath group denes initial guess for the atomic displacement pattern along the negative curvature (transition direction). Either atomId or atomIds must be set. dir contains the x,y,zdisplacements for each atom (3 values for atomId or 3 values for each index in atomIds).
+    The transPath group defines initial guess for the atomic displacement pattern along the negative curvature (transition direction). Either atomId or atomIds must be set. dir contains the x, y, z displacements for each atom (3 values for atomId or 3 values for each index in atomIds).
 
     Args:
         dir_ (list): List of x,y,z displacements for each atom (3 values for atomId or 3 values for each index in atomIds).
