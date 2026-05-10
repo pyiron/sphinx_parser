@@ -97,15 +97,12 @@ def create_sphinx_input(
     Returns:
         Dict[str, Any]: SPHInX input dictionary.
     """
-    # Calculate total charge based on the electric field and cell area
     total_charge = _get_total_charge(e_field, structure.cell * angstrom_to_bohr)
 
     structure = _apply_constraint(structure, index, z_height, PES_xy)
 
-    # Create structure group
     struct_group, spin_lst = get_structure_group(structure)
 
-    # Create main group
     bornOppenheimer = sphinx.main.ricQN.bornOppenheimer(
         scfDiag=sphinx.main.ricQN.bornOppenheimer.scfDiag(
             rhoMixing=rhomixing,
@@ -117,7 +114,6 @@ def create_sphinx_input(
         )
     )
 
-    # Add transition state optimization if TS is True
     if TS:
         main_group = sphinx.main(
             ricTS=sphinx.main.ricTS(
@@ -134,7 +130,6 @@ def create_sphinx_input(
             ricQN=sphinx.main.ricQN(bornOppenheimer=bornOppenheimer, dEnergy=i_energy)
         )
 
-    # Create PAWHamiltonian group
     paw_group = sphinx.PAWHamiltonian(
         xc="PBE",
         spinPolarized=spin_lst is not None,
@@ -147,7 +142,6 @@ def create_sphinx_input(
     if vdw:
         paw_group["vdwCorrection"] = sphinx.PAWHamiltonian.vdwCorrection(method="D2")
 
-    # Create initial guess group
     initial_guess_group = sphinx.initialGuess(
         waves=sphinx.initialGuess.waves(
             lcao=sphinx.initialGuess.waves.lcao(),
@@ -162,14 +156,12 @@ def create_sphinx_input(
         ),
     )
 
-    # Create basis group
     basis_group = sphinx.basis(
         eCut=en_cut,
         kPoint=sphinx.basis.kPoint(coords=[0.5, 0.5, 0.25], weight=1, relative=True),
         folding=k_cut,
     )
 
-    # Combine all groups into the SPHInX input dictionary
     return sphinx(
         structure=struct_group,
         main=main_group,
