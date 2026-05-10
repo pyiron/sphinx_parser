@@ -111,6 +111,7 @@ def create_sphinx_input(
                 scaling=preconscaling,
             ),
             dEnergy=e_energy,
+            blockCCG=sphinx.main.ricQN.bornOppenheimer.scfDiag.blockCCG(),
         )
     )
 
