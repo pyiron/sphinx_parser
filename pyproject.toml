@@ -26,7 +26,7 @@ dependencies = [
    "numpy==2.4.3",
    "ase==3.28.0",
    "h5py==3.16.0",
-   "semantikon==1.0.0",
+   "semantikon==1.1.0",
    "pint==0.25.3",
    "pyyaml==6.0.3",
 ]
