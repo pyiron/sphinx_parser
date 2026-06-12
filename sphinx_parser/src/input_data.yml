@@ -264,38 +264,38 @@ sphinx:
         data_type: bool
         required: false
         description: Verbose output
-        site:
-          description: Site
-          element:
-            data_type: str
-            required: true
-            description: defines the element via its name
-          species:
-            data_type: int
-            required: false
-            description: defines the element via its species number (1,2,3...) within the input file
-          label:
-            data_type: str
-            required: false
-            description: defines the relevant atoms via their label. All atoms must belong to the same species. See also label in the atom group
-          projectorType:
-            data_type: str
-            required: false
-            description: use a single projector from the PAW potential. Counting starts at 1. l-channel is chosen automatically.
-          l:
-            data_type: int
-            required: false
-            description: use all projectors of a particular l-channel for projection. A radial truncation inside the PAW sphere is applied. Use rPAW in the pawPot group to change the radius.
-          U:
-            data_type: float
-            required: false
-            units: eV
-            description: The Hubbard U value
-          shift:
-            data_type: float
-            required: false
-            units: eV
-            description: An additional energy shift of the projector
+      site:
+        description: Site
+        element:
+          data_type: str
+          required: true
+          description: defines the element via its name
+        species:
+          data_type: int
+          required: false
+          description: defines the element via its species number (1,2,3...) within the input file
+        label:
+          data_type: str
+          required: false
+          description: defines the relevant atoms via their label. All atoms must belong to the same species. See also label in the atom group
+        projectorType:
+          data_type: str
+          required: false
+          description: use a single projector from the PAW potential. Counting starts at 1. l-channel is chosen automatically.
+        l:
+          data_type: int
+          required: false
+          description: use all projectors of a particular l-channel for projection. A radial truncation inside the PAW sphere is applied. Use rPAW in the pawPot group to change the radius.
+        U:
+          data_type: float
+          required: false
+          units: eV
+          description: The Hubbard U value
+        shift:
+          data_type: float
+          required: false
+          units: eV
+          description: An additional energy shift of the projector
       AO:
         description: AO
         orbital:
@@ -449,7 +449,7 @@ sphinx:
         data_type: str
         required: false
         description: Read density from this file.
-      fromWave:
+      fromWaves:
         data_type: bool
         required: false
         description: Compute from the wave functions (which must be from file in this case).
@@ -502,7 +502,7 @@ sphinx:
       kPoints:
         spin:
           bands:
-            value:
+            values:
               data_type: list
               required: true
               description: Specifically list the indices affected.
@@ -696,6 +696,8 @@ sphinx:
         data_type: bool
         required: false
         description: Do not write waves.sxb
+      xcMesh:
+        alias: sphinx.PAWHamiltonian.xcMesh
       CCG:
         description: The CCG group (within the scfDiag group) selects conjugate-gradient algorithm for (inner-loop) iterative diagonalization. After all states have been updated, a subspace diagonalization is performed. This algorithm works best for very small systems. For larger systems (> 5 states), the blockCCG is superior.
         dRelEps:
@@ -711,6 +713,8 @@ sphinx:
           data_type: float
           required: false
           description: Use these settings until energy change fall below this threshold.
+        xcMesh:
+          alias: sphinx.PAWHamiltonian.xcMesh
       blockCCG:
         description: The blockCCG group (within the scfDiag group) selects the block-conjugate-gradient algorithm for (inner-loop) iterative diagonalization. After all states have been updated, a subspace diagonalization is performed. This algorithm works best for larger systems (> 5 states).
         dRelEps:
@@ -740,9 +744,11 @@ sphinx:
           required: false
           description: Verbose output
         numericalLimit:
-          data_type: float
+          data_type: bool
           required: false
           description: Stop iterating when approaching the numerical limit.
+        xcMesh:
+          alias: sphinx.PAWHamiltonian.xcMesh
       preconditioner:
         description: The preconditioner group defines the density preconditioner, i.e., a transformation of the observed (or predicted) difference between the input and output density to the applied changes to the input density. An ideal preconditioner models the screening behavior of the system and is able to include the expected screening response into the suggested density change. Selecting an appropriate preconditioner, that rejects the screening properties of the system at hand, is a key to an efficient (i.e. fast) convergence. The preconditioner does not affect the converged result.
         type:
@@ -763,56 +769,58 @@ sphinx:
           data_type: float
           required: false
           description: Dielectric constant for the CSRB preconditioner.
-      CCG:
-        description: The CCG group selects and controls the direct minimization algorithm for the solution of the Kohn-Sham DFT equations
-        dEnergy:
-          data_type: float
-          required: false
-          default: 1e-8
-          description: Use these settings until energy change fall below this threshold.
-        maxSteps:
-          data_type: int
-          required: false
-          description: Max. number of steps to perform
-        printSteps:
-          data_type: int
-          required: false
-          default: 10
-          description: Print convergence status every n steps
-        initialDiag:
-          data_type: bool
-          required: false
-          default: true
-          description: Perform iterative wave-function optimization based on the initial density
-        finalDiag:
-          data_type: bool
-          required: false
-          description: Perform iterative wave-function optimization based on the final density
-        kappa:
-          data_type: float
-          required: false
-          description: Perform subspace diagonalization at the end. (optional) Initial mixing between subspace Hamiltonian and wave-function updates. If set to a negative value, the value of κ will be fixed at the absolute value. Otherwise, κ is adapted on the fly.
-        keepOccFixed:
-          data_type: bool
-          required: false
-          description: Do not update the occupation numbers
-        ekt:
-          data_type: float
-          required: false
-          units: eV
-          description: Override electronic temperature setting in the Hamiltonian group.
-        dipoleCorrection:
-          data_type: bool
-          required: false
-          description: Override the dipole correction setting in the Hamiltonian group.
-        noRhoStorage:
-          data_type: bool
-          required: false
-          description: Do not write rho.sxb.
-        noWavesStorage:
-          data_type: bool
-          required: false
-          description: Do not write waves.sxb
+    CCG:
+      description: The CCG group selects and controls the direct minimization algorithm for the solution of the Kohn-Sham DFT equations
+      dEnergy:
+        data_type: float
+        required: false
+        default: 1e-8
+        description: Use these settings until energy change fall below this threshold.
+      maxSteps:
+        data_type: int
+        required: false
+        description: Max. number of steps to perform
+      printSteps:
+        data_type: int
+        required: false
+        default: 10
+        description: Print convergence status every n steps
+      initialDiag:
+        data_type: bool
+        required: false
+        default: true
+        description: Perform iterative wave-function optimization based on the initial density
+      finalDiag:
+        data_type: bool
+        required: false
+        description: Perform iterative wave-function optimization based on the final density
+      kappa:
+        data_type: float
+        required: false
+        description: Perform subspace diagonalization at the end. (optional) Initial mixing between subspace Hamiltonian and wave-function updates. If set to a negative value, the value of κ will be fixed at the absolute value. Otherwise, κ is adapted on the fly.
+      keepOccFixed:
+        data_type: bool
+        required: false
+        description: Do not update the occupation numbers
+      ekt:
+        data_type: float
+        required: false
+        units: eV
+        description: Override electronic temperature setting in the Hamiltonian group.
+      dipoleCorrection:
+        data_type: bool
+        required: false
+        description: Override the dipole correction setting in the Hamiltonian group.
+      noRhoStorage:
+        data_type: bool
+        required: false
+        description: Do not write rho.sxb.
+      noWavesStorage:
+        data_type: bool
+        required: false
+        description: Do not write waves.sxb
+      xcMesh:
+        alias: sphinx.PAWHamiltonian.xcMesh
     QN:
       description: "The QN group selects and controls the geometry optimization via quasi-Newton scheme with BFGS updates. Note: In general, ricQN is the faster algorithm."
       maxSteps:
