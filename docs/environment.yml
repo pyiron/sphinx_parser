@@ -15,7 +15,7 @@ dependencies:
 - numpy =2.4.3
 - black =25.1.0
 - h5py =3.16.0
-- ase =3.28.0
+- ase =3.29.0
 - sphinxdft-data =0.0.1
 - semantikon =1.1.0
 - pint =0.25.3
