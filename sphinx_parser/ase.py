@@ -81,14 +81,14 @@ def get_structure_group(
         (Group): structure group
     """
     ureg = UnitRegistry()
-    movable = ~_handle_ase_constraints(structure)
+    movable = ~_handle_ase_constraints(structure)[id_ase_to_spx(structure)]
     # When the user changes the magnetic moments, they are sometimes no longer
     # numpy array afterwards.
-    spins = np.array(structure.get_initial_magnetic_moments())
-    elements = np.array(structure.get_chemical_symbols())
+    spins = np.array(structure.get_initial_magnetic_moments())[id_ase_to_spx(structure)]
+    elements = np.array(structure.get_chemical_symbols())[id_ase_to_spx(structure)]
     species = _get_species_list(
         structure.positions * ureg.angstrom, elements, spins, movable
-    )
+    )[id_ase_to_spx(structure)]
     symmetry = None
     if not use_symmetry:
         symmetry = sphinx.structure.symmetry(
