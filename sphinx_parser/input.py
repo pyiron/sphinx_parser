@@ -501,6 +501,7 @@ def _sphinx__PAWHamiltonian__vdwCorrection(
 @units
 def _sphinx__PAWHamiltonian__HubbardU(
     verbose: Optional[bool] = None,
+    site: Optional[dict] = None,
     AO: Optional[dict] = None,
     MO: Optional[dict] = None,
     wrap_string: bool = True,
@@ -510,14 +511,53 @@ def _sphinx__PAWHamiltonian__HubbardU(
 
     Args:
         verbose (bool): Verbose output. (Optional)
+        site (dict): Site. (Optional)
         AO (dict): AO. (Optional)
         MO (dict): The MO group within the HubbardU group defines on-site correlation corrections using MO orbital projectors. The molecular orbitals (MOs) are constructed from atomic orbitals (AOs) of given radial shape. This shape is defined in the orbital group. The MO projectors are constructed from AO projectors such that a normalized MO is projected to unity. The AO projectors include also the atomic PAW normalization. (Optional)
         wrap_string (bool): Whether to wrap string values in apostrophes.
     """
     return fill_values(
         verbose=verbose,
+        site=site,
         AO=AO,
         MO=MO,
+        wrap_string=wrap_string,
+    )
+
+
+@_func_in_func(sphinx.PAWHamiltonian.HubbardU)
+@units
+def _sphinx__PAWHamiltonian__HubbardU__site(
+    element: str,
+    species: Optional[int] = None,
+    label: Optional[str] = None,
+    projectorType: Optional[str] = None,
+    l: Optional[int] = None,
+    U: Annotated[Optional[float], {"units": "eV"}] = None,
+    shift: Annotated[Optional[float], {"units": "eV"}] = None,
+    wrap_string: bool = True,
+):
+    """
+    Site
+
+    Args:
+        element (str): defines the element via its name.
+        species (int): defines the element via its species number (1,2,3...) within the input file. (Optional)
+        label (str): defines the relevant atoms via their label. All atoms must belong to the same species. See also label in the atom group. (Optional)
+        projectorType (str): use a single projector from the PAW potential. Counting starts at 1. l-channel is chosen automatically. (Optional)
+        l (int): use all projectors of a particular l-channel for projection. A radial truncation inside the PAW sphere is applied. Use rPAW in the pawPot group to change the radius. (Optional)
+        U (float): The Hubbard U value. Units: eV. (Optional)
+        shift (float): An additional energy shift of the projector. Units: eV. (Optional)
+        wrap_string (bool): Whether to wrap string values in apostrophes.
+    """
+    return fill_values(
+        element=element,
+        species=species,
+        label=label,
+        projectorType=projectorType,
+        l=l,
+        U=U,
+        shift=shift,
         wrap_string=wrap_string,
     )
 
@@ -762,7 +802,7 @@ def _sphinx__initialGuess__waves__lcao(
 @units
 def _sphinx__initialGuess__rho(
     file: Optional[str] = None,
-    fromWave: Optional[bool] = None,
+    fromWaves: Optional[bool] = None,
     random: Optional[bool] = None,
     atomicOrbitals: Optional[bool] = None,
     spinMoment: Optional[bool] = None,
@@ -773,7 +813,7 @@ def _sphinx__initialGuess__rho(
     """
     Args:
         file (str): Read density from this file. (Optional)
-        fromWave (bool): Compute from the wave functions (which must be from file in this case). (Optional)
+        fromWaves (bool): Compute from the wave functions (which must be from file in this case). (Optional)
         random (bool): Initialize density randomly. (Optional)
         atomicOrbitals (bool): Initialize density from atomic orbitals. (Optional)
         spinMoment (bool): When from atomic densities, apply a global spin polarization. (Optional)
@@ -783,7 +823,7 @@ def _sphinx__initialGuess__rho(
     """
     return fill_values(
         file=file,
-        fromWave=fromWave,
+        fromWaves=fromWaves,
         random=random,
         atomicOrbitals=atomicOrbitals,
         spinMoment=spinMoment,
@@ -909,20 +949,20 @@ def _sphinx__initialGuess__occupations__kPoints__spin(
 @_func_in_func(sphinx.initialGuess.occupations.kPoints.spin)
 @units
 def _sphinx__initialGuess__occupations__kPoints__spin__bands(
-    value: list,
+    values: list,
     range_: list,
     focc: int,
     wrap_string: bool = True,
 ):
     """
     Args:
-        value (list): Specifically list the indices affected.
+        values (list): Specifically list the indices affected.
         range_ (list): Specify start and end index.
         focc (int): The occupation value.
         wrap_string (bool): Whether to wrap string values in apostrophes.
     """
     return fill_values(
-        value=value,
+        values=values,
         range_=range_,
         focc=focc,
         wrap_string=wrap_string,
@@ -932,20 +972,20 @@ def _sphinx__initialGuess__occupations__kPoints__spin__bands(
 @_func_in_func(sphinx.initialGuess.occupations.kPoints)
 @units
 def _sphinx__initialGuess__occupations__kPoints__bands(
-    value: list,
+    values: list,
     range_: list,
     focc: int,
     wrap_string: bool = True,
 ):
     """
     Args:
-        value (list): Specifically list the indices affected.
+        values (list): Specifically list the indices affected.
         range_ (list): Specify start and end index.
         focc (int): The occupation value.
         wrap_string (bool): Whether to wrap string values in apostrophes.
     """
     return fill_values(
-        value=value,
+        values=values,
         range_=range_,
         focc=focc,
         wrap_string=wrap_string,
@@ -972,20 +1012,20 @@ def _sphinx__initialGuess__occupations__spin(
 @_func_in_func(sphinx.initialGuess.occupations.spin)
 @units
 def _sphinx__initialGuess__occupations__spin__bands(
-    value: list,
+    values: list,
     range_: list,
     focc: int,
     wrap_string: bool = True,
 ):
     """
     Args:
-        value (list): Specifically list the indices affected.
+        values (list): Specifically list the indices affected.
         range_ (list): Specify start and end index.
         focc (int): The occupation value.
         wrap_string (bool): Whether to wrap string values in apostrophes.
     """
     return fill_values(
-        value=value,
+        values=values,
         range_=range_,
         focc=focc,
         wrap_string=wrap_string,
@@ -995,20 +1035,20 @@ def _sphinx__initialGuess__occupations__spin__bands(
 @_func_in_func(sphinx.initialGuess.occupations)
 @units
 def _sphinx__initialGuess__occupations__bands(
-    value: list,
+    values: list,
     range_: list,
     focc: int,
     wrap_string: bool = True,
 ):
     """
     Args:
-        value (list): Specifically list the indices affected.
+        values (list): Specifically list the indices affected.
         range_ (list): Specify start and end index.
         focc (int): The occupation value.
         wrap_string (bool): Whether to wrap string values in apostrophes.
     """
     return fill_values(
-        value=value,
+        values=values,
         range_=range_,
         focc=focc,
         wrap_string=wrap_string,
@@ -1152,6 +1192,7 @@ def _sphinx__main(wrap_string: bool = True, **kwargs):
     """
     Args:
         scfDiag (dict): The scfDiag group selects and controls the iterative diagonalization + density mixing algorithm for the solution of the Kohn-Sham DFT equations. (Optional)
+        CCG (dict): The CCG group selects and controls the direct minimization algorithm for the solution of the Kohn-Sham DFT equations. (Optional)
         QN (dict): The QN group selects and controls the geometry optimization via quasi-Newton scheme with BFGS updates. Note: In general, ricQN is the faster algorithm. (Optional)
         linQN (dict): The linQN group selects and controls the geometry optimization via linear quasi-Newton scheme with BFGS updates. Note: In general, ricQN is the faster algorithm. (Optional)
         ricQN (dict): (Optional)
@@ -1183,6 +1224,7 @@ def _sphinx__main__scfDiag(
     dSpinMoment: Optional[float] = None,
     noRhoStorage: Optional[bool] = None,
     noWavesStorage: Optional[bool] = None,
+    xcMesh: Optional[dict] = None,
     CCG: Optional[dict] = None,
     blockCCG: Optional[dict] = None,
     preconditioner: Optional[dict] = None,
@@ -1209,7 +1251,8 @@ def _sphinx__main__scfDiag(
         dSpinMoment (float): accuracy of iterative enforcement of spin constraints. Default: 1e-8. (Optional)
         noRhoStorage (bool): Do not write rho.sxb. (Optional)
         noWavesStorage (bool): Do not write waves.sxb. (Optional)
-        CCG (dict): The CCG group selects and controls the direct minimization algorithm for the solution of the Kohn-Sham DFT equations. (Optional)
+        xcMesh (dict): Mesh for the exchange-correlation potential. (Optional)
+        CCG (dict): The CCG group (within the scfDiag group) selects conjugate-gradient algorithm for (inner-loop) iterative diagonalization. After all states have been updated, a subspace diagonalization is performed. This algorithm works best for very small systems. For larger systems (> 5 states), the blockCCG is superior. (Optional)
         blockCCG (dict): The blockCCG group (within the scfDiag group) selects the block-conjugate-gradient algorithm for (inner-loop) iterative diagonalization. After all states have been updated, a subspace diagonalization is performed. This algorithm works best for larger systems (> 5 states). (Optional)
         preconditioner (dict): The preconditioner group defines the density preconditioner, i.e., a transformation of the observed (or predicted) difference between the input and output density to the applied changes to the input density. An ideal preconditioner models the screening behavior of the system and is able to include the expected screening response into the suggested density change. Selecting an appropriate preconditioner, that rejects the screening properties of the system at hand, is a key to an efficient (i.e. fast) convergence. The preconditioner does not affect the converged result. (Optional)
         wrap_string (bool): Whether to wrap string values in apostrophes.
@@ -1232,6 +1275,7 @@ def _sphinx__main__scfDiag(
         dSpinMoment=dSpinMoment,
         noRhoStorage=noRhoStorage,
         noWavesStorage=noWavesStorage,
+        xcMesh=xcMesh,
         CCG=CCG,
         blockCCG=blockCCG,
         preconditioner=preconditioner,
@@ -1241,49 +1285,78 @@ def _sphinx__main__scfDiag(
 
 @_func_in_func(sphinx.main.scfDiag)
 @units
-def _sphinx__main__scfDiag__CCG(
-    dEnergy: Optional[float] = None,
-    maxSteps: Optional[int] = None,
-    printSteps: Optional[int] = None,
-    initialDiag: Optional[bool] = None,
-    finalDiag: Optional[bool] = None,
-    kappa: Optional[float] = None,
-    keepOccFixed: Optional[bool] = None,
-    ekt: Annotated[Optional[float], {"units": "eV"}] = None,
-    dipoleCorrection: Optional[bool] = None,
-    noRhoStorage: Optional[bool] = None,
-    noWavesStorage: Optional[bool] = None,
+def _sphinx__main__scfDiag__xcMesh(
+    eCut: float,
+    mesh: Optional[list] = None,
+    meshAccuracy: Optional[float] = None,
     wrap_string: bool = True,
 ):
     """
-    The CCG group selects and controls the direct minimization algorithm for the solution of the Kohn-Sham DFT equations
+    Mesh for the exchange-correlation potential
 
     Args:
-        dEnergy (float): Use these settings until energy change fall below this threshold. Default: 1e-8. (Optional)
-        maxSteps (int): Max. number of steps to perform. (Optional)
-        printSteps (int): Print convergence status every n steps. Default: 10. (Optional)
-        initialDiag (bool): Perform iterative wave-function optimization based on the initial density. Default: True. (Optional)
-        finalDiag (bool): Perform iterative wave-function optimization based on the final density. (Optional)
-        kappa (float): Perform subspace diagonalization at the end. (optional) Initial mixing between subspace Hamiltonian and wave-function updates. If set to a negative value, the value of κ will be fixed at the absolute value. Otherwise, κ is adapted on the fly. (Optional)
-        keepOccFixed (bool): Do not update the occupation numbers. (Optional)
-        ekt (float): Override electronic temperature setting in the Hamiltonian group. Units: eV. (Optional)
-        dipoleCorrection (bool): Override the dipole correction setting in the Hamiltonian group. (Optional)
-        noRhoStorage (bool): Do not write rho.sxb. (Optional)
-        noWavesStorage (bool): Do not write waves.sxb. (Optional)
+        eCut (float): The energy cutoff for the mesh.
+        mesh (list): The mesh for the exchange-correlation potential. (Optional)
+        meshAccuracy (float): The accuracy of the mesh. (Optional)
         wrap_string (bool): Whether to wrap string values in apostrophes.
     """
     return fill_values(
+        eCut=eCut,
+        mesh=mesh,
+        meshAccuracy=meshAccuracy,
+        wrap_string=wrap_string,
+    )
+
+
+@_func_in_func(sphinx.main.scfDiag)
+@units
+def _sphinx__main__scfDiag__CCG(
+    dRelEps: Optional[float] = None,
+    maxStepsCCG: Optional[int] = None,
+    dEnergy: Optional[float] = None,
+    xcMesh: Optional[dict] = None,
+    wrap_string: bool = True,
+):
+    """
+    The CCG group (within the scfDiag group) selects conjugate-gradient algorithm for (inner-loop) iterative diagonalization. After all states have been updated, a subspace diagonalization is performed. This algorithm works best for very small systems. For larger systems (> 5 states), the blockCCG is superior.
+
+    Args:
+        dRelEps (float): Stop iterating when the change in eigenvalue falls below this fraction of the change in the first (steepest-descent) step. (Optional)
+        maxStepsCCG (int): Max. number of steps to perform. Default: 5. (Optional)
+        dEnergy (float): Use these settings until energy change fall below this threshold. (Optional)
+        xcMesh (dict): Mesh for the exchange-correlation potential. (Optional)
+        wrap_string (bool): Whether to wrap string values in apostrophes.
+    """
+    return fill_values(
+        dRelEps=dRelEps,
+        maxStepsCCG=maxStepsCCG,
         dEnergy=dEnergy,
-        maxSteps=maxSteps,
-        printSteps=printSteps,
-        initialDiag=initialDiag,
-        finalDiag=finalDiag,
-        kappa=kappa,
-        keepOccFixed=keepOccFixed,
-        ekt=ekt,
-        dipoleCorrection=dipoleCorrection,
-        noRhoStorage=noRhoStorage,
-        noWavesStorage=noWavesStorage,
+        xcMesh=xcMesh,
+        wrap_string=wrap_string,
+    )
+
+
+@_func_in_func(sphinx.main.scfDiag.CCG)
+@units
+def _sphinx__main__scfDiag__CCG__xcMesh(
+    eCut: float,
+    mesh: Optional[list] = None,
+    meshAccuracy: Optional[float] = None,
+    wrap_string: bool = True,
+):
+    """
+    Mesh for the exchange-correlation potential
+
+    Args:
+        eCut (float): The energy cutoff for the mesh.
+        mesh (list): The mesh for the exchange-correlation potential. (Optional)
+        meshAccuracy (float): The accuracy of the mesh. (Optional)
+        wrap_string (bool): Whether to wrap string values in apostrophes.
+    """
+    return fill_values(
+        eCut=eCut,
+        mesh=mesh,
+        meshAccuracy=meshAccuracy,
         wrap_string=wrap_string,
     )
 
@@ -1297,7 +1370,8 @@ def _sphinx__main__scfDiag__blockCCG(
     nSloppy: Optional[int] = None,
     dEnergy: Optional[float] = None,
     verbose: Optional[bool] = None,
-    numericalLimit: Optional[float] = None,
+    numericalLimit: Optional[bool] = None,
+    xcMesh: Optional[dict] = None,
     wrap_string: bool = True,
 ):
     """
@@ -1310,7 +1384,8 @@ def _sphinx__main__scfDiag__blockCCG(
         nSloppy (int): Number of sloppy steps. (Optional)
         dEnergy (float): Use these settings until energy change fall below this threshold. (Optional)
         verbose (bool): Verbose output. (Optional)
-        numericalLimit (float): Stop iterating when approaching the numerical limit. (Optional)
+        numericalLimit (bool): Stop iterating when approaching the numerical limit. (Optional)
+        xcMesh (dict): Mesh for the exchange-correlation potential. (Optional)
         wrap_string (bool): Whether to wrap string values in apostrophes.
     """
     return fill_values(
@@ -1321,6 +1396,32 @@ def _sphinx__main__scfDiag__blockCCG(
         dEnergy=dEnergy,
         verbose=verbose,
         numericalLimit=numericalLimit,
+        xcMesh=xcMesh,
+        wrap_string=wrap_string,
+    )
+
+
+@_func_in_func(sphinx.main.scfDiag.blockCCG)
+@units
+def _sphinx__main__scfDiag__blockCCG__xcMesh(
+    eCut: float,
+    mesh: Optional[list] = None,
+    meshAccuracy: Optional[float] = None,
+    wrap_string: bool = True,
+):
+    """
+    Mesh for the exchange-correlation potential
+
+    Args:
+        eCut (float): The energy cutoff for the mesh.
+        mesh (list): The mesh for the exchange-correlation potential. (Optional)
+        meshAccuracy (float): The accuracy of the mesh. (Optional)
+        wrap_string (bool): Whether to wrap string values in apostrophes.
+    """
+    return fill_values(
+        eCut=eCut,
+        mesh=mesh,
+        meshAccuracy=meshAccuracy,
         wrap_string=wrap_string,
     )
 
@@ -1349,6 +1450,83 @@ def _sphinx__main__scfDiag__preconditioner(
         scaling=scaling,
         spinScaling=spinScaling,
         dielecConstant=dielecConstant,
+        wrap_string=wrap_string,
+    )
+
+
+@_func_in_func(sphinx.main)
+@units
+def _sphinx__main__CCG(
+    dEnergy: Optional[float] = None,
+    maxSteps: Optional[int] = None,
+    printSteps: Optional[int] = None,
+    initialDiag: Optional[bool] = None,
+    finalDiag: Optional[bool] = None,
+    kappa: Optional[float] = None,
+    keepOccFixed: Optional[bool] = None,
+    ekt: Annotated[Optional[float], {"units": "eV"}] = None,
+    dipoleCorrection: Optional[bool] = None,
+    noRhoStorage: Optional[bool] = None,
+    noWavesStorage: Optional[bool] = None,
+    xcMesh: Optional[dict] = None,
+    wrap_string: bool = True,
+):
+    """
+    The CCG group selects and controls the direct minimization algorithm for the solution of the Kohn-Sham DFT equations
+
+    Args:
+        dEnergy (float): Use these settings until energy change fall below this threshold. Default: 1e-8. (Optional)
+        maxSteps (int): Max. number of steps to perform. (Optional)
+        printSteps (int): Print convergence status every n steps. Default: 10. (Optional)
+        initialDiag (bool): Perform iterative wave-function optimization based on the initial density. Default: True. (Optional)
+        finalDiag (bool): Perform iterative wave-function optimization based on the final density. (Optional)
+        kappa (float): Perform subspace diagonalization at the end. (optional) Initial mixing between subspace Hamiltonian and wave-function updates. If set to a negative value, the value of κ will be fixed at the absolute value. Otherwise, κ is adapted on the fly. (Optional)
+        keepOccFixed (bool): Do not update the occupation numbers. (Optional)
+        ekt (float): Override electronic temperature setting in the Hamiltonian group. Units: eV. (Optional)
+        dipoleCorrection (bool): Override the dipole correction setting in the Hamiltonian group. (Optional)
+        noRhoStorage (bool): Do not write rho.sxb. (Optional)
+        noWavesStorage (bool): Do not write waves.sxb. (Optional)
+        xcMesh (dict): Mesh for the exchange-correlation potential. (Optional)
+        wrap_string (bool): Whether to wrap string values in apostrophes.
+    """
+    return fill_values(
+        dEnergy=dEnergy,
+        maxSteps=maxSteps,
+        printSteps=printSteps,
+        initialDiag=initialDiag,
+        finalDiag=finalDiag,
+        kappa=kappa,
+        keepOccFixed=keepOccFixed,
+        ekt=ekt,
+        dipoleCorrection=dipoleCorrection,
+        noRhoStorage=noRhoStorage,
+        noWavesStorage=noWavesStorage,
+        xcMesh=xcMesh,
+        wrap_string=wrap_string,
+    )
+
+
+@_func_in_func(sphinx.main.CCG)
+@units
+def _sphinx__main__CCG__xcMesh(
+    eCut: float,
+    mesh: Optional[list] = None,
+    meshAccuracy: Optional[float] = None,
+    wrap_string: bool = True,
+):
+    """
+    Mesh for the exchange-correlation potential
+
+    Args:
+        eCut (float): The energy cutoff for the mesh.
+        mesh (list): The mesh for the exchange-correlation potential. (Optional)
+        meshAccuracy (float): The accuracy of the mesh. (Optional)
+        wrap_string (bool): Whether to wrap string values in apostrophes.
+    """
+    return fill_values(
+        eCut=eCut,
+        mesh=mesh,
+        meshAccuracy=meshAccuracy,
         wrap_string=wrap_string,
     )
 
@@ -1432,6 +1610,7 @@ def _sphinx__main__QN__bornOppenheimer__scfDiag(
     dSpinMoment: Optional[float] = None,
     noRhoStorage: Optional[bool] = None,
     noWavesStorage: Optional[bool] = None,
+    xcMesh: Optional[dict] = None,
     CCG: Optional[dict] = None,
     blockCCG: Optional[dict] = None,
     preconditioner: Optional[dict] = None,
@@ -1458,7 +1637,8 @@ def _sphinx__main__QN__bornOppenheimer__scfDiag(
         dSpinMoment (float): accuracy of iterative enforcement of spin constraints. Default: 1e-8. (Optional)
         noRhoStorage (bool): Do not write rho.sxb. (Optional)
         noWavesStorage (bool): Do not write waves.sxb. (Optional)
-        CCG (dict): The CCG group selects and controls the direct minimization algorithm for the solution of the Kohn-Sham DFT equations. (Optional)
+        xcMesh (dict): Mesh for the exchange-correlation potential. (Optional)
+        CCG (dict): The CCG group (within the scfDiag group) selects conjugate-gradient algorithm for (inner-loop) iterative diagonalization. After all states have been updated, a subspace diagonalization is performed. This algorithm works best for very small systems. For larger systems (> 5 states), the blockCCG is superior. (Optional)
         blockCCG (dict): The blockCCG group (within the scfDiag group) selects the block-conjugate-gradient algorithm for (inner-loop) iterative diagonalization. After all states have been updated, a subspace diagonalization is performed. This algorithm works best for larger systems (> 5 states). (Optional)
         preconditioner (dict): The preconditioner group defines the density preconditioner, i.e., a transformation of the observed (or predicted) difference between the input and output density to the applied changes to the input density. An ideal preconditioner models the screening behavior of the system and is able to include the expected screening response into the suggested density change. Selecting an appropriate preconditioner, that rejects the screening properties of the system at hand, is a key to an efficient (i.e. fast) convergence. The preconditioner does not affect the converged result. (Optional)
         wrap_string (bool): Whether to wrap string values in apostrophes.
@@ -1481,6 +1661,7 @@ def _sphinx__main__QN__bornOppenheimer__scfDiag(
         dSpinMoment=dSpinMoment,
         noRhoStorage=noRhoStorage,
         noWavesStorage=noWavesStorage,
+        xcMesh=xcMesh,
         CCG=CCG,
         blockCCG=blockCCG,
         preconditioner=preconditioner,
@@ -1490,49 +1671,78 @@ def _sphinx__main__QN__bornOppenheimer__scfDiag(
 
 @_func_in_func(sphinx.main.QN.bornOppenheimer.scfDiag)
 @units
-def _sphinx__main__QN__bornOppenheimer__scfDiag__CCG(
-    dEnergy: Optional[float] = None,
-    maxSteps: Optional[int] = None,
-    printSteps: Optional[int] = None,
-    initialDiag: Optional[bool] = None,
-    finalDiag: Optional[bool] = None,
-    kappa: Optional[float] = None,
-    keepOccFixed: Optional[bool] = None,
-    ekt: Annotated[Optional[float], {"units": "eV"}] = None,
-    dipoleCorrection: Optional[bool] = None,
-    noRhoStorage: Optional[bool] = None,
-    noWavesStorage: Optional[bool] = None,
+def _sphinx__main__QN__bornOppenheimer__scfDiag__xcMesh(
+    eCut: float,
+    mesh: Optional[list] = None,
+    meshAccuracy: Optional[float] = None,
     wrap_string: bool = True,
 ):
     """
-    The CCG group selects and controls the direct minimization algorithm for the solution of the Kohn-Sham DFT equations
+    Mesh for the exchange-correlation potential
 
     Args:
-        dEnergy (float): Use these settings until energy change fall below this threshold. Default: 1e-8. (Optional)
-        maxSteps (int): Max. number of steps to perform. (Optional)
-        printSteps (int): Print convergence status every n steps. Default: 10. (Optional)
-        initialDiag (bool): Perform iterative wave-function optimization based on the initial density. Default: True. (Optional)
-        finalDiag (bool): Perform iterative wave-function optimization based on the final density. (Optional)
-        kappa (float): Perform subspace diagonalization at the end. (optional) Initial mixing between subspace Hamiltonian and wave-function updates. If set to a negative value, the value of κ will be fixed at the absolute value. Otherwise, κ is adapted on the fly. (Optional)
-        keepOccFixed (bool): Do not update the occupation numbers. (Optional)
-        ekt (float): Override electronic temperature setting in the Hamiltonian group. Units: eV. (Optional)
-        dipoleCorrection (bool): Override the dipole correction setting in the Hamiltonian group. (Optional)
-        noRhoStorage (bool): Do not write rho.sxb. (Optional)
-        noWavesStorage (bool): Do not write waves.sxb. (Optional)
+        eCut (float): The energy cutoff for the mesh.
+        mesh (list): The mesh for the exchange-correlation potential. (Optional)
+        meshAccuracy (float): The accuracy of the mesh. (Optional)
         wrap_string (bool): Whether to wrap string values in apostrophes.
     """
     return fill_values(
+        eCut=eCut,
+        mesh=mesh,
+        meshAccuracy=meshAccuracy,
+        wrap_string=wrap_string,
+    )
+
+
+@_func_in_func(sphinx.main.QN.bornOppenheimer.scfDiag)
+@units
+def _sphinx__main__QN__bornOppenheimer__scfDiag__CCG(
+    dRelEps: Optional[float] = None,
+    maxStepsCCG: Optional[int] = None,
+    dEnergy: Optional[float] = None,
+    xcMesh: Optional[dict] = None,
+    wrap_string: bool = True,
+):
+    """
+    The CCG group (within the scfDiag group) selects conjugate-gradient algorithm for (inner-loop) iterative diagonalization. After all states have been updated, a subspace diagonalization is performed. This algorithm works best for very small systems. For larger systems (> 5 states), the blockCCG is superior.
+
+    Args:
+        dRelEps (float): Stop iterating when the change in eigenvalue falls below this fraction of the change in the first (steepest-descent) step. (Optional)
+        maxStepsCCG (int): Max. number of steps to perform. Default: 5. (Optional)
+        dEnergy (float): Use these settings until energy change fall below this threshold. (Optional)
+        xcMesh (dict): Mesh for the exchange-correlation potential. (Optional)
+        wrap_string (bool): Whether to wrap string values in apostrophes.
+    """
+    return fill_values(
+        dRelEps=dRelEps,
+        maxStepsCCG=maxStepsCCG,
         dEnergy=dEnergy,
-        maxSteps=maxSteps,
-        printSteps=printSteps,
-        initialDiag=initialDiag,
-        finalDiag=finalDiag,
-        kappa=kappa,
-        keepOccFixed=keepOccFixed,
-        ekt=ekt,
-        dipoleCorrection=dipoleCorrection,
-        noRhoStorage=noRhoStorage,
-        noWavesStorage=noWavesStorage,
+        xcMesh=xcMesh,
+        wrap_string=wrap_string,
+    )
+
+
+@_func_in_func(sphinx.main.QN.bornOppenheimer.scfDiag.CCG)
+@units
+def _sphinx__main__QN__bornOppenheimer__scfDiag__CCG__xcMesh(
+    eCut: float,
+    mesh: Optional[list] = None,
+    meshAccuracy: Optional[float] = None,
+    wrap_string: bool = True,
+):
+    """
+    Mesh for the exchange-correlation potential
+
+    Args:
+        eCut (float): The energy cutoff for the mesh.
+        mesh (list): The mesh for the exchange-correlation potential. (Optional)
+        meshAccuracy (float): The accuracy of the mesh. (Optional)
+        wrap_string (bool): Whether to wrap string values in apostrophes.
+    """
+    return fill_values(
+        eCut=eCut,
+        mesh=mesh,
+        meshAccuracy=meshAccuracy,
         wrap_string=wrap_string,
     )
 
@@ -1546,7 +1756,8 @@ def _sphinx__main__QN__bornOppenheimer__scfDiag__blockCCG(
     nSloppy: Optional[int] = None,
     dEnergy: Optional[float] = None,
     verbose: Optional[bool] = None,
-    numericalLimit: Optional[float] = None,
+    numericalLimit: Optional[bool] = None,
+    xcMesh: Optional[dict] = None,
     wrap_string: bool = True,
 ):
     """
@@ -1559,7 +1770,8 @@ def _sphinx__main__QN__bornOppenheimer__scfDiag__blockCCG(
         nSloppy (int): Number of sloppy steps. (Optional)
         dEnergy (float): Use these settings until energy change fall below this threshold. (Optional)
         verbose (bool): Verbose output. (Optional)
-        numericalLimit (float): Stop iterating when approaching the numerical limit. (Optional)
+        numericalLimit (bool): Stop iterating when approaching the numerical limit. (Optional)
+        xcMesh (dict): Mesh for the exchange-correlation potential. (Optional)
         wrap_string (bool): Whether to wrap string values in apostrophes.
     """
     return fill_values(
@@ -1570,6 +1782,32 @@ def _sphinx__main__QN__bornOppenheimer__scfDiag__blockCCG(
         dEnergy=dEnergy,
         verbose=verbose,
         numericalLimit=numericalLimit,
+        xcMesh=xcMesh,
+        wrap_string=wrap_string,
+    )
+
+
+@_func_in_func(sphinx.main.QN.bornOppenheimer.scfDiag.blockCCG)
+@units
+def _sphinx__main__QN__bornOppenheimer__scfDiag__blockCCG__xcMesh(
+    eCut: float,
+    mesh: Optional[list] = None,
+    meshAccuracy: Optional[float] = None,
+    wrap_string: bool = True,
+):
+    """
+    Mesh for the exchange-correlation potential
+
+    Args:
+        eCut (float): The energy cutoff for the mesh.
+        mesh (list): The mesh for the exchange-correlation potential. (Optional)
+        meshAccuracy (float): The accuracy of the mesh. (Optional)
+        wrap_string (bool): Whether to wrap string values in apostrophes.
+    """
+    return fill_values(
+        eCut=eCut,
+        mesh=mesh,
+        meshAccuracy=meshAccuracy,
         wrap_string=wrap_string,
     )
 
@@ -1684,6 +1922,7 @@ def _sphinx__main__linQN__bornOppenheimer__scfDiag(
     dSpinMoment: Optional[float] = None,
     noRhoStorage: Optional[bool] = None,
     noWavesStorage: Optional[bool] = None,
+    xcMesh: Optional[dict] = None,
     CCG: Optional[dict] = None,
     blockCCG: Optional[dict] = None,
     preconditioner: Optional[dict] = None,
@@ -1710,7 +1949,8 @@ def _sphinx__main__linQN__bornOppenheimer__scfDiag(
         dSpinMoment (float): accuracy of iterative enforcement of spin constraints. Default: 1e-8. (Optional)
         noRhoStorage (bool): Do not write rho.sxb. (Optional)
         noWavesStorage (bool): Do not write waves.sxb. (Optional)
-        CCG (dict): The CCG group selects and controls the direct minimization algorithm for the solution of the Kohn-Sham DFT equations. (Optional)
+        xcMesh (dict): Mesh for the exchange-correlation potential. (Optional)
+        CCG (dict): The CCG group (within the scfDiag group) selects conjugate-gradient algorithm for (inner-loop) iterative diagonalization. After all states have been updated, a subspace diagonalization is performed. This algorithm works best for very small systems. For larger systems (> 5 states), the blockCCG is superior. (Optional)
         blockCCG (dict): The blockCCG group (within the scfDiag group) selects the block-conjugate-gradient algorithm for (inner-loop) iterative diagonalization. After all states have been updated, a subspace diagonalization is performed. This algorithm works best for larger systems (> 5 states). (Optional)
         preconditioner (dict): The preconditioner group defines the density preconditioner, i.e., a transformation of the observed (or predicted) difference between the input and output density to the applied changes to the input density. An ideal preconditioner models the screening behavior of the system and is able to include the expected screening response into the suggested density change. Selecting an appropriate preconditioner, that rejects the screening properties of the system at hand, is a key to an efficient (i.e. fast) convergence. The preconditioner does not affect the converged result. (Optional)
         wrap_string (bool): Whether to wrap string values in apostrophes.
@@ -1733,6 +1973,7 @@ def _sphinx__main__linQN__bornOppenheimer__scfDiag(
         dSpinMoment=dSpinMoment,
         noRhoStorage=noRhoStorage,
         noWavesStorage=noWavesStorage,
+        xcMesh=xcMesh,
         CCG=CCG,
         blockCCG=blockCCG,
         preconditioner=preconditioner,
@@ -1742,49 +1983,78 @@ def _sphinx__main__linQN__bornOppenheimer__scfDiag(
 
 @_func_in_func(sphinx.main.linQN.bornOppenheimer.scfDiag)
 @units
-def _sphinx__main__linQN__bornOppenheimer__scfDiag__CCG(
-    dEnergy: Optional[float] = None,
-    maxSteps: Optional[int] = None,
-    printSteps: Optional[int] = None,
-    initialDiag: Optional[bool] = None,
-    finalDiag: Optional[bool] = None,
-    kappa: Optional[float] = None,
-    keepOccFixed: Optional[bool] = None,
-    ekt: Annotated[Optional[float], {"units": "eV"}] = None,
-    dipoleCorrection: Optional[bool] = None,
-    noRhoStorage: Optional[bool] = None,
-    noWavesStorage: Optional[bool] = None,
+def _sphinx__main__linQN__bornOppenheimer__scfDiag__xcMesh(
+    eCut: float,
+    mesh: Optional[list] = None,
+    meshAccuracy: Optional[float] = None,
     wrap_string: bool = True,
 ):
     """
-    The CCG group selects and controls the direct minimization algorithm for the solution of the Kohn-Sham DFT equations
+    Mesh for the exchange-correlation potential
 
     Args:
-        dEnergy (float): Use these settings until energy change fall below this threshold. Default: 1e-8. (Optional)
-        maxSteps (int): Max. number of steps to perform. (Optional)
-        printSteps (int): Print convergence status every n steps. Default: 10. (Optional)
-        initialDiag (bool): Perform iterative wave-function optimization based on the initial density. Default: True. (Optional)
-        finalDiag (bool): Perform iterative wave-function optimization based on the final density. (Optional)
-        kappa (float): Perform subspace diagonalization at the end. (optional) Initial mixing between subspace Hamiltonian and wave-function updates. If set to a negative value, the value of κ will be fixed at the absolute value. Otherwise, κ is adapted on the fly. (Optional)
-        keepOccFixed (bool): Do not update the occupation numbers. (Optional)
-        ekt (float): Override electronic temperature setting in the Hamiltonian group. Units: eV. (Optional)
-        dipoleCorrection (bool): Override the dipole correction setting in the Hamiltonian group. (Optional)
-        noRhoStorage (bool): Do not write rho.sxb. (Optional)
-        noWavesStorage (bool): Do not write waves.sxb. (Optional)
+        eCut (float): The energy cutoff for the mesh.
+        mesh (list): The mesh for the exchange-correlation potential. (Optional)
+        meshAccuracy (float): The accuracy of the mesh. (Optional)
         wrap_string (bool): Whether to wrap string values in apostrophes.
     """
     return fill_values(
+        eCut=eCut,
+        mesh=mesh,
+        meshAccuracy=meshAccuracy,
+        wrap_string=wrap_string,
+    )
+
+
+@_func_in_func(sphinx.main.linQN.bornOppenheimer.scfDiag)
+@units
+def _sphinx__main__linQN__bornOppenheimer__scfDiag__CCG(
+    dRelEps: Optional[float] = None,
+    maxStepsCCG: Optional[int] = None,
+    dEnergy: Optional[float] = None,
+    xcMesh: Optional[dict] = None,
+    wrap_string: bool = True,
+):
+    """
+    The CCG group (within the scfDiag group) selects conjugate-gradient algorithm for (inner-loop) iterative diagonalization. After all states have been updated, a subspace diagonalization is performed. This algorithm works best for very small systems. For larger systems (> 5 states), the blockCCG is superior.
+
+    Args:
+        dRelEps (float): Stop iterating when the change in eigenvalue falls below this fraction of the change in the first (steepest-descent) step. (Optional)
+        maxStepsCCG (int): Max. number of steps to perform. Default: 5. (Optional)
+        dEnergy (float): Use these settings until energy change fall below this threshold. (Optional)
+        xcMesh (dict): Mesh for the exchange-correlation potential. (Optional)
+        wrap_string (bool): Whether to wrap string values in apostrophes.
+    """
+    return fill_values(
+        dRelEps=dRelEps,
+        maxStepsCCG=maxStepsCCG,
         dEnergy=dEnergy,
-        maxSteps=maxSteps,
-        printSteps=printSteps,
-        initialDiag=initialDiag,
-        finalDiag=finalDiag,
-        kappa=kappa,
-        keepOccFixed=keepOccFixed,
-        ekt=ekt,
-        dipoleCorrection=dipoleCorrection,
-        noRhoStorage=noRhoStorage,
-        noWavesStorage=noWavesStorage,
+        xcMesh=xcMesh,
+        wrap_string=wrap_string,
+    )
+
+
+@_func_in_func(sphinx.main.linQN.bornOppenheimer.scfDiag.CCG)
+@units
+def _sphinx__main__linQN__bornOppenheimer__scfDiag__CCG__xcMesh(
+    eCut: float,
+    mesh: Optional[list] = None,
+    meshAccuracy: Optional[float] = None,
+    wrap_string: bool = True,
+):
+    """
+    Mesh for the exchange-correlation potential
+
+    Args:
+        eCut (float): The energy cutoff for the mesh.
+        mesh (list): The mesh for the exchange-correlation potential. (Optional)
+        meshAccuracy (float): The accuracy of the mesh. (Optional)
+        wrap_string (bool): Whether to wrap string values in apostrophes.
+    """
+    return fill_values(
+        eCut=eCut,
+        mesh=mesh,
+        meshAccuracy=meshAccuracy,
         wrap_string=wrap_string,
     )
 
@@ -1798,7 +2068,8 @@ def _sphinx__main__linQN__bornOppenheimer__scfDiag__blockCCG(
     nSloppy: Optional[int] = None,
     dEnergy: Optional[float] = None,
     verbose: Optional[bool] = None,
-    numericalLimit: Optional[float] = None,
+    numericalLimit: Optional[bool] = None,
+    xcMesh: Optional[dict] = None,
     wrap_string: bool = True,
 ):
     """
@@ -1811,7 +2082,8 @@ def _sphinx__main__linQN__bornOppenheimer__scfDiag__blockCCG(
         nSloppy (int): Number of sloppy steps. (Optional)
         dEnergy (float): Use these settings until energy change fall below this threshold. (Optional)
         verbose (bool): Verbose output. (Optional)
-        numericalLimit (float): Stop iterating when approaching the numerical limit. (Optional)
+        numericalLimit (bool): Stop iterating when approaching the numerical limit. (Optional)
+        xcMesh (dict): Mesh for the exchange-correlation potential. (Optional)
         wrap_string (bool): Whether to wrap string values in apostrophes.
     """
     return fill_values(
@@ -1822,6 +2094,32 @@ def _sphinx__main__linQN__bornOppenheimer__scfDiag__blockCCG(
         dEnergy=dEnergy,
         verbose=verbose,
         numericalLimit=numericalLimit,
+        xcMesh=xcMesh,
+        wrap_string=wrap_string,
+    )
+
+
+@_func_in_func(sphinx.main.linQN.bornOppenheimer.scfDiag.blockCCG)
+@units
+def _sphinx__main__linQN__bornOppenheimer__scfDiag__blockCCG__xcMesh(
+    eCut: float,
+    mesh: Optional[list] = None,
+    meshAccuracy: Optional[float] = None,
+    wrap_string: bool = True,
+):
+    """
+    Mesh for the exchange-correlation potential
+
+    Args:
+        eCut (float): The energy cutoff for the mesh.
+        mesh (list): The mesh for the exchange-correlation potential. (Optional)
+        meshAccuracy (float): The accuracy of the mesh. (Optional)
+        wrap_string (bool): Whether to wrap string values in apostrophes.
+    """
+    return fill_values(
+        eCut=eCut,
+        mesh=mesh,
+        meshAccuracy=meshAccuracy,
         wrap_string=wrap_string,
     )
 
@@ -1934,6 +2232,7 @@ def _sphinx__main__ricQN__bornOppenheimer__scfDiag(
     dSpinMoment: Optional[float] = None,
     noRhoStorage: Optional[bool] = None,
     noWavesStorage: Optional[bool] = None,
+    xcMesh: Optional[dict] = None,
     CCG: Optional[dict] = None,
     blockCCG: Optional[dict] = None,
     preconditioner: Optional[dict] = None,
@@ -1960,7 +2259,8 @@ def _sphinx__main__ricQN__bornOppenheimer__scfDiag(
         dSpinMoment (float): accuracy of iterative enforcement of spin constraints. Default: 1e-8. (Optional)
         noRhoStorage (bool): Do not write rho.sxb. (Optional)
         noWavesStorage (bool): Do not write waves.sxb. (Optional)
-        CCG (dict): The CCG group selects and controls the direct minimization algorithm for the solution of the Kohn-Sham DFT equations. (Optional)
+        xcMesh (dict): Mesh for the exchange-correlation potential. (Optional)
+        CCG (dict): The CCG group (within the scfDiag group) selects conjugate-gradient algorithm for (inner-loop) iterative diagonalization. After all states have been updated, a subspace diagonalization is performed. This algorithm works best for very small systems. For larger systems (> 5 states), the blockCCG is superior. (Optional)
         blockCCG (dict): The blockCCG group (within the scfDiag group) selects the block-conjugate-gradient algorithm for (inner-loop) iterative diagonalization. After all states have been updated, a subspace diagonalization is performed. This algorithm works best for larger systems (> 5 states). (Optional)
         preconditioner (dict): The preconditioner group defines the density preconditioner, i.e., a transformation of the observed (or predicted) difference between the input and output density to the applied changes to the input density. An ideal preconditioner models the screening behavior of the system and is able to include the expected screening response into the suggested density change. Selecting an appropriate preconditioner, that rejects the screening properties of the system at hand, is a key to an efficient (i.e. fast) convergence. The preconditioner does not affect the converged result. (Optional)
         wrap_string (bool): Whether to wrap string values in apostrophes.
@@ -1983,6 +2283,7 @@ def _sphinx__main__ricQN__bornOppenheimer__scfDiag(
         dSpinMoment=dSpinMoment,
         noRhoStorage=noRhoStorage,
         noWavesStorage=noWavesStorage,
+        xcMesh=xcMesh,
         CCG=CCG,
         blockCCG=blockCCG,
         preconditioner=preconditioner,
@@ -1992,49 +2293,78 @@ def _sphinx__main__ricQN__bornOppenheimer__scfDiag(
 
 @_func_in_func(sphinx.main.ricQN.bornOppenheimer.scfDiag)
 @units
-def _sphinx__main__ricQN__bornOppenheimer__scfDiag__CCG(
-    dEnergy: Optional[float] = None,
-    maxSteps: Optional[int] = None,
-    printSteps: Optional[int] = None,
-    initialDiag: Optional[bool] = None,
-    finalDiag: Optional[bool] = None,
-    kappa: Optional[float] = None,
-    keepOccFixed: Optional[bool] = None,
-    ekt: Annotated[Optional[float], {"units": "eV"}] = None,
-    dipoleCorrection: Optional[bool] = None,
-    noRhoStorage: Optional[bool] = None,
-    noWavesStorage: Optional[bool] = None,
+def _sphinx__main__ricQN__bornOppenheimer__scfDiag__xcMesh(
+    eCut: float,
+    mesh: Optional[list] = None,
+    meshAccuracy: Optional[float] = None,
     wrap_string: bool = True,
 ):
     """
-    The CCG group selects and controls the direct minimization algorithm for the solution of the Kohn-Sham DFT equations
+    Mesh for the exchange-correlation potential
 
     Args:
-        dEnergy (float): Use these settings until energy change fall below this threshold. Default: 1e-8. (Optional)
-        maxSteps (int): Max. number of steps to perform. (Optional)
-        printSteps (int): Print convergence status every n steps. Default: 10. (Optional)
-        initialDiag (bool): Perform iterative wave-function optimization based on the initial density. Default: True. (Optional)
-        finalDiag (bool): Perform iterative wave-function optimization based on the final density. (Optional)
-        kappa (float): Perform subspace diagonalization at the end. (optional) Initial mixing between subspace Hamiltonian and wave-function updates. If set to a negative value, the value of κ will be fixed at the absolute value. Otherwise, κ is adapted on the fly. (Optional)
-        keepOccFixed (bool): Do not update the occupation numbers. (Optional)
-        ekt (float): Override electronic temperature setting in the Hamiltonian group. Units: eV. (Optional)
-        dipoleCorrection (bool): Override the dipole correction setting in the Hamiltonian group. (Optional)
-        noRhoStorage (bool): Do not write rho.sxb. (Optional)
-        noWavesStorage (bool): Do not write waves.sxb. (Optional)
+        eCut (float): The energy cutoff for the mesh.
+        mesh (list): The mesh for the exchange-correlation potential. (Optional)
+        meshAccuracy (float): The accuracy of the mesh. (Optional)
         wrap_string (bool): Whether to wrap string values in apostrophes.
     """
     return fill_values(
+        eCut=eCut,
+        mesh=mesh,
+        meshAccuracy=meshAccuracy,
+        wrap_string=wrap_string,
+    )
+
+
+@_func_in_func(sphinx.main.ricQN.bornOppenheimer.scfDiag)
+@units
+def _sphinx__main__ricQN__bornOppenheimer__scfDiag__CCG(
+    dRelEps: Optional[float] = None,
+    maxStepsCCG: Optional[int] = None,
+    dEnergy: Optional[float] = None,
+    xcMesh: Optional[dict] = None,
+    wrap_string: bool = True,
+):
+    """
+    The CCG group (within the scfDiag group) selects conjugate-gradient algorithm for (inner-loop) iterative diagonalization. After all states have been updated, a subspace diagonalization is performed. This algorithm works best for very small systems. For larger systems (> 5 states), the blockCCG is superior.
+
+    Args:
+        dRelEps (float): Stop iterating when the change in eigenvalue falls below this fraction of the change in the first (steepest-descent) step. (Optional)
+        maxStepsCCG (int): Max. number of steps to perform. Default: 5. (Optional)
+        dEnergy (float): Use these settings until energy change fall below this threshold. (Optional)
+        xcMesh (dict): Mesh for the exchange-correlation potential. (Optional)
+        wrap_string (bool): Whether to wrap string values in apostrophes.
+    """
+    return fill_values(
+        dRelEps=dRelEps,
+        maxStepsCCG=maxStepsCCG,
         dEnergy=dEnergy,
-        maxSteps=maxSteps,
-        printSteps=printSteps,
-        initialDiag=initialDiag,
-        finalDiag=finalDiag,
-        kappa=kappa,
-        keepOccFixed=keepOccFixed,
-        ekt=ekt,
-        dipoleCorrection=dipoleCorrection,
-        noRhoStorage=noRhoStorage,
-        noWavesStorage=noWavesStorage,
+        xcMesh=xcMesh,
+        wrap_string=wrap_string,
+    )
+
+
+@_func_in_func(sphinx.main.ricQN.bornOppenheimer.scfDiag.CCG)
+@units
+def _sphinx__main__ricQN__bornOppenheimer__scfDiag__CCG__xcMesh(
+    eCut: float,
+    mesh: Optional[list] = None,
+    meshAccuracy: Optional[float] = None,
+    wrap_string: bool = True,
+):
+    """
+    Mesh for the exchange-correlation potential
+
+    Args:
+        eCut (float): The energy cutoff for the mesh.
+        mesh (list): The mesh for the exchange-correlation potential. (Optional)
+        meshAccuracy (float): The accuracy of the mesh. (Optional)
+        wrap_string (bool): Whether to wrap string values in apostrophes.
+    """
+    return fill_values(
+        eCut=eCut,
+        mesh=mesh,
+        meshAccuracy=meshAccuracy,
         wrap_string=wrap_string,
     )
 
@@ -2048,7 +2378,8 @@ def _sphinx__main__ricQN__bornOppenheimer__scfDiag__blockCCG(
     nSloppy: Optional[int] = None,
     dEnergy: Optional[float] = None,
     verbose: Optional[bool] = None,
-    numericalLimit: Optional[float] = None,
+    numericalLimit: Optional[bool] = None,
+    xcMesh: Optional[dict] = None,
     wrap_string: bool = True,
 ):
     """
@@ -2061,7 +2392,8 @@ def _sphinx__main__ricQN__bornOppenheimer__scfDiag__blockCCG(
         nSloppy (int): Number of sloppy steps. (Optional)
         dEnergy (float): Use these settings until energy change fall below this threshold. (Optional)
         verbose (bool): Verbose output. (Optional)
-        numericalLimit (float): Stop iterating when approaching the numerical limit. (Optional)
+        numericalLimit (bool): Stop iterating when approaching the numerical limit. (Optional)
+        xcMesh (dict): Mesh for the exchange-correlation potential. (Optional)
         wrap_string (bool): Whether to wrap string values in apostrophes.
     """
     return fill_values(
@@ -2072,6 +2404,32 @@ def _sphinx__main__ricQN__bornOppenheimer__scfDiag__blockCCG(
         dEnergy=dEnergy,
         verbose=verbose,
         numericalLimit=numericalLimit,
+        xcMesh=xcMesh,
+        wrap_string=wrap_string,
+    )
+
+
+@_func_in_func(sphinx.main.ricQN.bornOppenheimer.scfDiag.blockCCG)
+@units
+def _sphinx__main__ricQN__bornOppenheimer__scfDiag__blockCCG__xcMesh(
+    eCut: float,
+    mesh: Optional[list] = None,
+    meshAccuracy: Optional[float] = None,
+    wrap_string: bool = True,
+):
+    """
+    Mesh for the exchange-correlation potential
+
+    Args:
+        eCut (float): The energy cutoff for the mesh.
+        mesh (list): The mesh for the exchange-correlation potential. (Optional)
+        meshAccuracy (float): The accuracy of the mesh. (Optional)
+        wrap_string (bool): Whether to wrap string values in apostrophes.
+    """
+    return fill_values(
+        eCut=eCut,
+        mesh=mesh,
+        meshAccuracy=meshAccuracy,
         wrap_string=wrap_string,
     )
 
@@ -2180,6 +2538,7 @@ def _sphinx__main__ric__bornOppenheimer__scfDiag(
     dSpinMoment: Optional[float] = None,
     noRhoStorage: Optional[bool] = None,
     noWavesStorage: Optional[bool] = None,
+    xcMesh: Optional[dict] = None,
     CCG: Optional[dict] = None,
     blockCCG: Optional[dict] = None,
     preconditioner: Optional[dict] = None,
@@ -2206,7 +2565,8 @@ def _sphinx__main__ric__bornOppenheimer__scfDiag(
         dSpinMoment (float): accuracy of iterative enforcement of spin constraints. Default: 1e-8. (Optional)
         noRhoStorage (bool): Do not write rho.sxb. (Optional)
         noWavesStorage (bool): Do not write waves.sxb. (Optional)
-        CCG (dict): The CCG group selects and controls the direct minimization algorithm for the solution of the Kohn-Sham DFT equations. (Optional)
+        xcMesh (dict): Mesh for the exchange-correlation potential. (Optional)
+        CCG (dict): The CCG group (within the scfDiag group) selects conjugate-gradient algorithm for (inner-loop) iterative diagonalization. After all states have been updated, a subspace diagonalization is performed. This algorithm works best for very small systems. For larger systems (> 5 states), the blockCCG is superior. (Optional)
         blockCCG (dict): The blockCCG group (within the scfDiag group) selects the block-conjugate-gradient algorithm for (inner-loop) iterative diagonalization. After all states have been updated, a subspace diagonalization is performed. This algorithm works best for larger systems (> 5 states). (Optional)
         preconditioner (dict): The preconditioner group defines the density preconditioner, i.e., a transformation of the observed (or predicted) difference between the input and output density to the applied changes to the input density. An ideal preconditioner models the screening behavior of the system and is able to include the expected screening response into the suggested density change. Selecting an appropriate preconditioner, that rejects the screening properties of the system at hand, is a key to an efficient (i.e. fast) convergence. The preconditioner does not affect the converged result. (Optional)
         wrap_string (bool): Whether to wrap string values in apostrophes.
@@ -2229,6 +2589,7 @@ def _sphinx__main__ric__bornOppenheimer__scfDiag(
         dSpinMoment=dSpinMoment,
         noRhoStorage=noRhoStorage,
         noWavesStorage=noWavesStorage,
+        xcMesh=xcMesh,
         CCG=CCG,
         blockCCG=blockCCG,
         preconditioner=preconditioner,
@@ -2238,49 +2599,78 @@ def _sphinx__main__ric__bornOppenheimer__scfDiag(
 
 @_func_in_func(sphinx.main.ric.bornOppenheimer.scfDiag)
 @units
-def _sphinx__main__ric__bornOppenheimer__scfDiag__CCG(
-    dEnergy: Optional[float] = None,
-    maxSteps: Optional[int] = None,
-    printSteps: Optional[int] = None,
-    initialDiag: Optional[bool] = None,
-    finalDiag: Optional[bool] = None,
-    kappa: Optional[float] = None,
-    keepOccFixed: Optional[bool] = None,
-    ekt: Annotated[Optional[float], {"units": "eV"}] = None,
-    dipoleCorrection: Optional[bool] = None,
-    noRhoStorage: Optional[bool] = None,
-    noWavesStorage: Optional[bool] = None,
+def _sphinx__main__ric__bornOppenheimer__scfDiag__xcMesh(
+    eCut: float,
+    mesh: Optional[list] = None,
+    meshAccuracy: Optional[float] = None,
     wrap_string: bool = True,
 ):
     """
-    The CCG group selects and controls the direct minimization algorithm for the solution of the Kohn-Sham DFT equations
+    Mesh for the exchange-correlation potential
 
     Args:
-        dEnergy (float): Use these settings until energy change fall below this threshold. Default: 1e-8. (Optional)
-        maxSteps (int): Max. number of steps to perform. (Optional)
-        printSteps (int): Print convergence status every n steps. Default: 10. (Optional)
-        initialDiag (bool): Perform iterative wave-function optimization based on the initial density. Default: True. (Optional)
-        finalDiag (bool): Perform iterative wave-function optimization based on the final density. (Optional)
-        kappa (float): Perform subspace diagonalization at the end. (optional) Initial mixing between subspace Hamiltonian and wave-function updates. If set to a negative value, the value of κ will be fixed at the absolute value. Otherwise, κ is adapted on the fly. (Optional)
-        keepOccFixed (bool): Do not update the occupation numbers. (Optional)
-        ekt (float): Override electronic temperature setting in the Hamiltonian group. Units: eV. (Optional)
-        dipoleCorrection (bool): Override the dipole correction setting in the Hamiltonian group. (Optional)
-        noRhoStorage (bool): Do not write rho.sxb. (Optional)
-        noWavesStorage (bool): Do not write waves.sxb. (Optional)
+        eCut (float): The energy cutoff for the mesh.
+        mesh (list): The mesh for the exchange-correlation potential. (Optional)
+        meshAccuracy (float): The accuracy of the mesh. (Optional)
         wrap_string (bool): Whether to wrap string values in apostrophes.
     """
     return fill_values(
+        eCut=eCut,
+        mesh=mesh,
+        meshAccuracy=meshAccuracy,
+        wrap_string=wrap_string,
+    )
+
+
+@_func_in_func(sphinx.main.ric.bornOppenheimer.scfDiag)
+@units
+def _sphinx__main__ric__bornOppenheimer__scfDiag__CCG(
+    dRelEps: Optional[float] = None,
+    maxStepsCCG: Optional[int] = None,
+    dEnergy: Optional[float] = None,
+    xcMesh: Optional[dict] = None,
+    wrap_string: bool = True,
+):
+    """
+    The CCG group (within the scfDiag group) selects conjugate-gradient algorithm for (inner-loop) iterative diagonalization. After all states have been updated, a subspace diagonalization is performed. This algorithm works best for very small systems. For larger systems (> 5 states), the blockCCG is superior.
+
+    Args:
+        dRelEps (float): Stop iterating when the change in eigenvalue falls below this fraction of the change in the first (steepest-descent) step. (Optional)
+        maxStepsCCG (int): Max. number of steps to perform. Default: 5. (Optional)
+        dEnergy (float): Use these settings until energy change fall below this threshold. (Optional)
+        xcMesh (dict): Mesh for the exchange-correlation potential. (Optional)
+        wrap_string (bool): Whether to wrap string values in apostrophes.
+    """
+    return fill_values(
+        dRelEps=dRelEps,
+        maxStepsCCG=maxStepsCCG,
         dEnergy=dEnergy,
-        maxSteps=maxSteps,
-        printSteps=printSteps,
-        initialDiag=initialDiag,
-        finalDiag=finalDiag,
-        kappa=kappa,
-        keepOccFixed=keepOccFixed,
-        ekt=ekt,
-        dipoleCorrection=dipoleCorrection,
-        noRhoStorage=noRhoStorage,
-        noWavesStorage=noWavesStorage,
+        xcMesh=xcMesh,
+        wrap_string=wrap_string,
+    )
+
+
+@_func_in_func(sphinx.main.ric.bornOppenheimer.scfDiag.CCG)
+@units
+def _sphinx__main__ric__bornOppenheimer__scfDiag__CCG__xcMesh(
+    eCut: float,
+    mesh: Optional[list] = None,
+    meshAccuracy: Optional[float] = None,
+    wrap_string: bool = True,
+):
+    """
+    Mesh for the exchange-correlation potential
+
+    Args:
+        eCut (float): The energy cutoff for the mesh.
+        mesh (list): The mesh for the exchange-correlation potential. (Optional)
+        meshAccuracy (float): The accuracy of the mesh. (Optional)
+        wrap_string (bool): Whether to wrap string values in apostrophes.
+    """
+    return fill_values(
+        eCut=eCut,
+        mesh=mesh,
+        meshAccuracy=meshAccuracy,
         wrap_string=wrap_string,
     )
 
@@ -2294,7 +2684,8 @@ def _sphinx__main__ric__bornOppenheimer__scfDiag__blockCCG(
     nSloppy: Optional[int] = None,
     dEnergy: Optional[float] = None,
     verbose: Optional[bool] = None,
-    numericalLimit: Optional[float] = None,
+    numericalLimit: Optional[bool] = None,
+    xcMesh: Optional[dict] = None,
     wrap_string: bool = True,
 ):
     """
@@ -2307,7 +2698,8 @@ def _sphinx__main__ric__bornOppenheimer__scfDiag__blockCCG(
         nSloppy (int): Number of sloppy steps. (Optional)
         dEnergy (float): Use these settings until energy change fall below this threshold. (Optional)
         verbose (bool): Verbose output. (Optional)
-        numericalLimit (float): Stop iterating when approaching the numerical limit. (Optional)
+        numericalLimit (bool): Stop iterating when approaching the numerical limit. (Optional)
+        xcMesh (dict): Mesh for the exchange-correlation potential. (Optional)
         wrap_string (bool): Whether to wrap string values in apostrophes.
     """
     return fill_values(
@@ -2318,6 +2710,32 @@ def _sphinx__main__ric__bornOppenheimer__scfDiag__blockCCG(
         dEnergy=dEnergy,
         verbose=verbose,
         numericalLimit=numericalLimit,
+        xcMesh=xcMesh,
+        wrap_string=wrap_string,
+    )
+
+
+@_func_in_func(sphinx.main.ric.bornOppenheimer.scfDiag.blockCCG)
+@units
+def _sphinx__main__ric__bornOppenheimer__scfDiag__blockCCG__xcMesh(
+    eCut: float,
+    mesh: Optional[list] = None,
+    meshAccuracy: Optional[float] = None,
+    wrap_string: bool = True,
+):
+    """
+    Mesh for the exchange-correlation potential
+
+    Args:
+        eCut (float): The energy cutoff for the mesh.
+        mesh (list): The mesh for the exchange-correlation potential. (Optional)
+        meshAccuracy (float): The accuracy of the mesh. (Optional)
+        wrap_string (bool): Whether to wrap string values in apostrophes.
+    """
+    return fill_values(
+        eCut=eCut,
+        mesh=mesh,
+        meshAccuracy=meshAccuracy,
         wrap_string=wrap_string,
     )
 
@@ -2444,6 +2862,7 @@ def _sphinx__main__ricTS__bornOppenheimer__scfDiag(
     dSpinMoment: Optional[float] = None,
     noRhoStorage: Optional[bool] = None,
     noWavesStorage: Optional[bool] = None,
+    xcMesh: Optional[dict] = None,
     CCG: Optional[dict] = None,
     blockCCG: Optional[dict] = None,
     preconditioner: Optional[dict] = None,
@@ -2470,7 +2889,8 @@ def _sphinx__main__ricTS__bornOppenheimer__scfDiag(
         dSpinMoment (float): accuracy of iterative enforcement of spin constraints. Default: 1e-8. (Optional)
         noRhoStorage (bool): Do not write rho.sxb. (Optional)
         noWavesStorage (bool): Do not write waves.sxb. (Optional)
-        CCG (dict): The CCG group selects and controls the direct minimization algorithm for the solution of the Kohn-Sham DFT equations. (Optional)
+        xcMesh (dict): Mesh for the exchange-correlation potential. (Optional)
+        CCG (dict): The CCG group (within the scfDiag group) selects conjugate-gradient algorithm for (inner-loop) iterative diagonalization. After all states have been updated, a subspace diagonalization is performed. This algorithm works best for very small systems. For larger systems (> 5 states), the blockCCG is superior. (Optional)
         blockCCG (dict): The blockCCG group (within the scfDiag group) selects the block-conjugate-gradient algorithm for (inner-loop) iterative diagonalization. After all states have been updated, a subspace diagonalization is performed. This algorithm works best for larger systems (> 5 states). (Optional)
         preconditioner (dict): The preconditioner group defines the density preconditioner, i.e., a transformation of the observed (or predicted) difference between the input and output density to the applied changes to the input density. An ideal preconditioner models the screening behavior of the system and is able to include the expected screening response into the suggested density change. Selecting an appropriate preconditioner, that rejects the screening properties of the system at hand, is a key to an efficient (i.e. fast) convergence. The preconditioner does not affect the converged result. (Optional)
         wrap_string (bool): Whether to wrap string values in apostrophes.
@@ -2493,6 +2913,7 @@ def _sphinx__main__ricTS__bornOppenheimer__scfDiag(
         dSpinMoment=dSpinMoment,
         noRhoStorage=noRhoStorage,
         noWavesStorage=noWavesStorage,
+        xcMesh=xcMesh,
         CCG=CCG,
         blockCCG=blockCCG,
         preconditioner=preconditioner,
@@ -2502,49 +2923,78 @@ def _sphinx__main__ricTS__bornOppenheimer__scfDiag(
 
 @_func_in_func(sphinx.main.ricTS.bornOppenheimer.scfDiag)
 @units
-def _sphinx__main__ricTS__bornOppenheimer__scfDiag__CCG(
-    dEnergy: Optional[float] = None,
-    maxSteps: Optional[int] = None,
-    printSteps: Optional[int] = None,
-    initialDiag: Optional[bool] = None,
-    finalDiag: Optional[bool] = None,
-    kappa: Optional[float] = None,
-    keepOccFixed: Optional[bool] = None,
-    ekt: Annotated[Optional[float], {"units": "eV"}] = None,
-    dipoleCorrection: Optional[bool] = None,
-    noRhoStorage: Optional[bool] = None,
-    noWavesStorage: Optional[bool] = None,
+def _sphinx__main__ricTS__bornOppenheimer__scfDiag__xcMesh(
+    eCut: float,
+    mesh: Optional[list] = None,
+    meshAccuracy: Optional[float] = None,
     wrap_string: bool = True,
 ):
     """
-    The CCG group selects and controls the direct minimization algorithm for the solution of the Kohn-Sham DFT equations
+    Mesh for the exchange-correlation potential
 
     Args:
-        dEnergy (float): Use these settings until energy change fall below this threshold. Default: 1e-8. (Optional)
-        maxSteps (int): Max. number of steps to perform. (Optional)
-        printSteps (int): Print convergence status every n steps. Default: 10. (Optional)
-        initialDiag (bool): Perform iterative wave-function optimization based on the initial density. Default: True. (Optional)
-        finalDiag (bool): Perform iterative wave-function optimization based on the final density. (Optional)
-        kappa (float): Perform subspace diagonalization at the end. (optional) Initial mixing between subspace Hamiltonian and wave-function updates. If set to a negative value, the value of κ will be fixed at the absolute value. Otherwise, κ is adapted on the fly. (Optional)
-        keepOccFixed (bool): Do not update the occupation numbers. (Optional)
-        ekt (float): Override electronic temperature setting in the Hamiltonian group. Units: eV. (Optional)
-        dipoleCorrection (bool): Override the dipole correction setting in the Hamiltonian group. (Optional)
-        noRhoStorage (bool): Do not write rho.sxb. (Optional)
-        noWavesStorage (bool): Do not write waves.sxb. (Optional)
+        eCut (float): The energy cutoff for the mesh.
+        mesh (list): The mesh for the exchange-correlation potential. (Optional)
+        meshAccuracy (float): The accuracy of the mesh. (Optional)
         wrap_string (bool): Whether to wrap string values in apostrophes.
     """
     return fill_values(
+        eCut=eCut,
+        mesh=mesh,
+        meshAccuracy=meshAccuracy,
+        wrap_string=wrap_string,
+    )
+
+
+@_func_in_func(sphinx.main.ricTS.bornOppenheimer.scfDiag)
+@units
+def _sphinx__main__ricTS__bornOppenheimer__scfDiag__CCG(
+    dRelEps: Optional[float] = None,
+    maxStepsCCG: Optional[int] = None,
+    dEnergy: Optional[float] = None,
+    xcMesh: Optional[dict] = None,
+    wrap_string: bool = True,
+):
+    """
+    The CCG group (within the scfDiag group) selects conjugate-gradient algorithm for (inner-loop) iterative diagonalization. After all states have been updated, a subspace diagonalization is performed. This algorithm works best for very small systems. For larger systems (> 5 states), the blockCCG is superior.
+
+    Args:
+        dRelEps (float): Stop iterating when the change in eigenvalue falls below this fraction of the change in the first (steepest-descent) step. (Optional)
+        maxStepsCCG (int): Max. number of steps to perform. Default: 5. (Optional)
+        dEnergy (float): Use these settings until energy change fall below this threshold. (Optional)
+        xcMesh (dict): Mesh for the exchange-correlation potential. (Optional)
+        wrap_string (bool): Whether to wrap string values in apostrophes.
+    """
+    return fill_values(
+        dRelEps=dRelEps,
+        maxStepsCCG=maxStepsCCG,
         dEnergy=dEnergy,
-        maxSteps=maxSteps,
-        printSteps=printSteps,
-        initialDiag=initialDiag,
-        finalDiag=finalDiag,
-        kappa=kappa,
-        keepOccFixed=keepOccFixed,
-        ekt=ekt,
-        dipoleCorrection=dipoleCorrection,
-        noRhoStorage=noRhoStorage,
-        noWavesStorage=noWavesStorage,
+        xcMesh=xcMesh,
+        wrap_string=wrap_string,
+    )
+
+
+@_func_in_func(sphinx.main.ricTS.bornOppenheimer.scfDiag.CCG)
+@units
+def _sphinx__main__ricTS__bornOppenheimer__scfDiag__CCG__xcMesh(
+    eCut: float,
+    mesh: Optional[list] = None,
+    meshAccuracy: Optional[float] = None,
+    wrap_string: bool = True,
+):
+    """
+    Mesh for the exchange-correlation potential
+
+    Args:
+        eCut (float): The energy cutoff for the mesh.
+        mesh (list): The mesh for the exchange-correlation potential. (Optional)
+        meshAccuracy (float): The accuracy of the mesh. (Optional)
+        wrap_string (bool): Whether to wrap string values in apostrophes.
+    """
+    return fill_values(
+        eCut=eCut,
+        mesh=mesh,
+        meshAccuracy=meshAccuracy,
         wrap_string=wrap_string,
     )
 
@@ -2558,7 +3008,8 @@ def _sphinx__main__ricTS__bornOppenheimer__scfDiag__blockCCG(
     nSloppy: Optional[int] = None,
     dEnergy: Optional[float] = None,
     verbose: Optional[bool] = None,
-    numericalLimit: Optional[float] = None,
+    numericalLimit: Optional[bool] = None,
+    xcMesh: Optional[dict] = None,
     wrap_string: bool = True,
 ):
     """
@@ -2571,7 +3022,8 @@ def _sphinx__main__ricTS__bornOppenheimer__scfDiag__blockCCG(
         nSloppy (int): Number of sloppy steps. (Optional)
         dEnergy (float): Use these settings until energy change fall below this threshold. (Optional)
         verbose (bool): Verbose output. (Optional)
-        numericalLimit (float): Stop iterating when approaching the numerical limit. (Optional)
+        numericalLimit (bool): Stop iterating when approaching the numerical limit. (Optional)
+        xcMesh (dict): Mesh for the exchange-correlation potential. (Optional)
         wrap_string (bool): Whether to wrap string values in apostrophes.
     """
     return fill_values(
@@ -2582,6 +3034,32 @@ def _sphinx__main__ricTS__bornOppenheimer__scfDiag__blockCCG(
         dEnergy=dEnergy,
         verbose=verbose,
         numericalLimit=numericalLimit,
+        xcMesh=xcMesh,
+        wrap_string=wrap_string,
+    )
+
+
+@_func_in_func(sphinx.main.ricTS.bornOppenheimer.scfDiag.blockCCG)
+@units
+def _sphinx__main__ricTS__bornOppenheimer__scfDiag__blockCCG__xcMesh(
+    eCut: float,
+    mesh: Optional[list] = None,
+    meshAccuracy: Optional[float] = None,
+    wrap_string: bool = True,
+):
+    """
+    Mesh for the exchange-correlation potential
+
+    Args:
+        eCut (float): The energy cutoff for the mesh.
+        mesh (list): The mesh for the exchange-correlation potential. (Optional)
+        meshAccuracy (float): The accuracy of the mesh. (Optional)
+        wrap_string (bool): Whether to wrap string values in apostrophes.
+    """
+    return fill_values(
+        eCut=eCut,
+        mesh=mesh,
+        meshAccuracy=meshAccuracy,
         wrap_string=wrap_string,
     )
 
