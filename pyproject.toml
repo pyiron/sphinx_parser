@@ -23,7 +23,7 @@ classifiers = [
     "Programming Language :: Python :: 3.14",
 ]
 dependencies = [
-   "numpy==2.4.3",
+   "numpy==2.5.3",
    "ase==3.29.0",
    "h5py==3.16.0",
    "semantikon==1.4.0",
