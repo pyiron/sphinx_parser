@@ -22,7 +22,7 @@ def format_value(v: Any, indent: int = 0):
     else:
         if isinstance(v, np.ndarray):
             v = v.tolist()
-        return " = {!s};".format(v)
+        return f" = {v!s};"
 
 
 def to_sphinx(obj: dict, indent: int = 0, include_format: bool = True) -> str:

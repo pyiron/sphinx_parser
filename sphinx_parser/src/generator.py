@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import builtins
 import keyword
 import os
@@ -133,9 +135,9 @@ def _get_input_arg(key: str, entry: dict, indent: str = indent) -> str:
     t = entry.get("data_type", "dict")
     units = "".join(entry.get("units", "").split())
     if not entry.get("required", False) and units != "":
-        t = f'Annotated[Optional[{t}], {{"units": "{units}"}}] = None'
+        t = f'Annotated[{t} | None, {{"units": "{units}"}}] = None'
     elif not entry.get("required", False):
-        t = f"Optional[{t}] = None"
+        t = f"{t} | None = None"
     elif units != "":
         t = f'Annotated[{t}, {{"units": "{units}"}}]'
     t = f"{indent}{_get_safe_parameter_name(key)}: {t},"
@@ -183,7 +185,7 @@ def _get_function(
         output.extend(
             [
                 f"{2 * indent}{_get_safe_parameter_name(key)}={_get_safe_parameter_name(key)},"
-                for key in d.keys()
+                for key in d
                 if key not in predefined
             ]
         )
@@ -235,7 +237,9 @@ def _get_file_content(yml_file_name: str = "input_data.yml") -> str:
     all_data = _replace_alias(all_data)
     file_content = _get_class(all_data)
     imports = [
-        "from typing import Annotated, Optional",
+        "from __future__ import annotations",
+        "",
+        "from typing import Annotated",
         "",
         "import numpy as np",
         "from semantikon.converter import units",
