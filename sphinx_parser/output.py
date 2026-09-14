@@ -1,14 +1,15 @@
+from __future__ import annotations
+
 import re
 import warnings
 from functools import cached_property
 from pathlib import Path
-from typing import Optional, Union
 
 import numpy as np
 from numpy.typing import NDArray
 
 
-def _splitter(arr: Union[NDArray, list], counter: Union[NDArray, list]) -> list:
+def _splitter(arr: NDArray | list, counter: NDArray | list) -> list:
     if len(arr) == 0 or len(counter) == 0:
         return []
     arr_new = []
@@ -19,7 +20,7 @@ def _splitter(arr: Union[NDArray, list], counter: Union[NDArray, list]) -> list:
     return arr_new
 
 
-def collect_energy_dat(file_name: Union[str, Path] = "energy.dat") -> dict:
+def collect_energy_dat(file_name: str | Path = "energy.dat") -> dict:
     """
 
     Args:
@@ -41,7 +42,7 @@ def collect_energy_dat(file_name: Union[str, Path] = "energy.dat") -> dict:
     }
 
 
-def collect_residue_dat(file_name: Union[str, Path] = "residue.dat") -> dict:
+def collect_residue_dat(file_name: str | Path = "residue.dat") -> dict:
     """
 
     Args:
@@ -56,7 +57,7 @@ def collect_residue_dat(file_name: Union[str, Path] = "residue.dat") -> dict:
     return {"scf_residue": _splitter(residue[:, 1:].squeeze(), residue[:, 0])}
 
 
-def _collect_eps_dat(file_name: Union[str, Path] = "eps.dat") -> NDArray:
+def _collect_eps_dat(file_name: str | Path = "eps.dat") -> NDArray:
     """
 
     Args:
@@ -69,8 +70,8 @@ def _collect_eps_dat(file_name: Union[str, Path] = "eps.dat") -> NDArray:
 
 
 def collect_eps_dat(
-    file_name: Optional[Union[str, Path]] = None,
-    cwd: Optional[Union[str, Path]] = None,
+    file_name: str | Path | None = None,
+    cwd: str | Path | None = None,
     spins: bool = True,
 ) -> dict:
     if file_name is not None:
@@ -90,7 +91,7 @@ def collect_eps_dat(
 
 
 def collect_energy_struct(
-    file_name: Union[str, Path] = "energy-structOpt.dat",
+    file_name: str | Path = "energy-structOpt.dat",
 ) -> dict:
     """
 
@@ -104,7 +105,7 @@ def collect_energy_struct(
     return {"energy_free": np.loadtxt(str(file_name), ndmin=2).reshape(-1, 2)[:, 1]}
 
 
-def _check_permutation(index_permutation: Optional[NDArray]) -> None:
+def _check_permutation(index_permutation: NDArray | None) -> None:
     if index_permutation is None:
         return
     unique_indices = np.unique(index_permutation)
@@ -114,8 +115,8 @@ def _check_permutation(index_permutation: Optional[NDArray]) -> None:
 
 
 def collect_spins_dat(
-    file_name: Union[str, Path] = "spins.dat",
-    index_permutation: Optional[NDArray] = None,
+    file_name: str | Path = "spins.dat",
+    index_permutation: NDArray | None = None,
 ) -> dict:
     """
 
@@ -137,8 +138,8 @@ def collect_spins_dat(
 
 
 def collect_eval_forces(
-    file_name: Union[str, Path],
-    index_permutation: Optional[NDArray] = None,
+    file_name: str | Path,
+    index_permutation: NDArray | None = None,
 ) -> dict:
     """
     Args:
@@ -160,7 +161,7 @@ def collect_eval_forces(
         term: str,
         f: str = file_content,
         n: int = n_steps,
-        p: Optional[NDArray] = index_permutation,
+        p: NDArray | None = index_permutation,
     ) -> NDArray:
         value = (
             np.array(re.findall(term, f, re.MULTILINE)).astype(float).reshape(n, -1, 3)
@@ -186,7 +187,7 @@ class SphinxLogParser:
     def __init__(
         self,
         file_content: str,
-        index_permutation: Optional[NDArray] = None,
+        index_permutation: NDArray | None = None,
     ) -> None:
         """
         Args:
@@ -195,7 +196,7 @@ class SphinxLogParser:
 
         """
         self.log_file: str = file_content
-        self._n_atoms: Optional[int] = None
+        self._n_atoms: int | None = None
         _check_permutation(index_permutation)
         self._index_permutation = index_permutation
         self.generic_dict: dict = {
@@ -219,9 +220,9 @@ class SphinxLogParser:
     @classmethod
     def load_from_path(
         cls,
-        path: Union[str, Path],
-        index_permutation: Optional[NDArray] = None,
-    ) -> "SphinxLogParser":
+        path: str | Path,
+        index_permutation: NDArray | None = None,
+    ) -> SphinxLogParser:
         """
         Args:
             path (str): file name
@@ -236,7 +237,7 @@ class SphinxLogParser:
         return cls(file_content, index_permutation)
 
     @property
-    def index_permutation(self) -> Optional[NDArray]:
+    def index_permutation(self) -> NDArray | None:
         return self._index_permutation
 
     @property
@@ -244,7 +245,7 @@ class SphinxLogParser:
         return len(re.findall("Spin moment:", self.log_file)) > 0
 
     @cached_property
-    def log_main(self) -> Optional[str]:
+    def log_main(self) -> str | None:
         term = "Enter Main Loop"
         matches = re.finditer(rf"\b{re.escape(term)}\b", self.log_file)
         positions = [(match.start(), match.end()) for match in matches]
@@ -345,7 +346,7 @@ class SphinxLogParser:
             )
         return self._n_atoms
 
-    def get_forces(self) -> Union[NDArray, list]:
+    def get_forces(self) -> NDArray | list:
         """
         Returns:
             (numpy.ndarray): Forces of the shape (n_steps, n_atoms, 3)
@@ -368,7 +369,7 @@ class SphinxLogParser:
         """
         log_main = self.log_main
         assert log_main is not None
-        magnetic_forces: Union[list, NDArray] = [
+        magnetic_forces: list | NDArray = [
             float(line.split()[-1])
             for line in re.findall(r"^nu\(.*$", log_main, re.MULTILINE)
         ]
@@ -383,7 +384,7 @@ class SphinxLogParser:
     def n_steps(self) -> int:
         return len(re.findall(r"\| SCF calculation", self.log_file, re.MULTILINE))
 
-    def _parse_band(self, term: str) -> Union[NDArray, list]:
+    def _parse_band(self, term: str) -> NDArray | list:
         log_main = self.log_main
         assert log_main is not None
         content = re.findall(term, log_main, re.MULTILINE)
@@ -399,10 +400,10 @@ class SphinxLogParser:
             shape = (-1, n_k, n_bands)
         return arr.reshape(shape)
 
-    def get_band_energy(self) -> Union[NDArray, list]:
+    def get_band_energy(self) -> NDArray | list:
         return self._parse_band(r"final eig \[eV\]:(.*)$")
 
-    def get_occupancy(self) -> Union[NDArray, list]:
+    def get_occupancy(self) -> NDArray | list:
         return self._parse_band("final focc:(.*)$")
 
     def get_convergence(self) -> list:

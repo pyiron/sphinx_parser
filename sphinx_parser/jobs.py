@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from sphinx_parser.ase import get_structure_group
 from sphinx_parser.input import sphinx
 from sphinx_parser.potential import get_paw_from_structure
@@ -9,7 +11,7 @@ def set_base_parameters(
     xc: int = 1,
     maxSteps: int = 30,
     ekt: float = 0.2,
-    k_point_coords: list = [0.5, 0.5, 0.5],
+    k_point_coords: list | None = None,
 ) -> dict:
     """
     Set the base parameters for the sphinx input file
@@ -25,6 +27,8 @@ def set_base_parameters(
     Returns:
         dict: Sphinx input dictionary
     """
+    if k_point_coords is None:
+        k_point_coords = [0.5, 0.5, 0.5]
     struct_group, spin_lst = get_structure_group(structure)
     spinPolarized = spin_lst is not None
     main_group = sphinx.main(

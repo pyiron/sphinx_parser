@@ -1,4 +1,6 @@
-from typing import Annotated, Optional
+from __future__ import annotations
+
+from typing import Annotated
 
 import numpy as np
 from semantikon.converter import units
@@ -8,15 +10,15 @@ from sphinx_parser.toolkit import _func_in_func, fill_values
 
 @units
 def sphinx(
-    structure: Optional[dict] = None,
-    basis: Optional[dict] = None,
-    pawPot: Optional[dict] = None,
-    PAWHamiltonian: Optional[dict] = None,
-    spinConstraint: Optional[dict] = None,
-    initialGuess: Optional[dict] = None,
-    pseudoPot: Optional[dict] = None,
-    PWHamiltonian: Optional[dict] = None,
-    main: Optional[dict] = None,
+    structure: dict | None = None,
+    basis: dict | None = None,
+    pawPot: dict | None = None,
+    PAWHamiltonian: dict | None = None,
+    spinConstraint: dict | None = None,
+    initialGuess: dict | None = None,
+    pseudoPot: dict | None = None,
+    PWHamiltonian: dict | None = None,
+    main: dict | None = None,
     wrap_string: bool = True,
 ):
     """
@@ -52,12 +54,12 @@ def sphinx(
 @units
 def _sphinx__structure(
     cell: Annotated[list, {"units": "bohr"}],
-    movable: Optional[bool] = None,
-    movableX: Optional[bool] = None,
-    movableY: Optional[bool] = None,
-    movableZ: Optional[bool] = None,
-    species: Optional[dict] = None,
-    symmetry: Optional[dict] = None,
+    movable: bool | None = None,
+    movableX: bool | None = None,
+    movableY: bool | None = None,
+    movableZ: bool | None = None,
+    species: dict | None = None,
+    symmetry: dict | None = None,
     wrap_string: bool = True,
 ):
     """
@@ -86,8 +88,8 @@ def _sphinx__structure(
 @_func_in_func(sphinx.structure)
 @units
 def _sphinx__structure__species(
-    element: Optional[str] = None,
-    atom: Optional[dict] = None,
+    element: str | None = None,
+    atom: dict | None = None,
     wrap_string: bool = True,
 ):
     """
@@ -106,14 +108,14 @@ def _sphinx__structure__species(
 @_func_in_func(sphinx.structure.species)
 @units
 def _sphinx__structure__species__atom(
-    coords: Annotated[Optional[np.ndarray], {"units": "bohr"}] = None,
-    relative: Optional[bool] = None,
-    movableLine: Optional[list] = None,
-    label: Optional[str] = None,
-    movable: Optional[bool] = None,
-    movableX: Optional[bool] = None,
-    movableY: Optional[bool] = None,
-    movableZ: Optional[bool] = None,
+    coords: Annotated[np.ndarray | None, {"units": "bohr"}] = None,
+    relative: bool | None = None,
+    movableLine: list | None = None,
+    label: str | None = None,
+    movable: bool | None = None,
+    movableX: bool | None = None,
+    movableY: bool | None = None,
+    movableZ: bool | None = None,
     wrap_string: bool = True,
 ):
     """
@@ -144,7 +146,7 @@ def _sphinx__structure__species__atom(
 @_func_in_func(sphinx.structure)
 @units
 def _sphinx__structure__symmetry(
-    operator: Optional[dict] = None,
+    operator: dict | None = None,
     wrap_string: bool = True,
 ):
     """
@@ -179,13 +181,13 @@ def _sphinx__structure__symmetry__operator(
 @units
 def _sphinx__basis(
     eCut: float,
-    gCut: Optional[float] = None,
-    folding: Optional[int] = None,
-    mesh: Optional[list] = None,
-    meshAccuracy: Optional[float] = None,
-    saveMemory: Optional[bool] = None,
-    kPoint: Optional[dict] = None,
-    kPoints: Optional[dict] = None,
+    gCut: float | None = None,
+    folding: int | None = None,
+    mesh: list | None = None,
+    meshAccuracy: float | None = None,
+    saveMemory: bool | None = None,
+    kPoint: dict | None = None,
+    kPoints: dict | None = None,
     wrap_string: bool = True,
 ):
     """
@@ -217,8 +219,8 @@ def _sphinx__basis(
 @units
 def _sphinx__basis__kPoint(
     coords: np.ndarray,
-    relative: Optional[bool] = None,
-    weight: Optional[float] = None,
+    relative: bool | None = None,
+    weight: float | None = None,
     wrap_string: bool = True,
 ):
     """
@@ -239,10 +241,10 @@ def _sphinx__basis__kPoint(
 @_func_in_func(sphinx.basis)
 @units
 def _sphinx__basis__kPoints(
-    relative: Optional[bool] = None,
-    dK: Annotated[Optional[float], {"units": "1/bohr"}] = None,
-    from_: Optional[dict] = None,
-    to: Optional[dict] = None,
+    relative: bool | None = None,
+    dK: Annotated[float | None, {"units": "1/bohr"}] = None,
+    from_: dict | None = None,
+    to: dict | None = None,
     wrap_string: bool = True,
 ):
     """
@@ -266,8 +268,8 @@ def _sphinx__basis__kPoints(
 @units
 def _sphinx__basis__kPoints__from(
     coords: Annotated[np.ndarray, {"units": "1/bohr"}],
-    relative: Optional[bool] = None,
-    label: Optional[str] = None,
+    relative: bool | None = None,
+    label: str | None = None,
     wrap_string: bool = True,
 ):
     """
@@ -291,10 +293,10 @@ def _sphinx__basis__kPoints__from(
 @units
 def _sphinx__basis__kPoints__to(
     coords: Annotated[np.ndarray, {"units": "1/bohr"}],
-    relative: Optional[bool] = None,
-    label: Optional[str] = None,
-    dK: Annotated[Optional[float], {"units": "1/bohr"}] = None,
-    nPoints: Optional[int] = None,
+    relative: bool | None = None,
+    label: str | None = None,
+    dK: Annotated[float | None, {"units": "1/bohr"}] = None,
+    nPoints: int | None = None,
     wrap_string: bool = True,
 ):
     """
@@ -321,7 +323,7 @@ def _sphinx__basis__kPoints__to(
 @_func_in_func(sphinx)
 @units
 def _sphinx__pawPot(
-    species: Optional[dict] = None,
+    species: dict | None = None,
     wrap_string: bool = True,
 ):
     """
@@ -342,13 +344,13 @@ def _sphinx__pawPot(
 def _sphinx__pawPot__species(
     potential: str,
     potType: str,
-    name: Optional[str] = None,
-    element: Optional[str] = None,
-    lMaxRho: Optional[int] = None,
-    angularGrid: Optional[int] = None,
-    nRadGrid: Optional[int] = None,
-    checkOverlap: Optional[bool] = None,
-    rPAW: Optional[float] = None,
+    name: str | None = None,
+    element: str | None = None,
+    lMaxRho: int | None = None,
+    angularGrid: int | None = None,
+    nRadGrid: int | None = None,
+    checkOverlap: bool | None = None,
+    rPAW: float | None = None,
     wrap_string: bool = True,
 ):
     """
@@ -382,18 +384,18 @@ def _sphinx__pawPot__species(
 @units
 def _sphinx__PAWHamiltonian(
     xc: str,
-    ekt: Annotated[Optional[float], {"units": "eV"}] = None,
-    MethfesselPaxton: Optional[float] = None,
-    FermiDirac: Optional[int] = None,
-    nEmptyStates: Optional[int] = None,
-    nExcessElectrons: Optional[int] = None,
-    spinPolarized: Optional[bool] = None,
-    dipoleCorrection: Optional[bool] = None,
-    zField: Annotated[Optional[float], {"units": "hartree/bohr"}] = None,
-    vExt: Optional[dict] = None,
-    xcMesh: Optional[dict] = None,
-    vdwCorrection: Optional[dict] = None,
-    HubbardU: Optional[dict] = None,
+    ekt: Annotated[float | None, {"units": "eV"}] = None,
+    MethfesselPaxton: float | None = None,
+    FermiDirac: int | None = None,
+    nEmptyStates: int | None = None,
+    nExcessElectrons: int | None = None,
+    spinPolarized: bool | None = None,
+    dipoleCorrection: bool | None = None,
+    zField: Annotated[float | None, {"units": "hartree/bohr"}] = None,
+    vExt: dict | None = None,
+    xcMesh: dict | None = None,
+    vdwCorrection: dict | None = None,
+    HubbardU: dict | None = None,
     wrap_string: bool = True,
 ):
     """
@@ -454,8 +456,8 @@ def _sphinx__PAWHamiltonian__vExt(
 @units
 def _sphinx__PAWHamiltonian__xcMesh(
     eCut: float,
-    mesh: Optional[list] = None,
-    meshAccuracy: Optional[float] = None,
+    mesh: list | None = None,
+    meshAccuracy: float | None = None,
     wrap_string: bool = True,
 ):
     """
@@ -479,7 +481,7 @@ def _sphinx__PAWHamiltonian__xcMesh(
 @units
 def _sphinx__PAWHamiltonian__vdwCorrection(
     method: str,
-    combinationRule: Optional[str] = None,
+    combinationRule: str | None = None,
     wrap_string: bool = True,
 ):
     """
@@ -500,10 +502,10 @@ def _sphinx__PAWHamiltonian__vdwCorrection(
 @_func_in_func(sphinx.PAWHamiltonian)
 @units
 def _sphinx__PAWHamiltonian__HubbardU(
-    verbose: Optional[bool] = None,
-    site: Optional[dict] = None,
-    AO: Optional[dict] = None,
-    MO: Optional[dict] = None,
+    verbose: bool | None = None,
+    site: dict | None = None,
+    AO: dict | None = None,
+    MO: dict | None = None,
     wrap_string: bool = True,
 ):
     """
@@ -529,12 +531,12 @@ def _sphinx__PAWHamiltonian__HubbardU(
 @units
 def _sphinx__PAWHamiltonian__HubbardU__site(
     element: str,
-    species: Optional[int] = None,
-    label: Optional[str] = None,
-    projectorType: Optional[str] = None,
-    l: Optional[int] = None,
-    U: Annotated[Optional[float], {"units": "eV"}] = None,
-    shift: Annotated[Optional[float], {"units": "eV"}] = None,
+    species: int | None = None,
+    label: str | None = None,
+    projectorType: str | None = None,
+    l: int | None = None,
+    U: Annotated[float | None, {"units": "eV"}] = None,
+    shift: Annotated[float | None, {"units": "eV"}] = None,
     wrap_string: bool = True,
 ):
     """
@@ -565,7 +567,7 @@ def _sphinx__PAWHamiltonian__HubbardU__site(
 @_func_in_func(sphinx.PAWHamiltonian.HubbardU)
 @units
 def _sphinx__PAWHamiltonian__HubbardU__AO(
-    orbital: Optional[dict] = None,
+    orbital: dict | None = None,
     wrap_string: bool = True,
 ):
     """
@@ -586,8 +588,8 @@ def _sphinx__PAWHamiltonian__HubbardU__AO(
 def _sphinx__PAWHamiltonian__HubbardU__AO__orbital(
     file: str,
     iot: int,
-    fromPotential: Optional[bool] = None,
-    is_: Optional[int] = None,
+    fromPotential: bool | None = None,
+    is_: int | None = None,
     wrap_string: bool = True,
 ):
     """
@@ -613,19 +615,19 @@ def _sphinx__PAWHamiltonian__HubbardU__AO__orbital(
 @units
 def _sphinx__PAWHamiltonian__HubbardU__MO(
     element: str,
-    orbital: Optional[dict] = None,
-    species: Optional[int] = None,
-    label: Optional[str] = None,
-    maxDist: Annotated[Optional[float], {"units": "bohr"}] = None,
-    minDist: Annotated[Optional[float], {"units": "bohr"}] = None,
-    nInterpolate: Optional[int] = None,
-    nRadGrid: Optional[int] = None,
-    rCut: Annotated[Optional[float], {"units": "bohr"}] = None,
-    cutWidth: Annotated[Optional[float], {"units": "bohr"}] = None,
-    mMO: Optional[int] = None,
-    sign: Optional[int] = None,
-    U: Annotated[Optional[float], {"units": "eV"}] = None,
-    shift: Annotated[Optional[float], {"units": "eV"}] = None,
+    orbital: dict | None = None,
+    species: int | None = None,
+    label: str | None = None,
+    maxDist: Annotated[float | None, {"units": "bohr"}] = None,
+    minDist: Annotated[float | None, {"units": "bohr"}] = None,
+    nInterpolate: int | None = None,
+    nRadGrid: int | None = None,
+    rCut: Annotated[float | None, {"units": "bohr"}] = None,
+    cutWidth: Annotated[float | None, {"units": "bohr"}] = None,
+    mMO: int | None = None,
+    sign: int | None = None,
+    U: Annotated[float | None, {"units": "eV"}] = None,
+    shift: Annotated[float | None, {"units": "eV"}] = None,
     wrap_string: bool = True,
 ):
     """
@@ -672,8 +674,8 @@ def _sphinx__PAWHamiltonian__HubbardU__MO(
 def _sphinx__PAWHamiltonian__HubbardU__MO__orbital(
     file: str,
     iot: int,
-    fromPotential: Optional[bool] = None,
-    is_: Optional[int] = None,
+    fromPotential: bool | None = None,
+    is_: int | None = None,
     wrap_string: bool = True,
 ):
     """
@@ -698,9 +700,9 @@ def _sphinx__PAWHamiltonian__HubbardU__MO__orbital(
 @_func_in_func(sphinx)
 @units
 def _sphinx__spinConstraint(
-    label: Optional[str] = None,
-    constraint: Optional[float] = None,
-    file: Optional[str] = None,
+    label: str | None = None,
+    constraint: float | None = None,
+    file: str | None = None,
     wrap_string: bool = True,
 ):
     """
@@ -721,12 +723,12 @@ def _sphinx__spinConstraint(
 @_func_in_func(sphinx)
 @units
 def _sphinx__initialGuess(
-    noWavesStorage: Optional[bool] = None,
-    noRhoStorage: Optional[bool] = None,
-    waves: Optional[dict] = None,
-    rho: Optional[dict] = None,
-    occupations: Optional[dict] = None,
-    exchange: Optional[dict] = None,
+    noWavesStorage: bool | None = None,
+    noRhoStorage: bool | None = None,
+    waves: dict | None = None,
+    rho: dict | None = None,
+    occupations: dict | None = None,
+    exchange: dict | None = None,
     wrap_string: bool = True,
 ):
     """
@@ -755,10 +757,10 @@ def _sphinx__initialGuess(
 @_func_in_func(sphinx.initialGuess)
 @units
 def _sphinx__initialGuess__waves(
-    file: Optional[str] = None,
-    random: Optional[bool] = None,
-    keepWavesOnDisk: Optional[bool] = None,
-    lcao: Optional[dict] = None,
+    file: str | None = None,
+    random: bool | None = None,
+    keepWavesOnDisk: bool | None = None,
+    lcao: dict | None = None,
     wrap_string: bool = True,
 ):
     """
@@ -781,8 +783,8 @@ def _sphinx__initialGuess__waves(
 @_func_in_func(sphinx.initialGuess.waves)
 @units
 def _sphinx__initialGuess__waves__lcao(
-    maxSteps: Optional[int] = None,
-    dEnergy: Optional[float] = None,
+    maxSteps: int | None = None,
+    dEnergy: float | None = None,
     wrap_string: bool = True,
 ):
     """
@@ -801,13 +803,13 @@ def _sphinx__initialGuess__waves__lcao(
 @_func_in_func(sphinx.initialGuess)
 @units
 def _sphinx__initialGuess__rho(
-    file: Optional[str] = None,
-    fromWaves: Optional[bool] = None,
-    random: Optional[bool] = None,
-    atomicOrbitals: Optional[bool] = None,
-    spinMoment: Optional[bool] = None,
-    atomicSpin: Optional[dict] = None,
-    charged: Optional[dict] = None,
+    file: str | None = None,
+    fromWaves: bool | None = None,
+    random: bool | None = None,
+    atomicOrbitals: bool | None = None,
+    spinMoment: bool | None = None,
+    atomicSpin: dict | None = None,
+    charged: dict | None = None,
     wrap_string: bool = True,
 ):
     """
@@ -836,9 +838,9 @@ def _sphinx__initialGuess__rho(
 @_func_in_func(sphinx.initialGuess.rho)
 @units
 def _sphinx__initialGuess__rho__atomicSpin(
-    spin: Optional[float] = None,
-    label: Optional[str] = None,
-    file: Optional[str] = None,
+    spin: float | None = None,
+    label: str | None = None,
+    file: str | None = None,
     wrap_string: bool = True,
 ):
     """
@@ -862,9 +864,9 @@ def _sphinx__initialGuess__rho__atomicSpin(
 @units
 def _sphinx__initialGuess__rho__charged(
     charge: float,
-    beta: Optional[float] = None,
-    z: Optional[float] = None,
-    coords: Annotated[Optional[np.ndarray], {"units": "bohr"}] = None,
+    beta: float | None = None,
+    z: float | None = None,
+    coords: Annotated[np.ndarray | None, {"units": "bohr"}] = None,
     wrap_string: bool = True,
 ):
     """
@@ -887,9 +889,9 @@ def _sphinx__initialGuess__rho__charged(
 @_func_in_func(sphinx.initialGuess)
 @units
 def _sphinx__initialGuess__occupations(
-    kPoints: Optional[dict] = None,
-    spin: Optional[dict] = None,
-    bands: Optional[dict] = None,
+    kPoints: dict | None = None,
+    spin: dict | None = None,
+    bands: dict | None = None,
     wrap_string: bool = True,
 ):
     """
@@ -912,8 +914,8 @@ def _sphinx__initialGuess__occupations(
 @_func_in_func(sphinx.initialGuess.occupations)
 @units
 def _sphinx__initialGuess__occupations__kPoints(
-    spin: Optional[dict] = None,
-    bands: Optional[dict] = None,
+    spin: dict | None = None,
+    bands: dict | None = None,
     wrap_string: bool = True,
 ):
     """
@@ -932,7 +934,7 @@ def _sphinx__initialGuess__occupations__kPoints(
 @_func_in_func(sphinx.initialGuess.occupations.kPoints)
 @units
 def _sphinx__initialGuess__occupations__kPoints__spin(
-    bands: Optional[dict] = None,
+    bands: dict | None = None,
     wrap_string: bool = True,
 ):
     """
@@ -995,7 +997,7 @@ def _sphinx__initialGuess__occupations__kPoints__bands(
 @_func_in_func(sphinx.initialGuess.occupations)
 @units
 def _sphinx__initialGuess__occupations__spin(
-    bands: Optional[dict] = None,
+    bands: dict | None = None,
     wrap_string: bool = True,
 ):
     """
@@ -1058,7 +1060,7 @@ def _sphinx__initialGuess__occupations__bands(
 @_func_in_func(sphinx.initialGuess)
 @units
 def _sphinx__initialGuess__exchange(
-    file: Optional[str] = None,
+    file: str | None = None,
     wrap_string: bool = True,
 ):
     """
@@ -1077,7 +1079,7 @@ def _sphinx__initialGuess__exchange(
 @_func_in_func(sphinx)
 @units
 def _sphinx__pseudoPot(
-    species: Optional[dict] = None,
+    species: dict | None = None,
     wrap_string: bool = True,
 ):
     """
@@ -1108,8 +1110,8 @@ def _sphinx__pseudoPot__species(
     reciprocalMass: float,
     dampingMass: float,
     ionicMass: float,
-    element: Optional[str] = None,
-    lcaoOrbital: Optional[int] = None,
+    element: str | None = None,
+    lcaoOrbital: int | None = None,
     wrap_string: bool = True,
 ):
     """
@@ -1149,14 +1151,14 @@ def _sphinx__pseudoPot__species(
 @units
 def _sphinx__PWHamiltonian(
     xc: str,
-    ekt: Annotated[Optional[float], {"units": "eV"}] = None,
-    MethfesselPaxton: Optional[float] = None,
-    FermiDirac: Optional[float] = None,
-    nEmptyStates: Optional[int] = None,
-    nExcessElectrons: Optional[int] = None,
-    spinPolarized: Optional[bool] = None,
-    dipoleCorrection: Optional[bool] = None,
-    zField: Annotated[Optional[float], {"units": "eV/bohr"}] = None,
+    ekt: Annotated[float | None, {"units": "eV"}] = None,
+    MethfesselPaxton: float | None = None,
+    FermiDirac: float | None = None,
+    nEmptyStates: int | None = None,
+    nExcessElectrons: int | None = None,
+    spinPolarized: bool | None = None,
+    dipoleCorrection: bool | None = None,
+    zField: Annotated[float | None, {"units": "eV/bohr"}] = None,
     wrap_string: bool = True,
 ):
     """
@@ -1207,27 +1209,27 @@ def _sphinx__main(wrap_string: bool = True, **kwargs):
 @_func_in_func(sphinx.main)
 @units
 def _sphinx__main__scfDiag(
-    dEnergy: Annotated[Optional[float], {"units": "hartree"}] = None,
-    maxSteps: Optional[int] = None,
-    maxResidue: Optional[float] = None,
-    printSteps: Optional[int] = None,
-    mixingMethod: Optional[str] = None,
-    nPulaySteps: Optional[int] = None,
-    rhoMixing: Optional[float] = None,
-    spinMixing: Optional[float] = None,
-    keepRhoFixed: Optional[bool] = None,
-    keepOccFixed: Optional[bool] = None,
-    keepSpinFixed: Optional[bool] = None,
-    spinMoment: Optional[float] = None,
-    ekt: Annotated[Optional[float], {"units": "eV"}] = None,
-    dipoleCorrection: Optional[bool] = None,
-    dSpinMoment: Optional[float] = None,
-    noRhoStorage: Optional[bool] = None,
-    noWavesStorage: Optional[bool] = None,
-    xcMesh: Optional[dict] = None,
-    CCG: Optional[dict] = None,
-    blockCCG: Optional[dict] = None,
-    preconditioner: Optional[dict] = None,
+    dEnergy: Annotated[float | None, {"units": "hartree"}] = None,
+    maxSteps: int | None = None,
+    maxResidue: float | None = None,
+    printSteps: int | None = None,
+    mixingMethod: str | None = None,
+    nPulaySteps: int | None = None,
+    rhoMixing: float | None = None,
+    spinMixing: float | None = None,
+    keepRhoFixed: bool | None = None,
+    keepOccFixed: bool | None = None,
+    keepSpinFixed: bool | None = None,
+    spinMoment: float | None = None,
+    ekt: Annotated[float | None, {"units": "eV"}] = None,
+    dipoleCorrection: bool | None = None,
+    dSpinMoment: float | None = None,
+    noRhoStorage: bool | None = None,
+    noWavesStorage: bool | None = None,
+    xcMesh: dict | None = None,
+    CCG: dict | None = None,
+    blockCCG: dict | None = None,
+    preconditioner: dict | None = None,
     wrap_string: bool = True,
 ):
     """
@@ -1287,8 +1289,8 @@ def _sphinx__main__scfDiag(
 @units
 def _sphinx__main__scfDiag__xcMesh(
     eCut: float,
-    mesh: Optional[list] = None,
-    meshAccuracy: Optional[float] = None,
+    mesh: list | None = None,
+    meshAccuracy: float | None = None,
     wrap_string: bool = True,
 ):
     """
@@ -1311,10 +1313,10 @@ def _sphinx__main__scfDiag__xcMesh(
 @_func_in_func(sphinx.main.scfDiag)
 @units
 def _sphinx__main__scfDiag__CCG(
-    dRelEps: Optional[float] = None,
-    maxStepsCCG: Optional[int] = None,
-    dEnergy: Optional[float] = None,
-    xcMesh: Optional[dict] = None,
+    dRelEps: float | None = None,
+    maxStepsCCG: int | None = None,
+    dEnergy: float | None = None,
+    xcMesh: dict | None = None,
     wrap_string: bool = True,
 ):
     """
@@ -1340,8 +1342,8 @@ def _sphinx__main__scfDiag__CCG(
 @units
 def _sphinx__main__scfDiag__CCG__xcMesh(
     eCut: float,
-    mesh: Optional[list] = None,
-    meshAccuracy: Optional[float] = None,
+    mesh: list | None = None,
+    meshAccuracy: float | None = None,
     wrap_string: bool = True,
 ):
     """
@@ -1364,14 +1366,14 @@ def _sphinx__main__scfDiag__CCG__xcMesh(
 @_func_in_func(sphinx.main.scfDiag)
 @units
 def _sphinx__main__scfDiag__blockCCG(
-    dRelEps: Optional[float] = None,
-    maxStepsCCG: Optional[int] = None,
-    blockSize: Optional[int] = None,
-    nSloppy: Optional[int] = None,
-    dEnergy: Optional[float] = None,
-    verbose: Optional[bool] = None,
-    numericalLimit: Optional[bool] = None,
-    xcMesh: Optional[dict] = None,
+    dRelEps: float | None = None,
+    maxStepsCCG: int | None = None,
+    blockSize: int | None = None,
+    nSloppy: int | None = None,
+    dEnergy: float | None = None,
+    verbose: bool | None = None,
+    numericalLimit: bool | None = None,
+    xcMesh: dict | None = None,
     wrap_string: bool = True,
 ):
     """
@@ -1405,8 +1407,8 @@ def _sphinx__main__scfDiag__blockCCG(
 @units
 def _sphinx__main__scfDiag__blockCCG__xcMesh(
     eCut: float,
-    mesh: Optional[list] = None,
-    meshAccuracy: Optional[float] = None,
+    mesh: list | None = None,
+    meshAccuracy: float | None = None,
     wrap_string: bool = True,
 ):
     """
@@ -1430,9 +1432,9 @@ def _sphinx__main__scfDiag__blockCCG__xcMesh(
 @units
 def _sphinx__main__scfDiag__preconditioner(
     type_: str,
-    scaling: Optional[float] = None,
-    spinScaling: Optional[float] = None,
-    dielecConstant: Optional[float] = None,
+    scaling: float | None = None,
+    spinScaling: float | None = None,
+    dielecConstant: float | None = None,
     wrap_string: bool = True,
 ):
     """
@@ -1457,18 +1459,18 @@ def _sphinx__main__scfDiag__preconditioner(
 @_func_in_func(sphinx.main)
 @units
 def _sphinx__main__CCG(
-    dEnergy: Optional[float] = None,
-    maxSteps: Optional[int] = None,
-    printSteps: Optional[int] = None,
-    initialDiag: Optional[bool] = None,
-    finalDiag: Optional[bool] = None,
-    kappa: Optional[float] = None,
-    keepOccFixed: Optional[bool] = None,
-    ekt: Annotated[Optional[float], {"units": "eV"}] = None,
-    dipoleCorrection: Optional[bool] = None,
-    noRhoStorage: Optional[bool] = None,
-    noWavesStorage: Optional[bool] = None,
-    xcMesh: Optional[dict] = None,
+    dEnergy: float | None = None,
+    maxSteps: int | None = None,
+    printSteps: int | None = None,
+    initialDiag: bool | None = None,
+    finalDiag: bool | None = None,
+    kappa: float | None = None,
+    keepOccFixed: bool | None = None,
+    ekt: Annotated[float | None, {"units": "eV"}] = None,
+    dipoleCorrection: bool | None = None,
+    noRhoStorage: bool | None = None,
+    noWavesStorage: bool | None = None,
+    xcMesh: dict | None = None,
     wrap_string: bool = True,
 ):
     """
@@ -1510,8 +1512,8 @@ def _sphinx__main__CCG(
 @units
 def _sphinx__main__CCG__xcMesh(
     eCut: float,
-    mesh: Optional[list] = None,
-    meshAccuracy: Optional[float] = None,
+    mesh: list | None = None,
+    meshAccuracy: float | None = None,
     wrap_string: bool = True,
 ):
     """
@@ -1534,14 +1536,14 @@ def _sphinx__main__CCG__xcMesh(
 @_func_in_func(sphinx.main)
 @units
 def _sphinx__main__QN(
-    maxSteps: Optional[int] = None,
-    dX: Annotated[Optional[float], {"units": "bohr"}] = None,
-    dF: Annotated[Optional[float], {"units": "hartree/bohr"}] = None,
-    dEnergy: Annotated[Optional[float], {"units": "hartree"}] = None,
-    maxStepLength: Annotated[Optional[float], {"units": "bohr"}] = None,
-    hessian: Optional[str] = None,
-    driftFilter: Optional[bool] = None,
-    bornOppenheimer: Optional[dict] = None,
+    maxSteps: int | None = None,
+    dX: Annotated[float | None, {"units": "bohr"}] = None,
+    dF: Annotated[float | None, {"units": "hartree/bohr"}] = None,
+    dEnergy: Annotated[float | None, {"units": "hartree"}] = None,
+    maxStepLength: Annotated[float | None, {"units": "bohr"}] = None,
+    hessian: str | None = None,
+    driftFilter: bool | None = None,
+    bornOppenheimer: dict | None = None,
     wrap_string: bool = True,
 ):
     """
@@ -1574,7 +1576,7 @@ def _sphinx__main__QN(
 @_func_in_func(sphinx.main.QN)
 @units
 def _sphinx__main__QN__bornOppenheimer(
-    scfDiag: Optional[dict] = None,
+    scfDiag: dict | None = None,
     wrap_string: bool = True,
 ):
     """
@@ -1593,27 +1595,27 @@ def _sphinx__main__QN__bornOppenheimer(
 @_func_in_func(sphinx.main.QN.bornOppenheimer)
 @units
 def _sphinx__main__QN__bornOppenheimer__scfDiag(
-    dEnergy: Annotated[Optional[float], {"units": "hartree"}] = None,
-    maxSteps: Optional[int] = None,
-    maxResidue: Optional[float] = None,
-    printSteps: Optional[int] = None,
-    mixingMethod: Optional[str] = None,
-    nPulaySteps: Optional[int] = None,
-    rhoMixing: Optional[float] = None,
-    spinMixing: Optional[float] = None,
-    keepRhoFixed: Optional[bool] = None,
-    keepOccFixed: Optional[bool] = None,
-    keepSpinFixed: Optional[bool] = None,
-    spinMoment: Optional[float] = None,
-    ekt: Annotated[Optional[float], {"units": "eV"}] = None,
-    dipoleCorrection: Optional[bool] = None,
-    dSpinMoment: Optional[float] = None,
-    noRhoStorage: Optional[bool] = None,
-    noWavesStorage: Optional[bool] = None,
-    xcMesh: Optional[dict] = None,
-    CCG: Optional[dict] = None,
-    blockCCG: Optional[dict] = None,
-    preconditioner: Optional[dict] = None,
+    dEnergy: Annotated[float | None, {"units": "hartree"}] = None,
+    maxSteps: int | None = None,
+    maxResidue: float | None = None,
+    printSteps: int | None = None,
+    mixingMethod: str | None = None,
+    nPulaySteps: int | None = None,
+    rhoMixing: float | None = None,
+    spinMixing: float | None = None,
+    keepRhoFixed: bool | None = None,
+    keepOccFixed: bool | None = None,
+    keepSpinFixed: bool | None = None,
+    spinMoment: float | None = None,
+    ekt: Annotated[float | None, {"units": "eV"}] = None,
+    dipoleCorrection: bool | None = None,
+    dSpinMoment: float | None = None,
+    noRhoStorage: bool | None = None,
+    noWavesStorage: bool | None = None,
+    xcMesh: dict | None = None,
+    CCG: dict | None = None,
+    blockCCG: dict | None = None,
+    preconditioner: dict | None = None,
     wrap_string: bool = True,
 ):
     """
@@ -1673,8 +1675,8 @@ def _sphinx__main__QN__bornOppenheimer__scfDiag(
 @units
 def _sphinx__main__QN__bornOppenheimer__scfDiag__xcMesh(
     eCut: float,
-    mesh: Optional[list] = None,
-    meshAccuracy: Optional[float] = None,
+    mesh: list | None = None,
+    meshAccuracy: float | None = None,
     wrap_string: bool = True,
 ):
     """
@@ -1697,10 +1699,10 @@ def _sphinx__main__QN__bornOppenheimer__scfDiag__xcMesh(
 @_func_in_func(sphinx.main.QN.bornOppenheimer.scfDiag)
 @units
 def _sphinx__main__QN__bornOppenheimer__scfDiag__CCG(
-    dRelEps: Optional[float] = None,
-    maxStepsCCG: Optional[int] = None,
-    dEnergy: Optional[float] = None,
-    xcMesh: Optional[dict] = None,
+    dRelEps: float | None = None,
+    maxStepsCCG: int | None = None,
+    dEnergy: float | None = None,
+    xcMesh: dict | None = None,
     wrap_string: bool = True,
 ):
     """
@@ -1726,8 +1728,8 @@ def _sphinx__main__QN__bornOppenheimer__scfDiag__CCG(
 @units
 def _sphinx__main__QN__bornOppenheimer__scfDiag__CCG__xcMesh(
     eCut: float,
-    mesh: Optional[list] = None,
-    meshAccuracy: Optional[float] = None,
+    mesh: list | None = None,
+    meshAccuracy: float | None = None,
     wrap_string: bool = True,
 ):
     """
@@ -1750,14 +1752,14 @@ def _sphinx__main__QN__bornOppenheimer__scfDiag__CCG__xcMesh(
 @_func_in_func(sphinx.main.QN.bornOppenheimer.scfDiag)
 @units
 def _sphinx__main__QN__bornOppenheimer__scfDiag__blockCCG(
-    dRelEps: Optional[float] = None,
-    maxStepsCCG: Optional[int] = None,
-    blockSize: Optional[int] = None,
-    nSloppy: Optional[int] = None,
-    dEnergy: Optional[float] = None,
-    verbose: Optional[bool] = None,
-    numericalLimit: Optional[bool] = None,
-    xcMesh: Optional[dict] = None,
+    dRelEps: float | None = None,
+    maxStepsCCG: int | None = None,
+    blockSize: int | None = None,
+    nSloppy: int | None = None,
+    dEnergy: float | None = None,
+    verbose: bool | None = None,
+    numericalLimit: bool | None = None,
+    xcMesh: dict | None = None,
     wrap_string: bool = True,
 ):
     """
@@ -1791,8 +1793,8 @@ def _sphinx__main__QN__bornOppenheimer__scfDiag__blockCCG(
 @units
 def _sphinx__main__QN__bornOppenheimer__scfDiag__blockCCG__xcMesh(
     eCut: float,
-    mesh: Optional[list] = None,
-    meshAccuracy: Optional[float] = None,
+    mesh: list | None = None,
+    meshAccuracy: float | None = None,
     wrap_string: bool = True,
 ):
     """
@@ -1816,9 +1818,9 @@ def _sphinx__main__QN__bornOppenheimer__scfDiag__blockCCG__xcMesh(
 @units
 def _sphinx__main__QN__bornOppenheimer__scfDiag__preconditioner(
     type_: str,
-    scaling: Optional[float] = None,
-    spinScaling: Optional[float] = None,
-    dielecConstant: Optional[float] = None,
+    scaling: float | None = None,
+    spinScaling: float | None = None,
+    dielecConstant: float | None = None,
     wrap_string: bool = True,
 ):
     """
@@ -1843,15 +1845,15 @@ def _sphinx__main__QN__bornOppenheimer__scfDiag__preconditioner(
 @_func_in_func(sphinx.main)
 @units
 def _sphinx__main__linQN(
-    maxSteps: Optional[int] = None,
-    dX: Annotated[Optional[float], {"units": "bohr"}] = None,
-    dF: Annotated[Optional[float], {"units": "hartree/bohr"}] = None,
-    dEnergy: Annotated[Optional[float], {"units": "hartree"}] = None,
-    maxStepLength: Annotated[Optional[float], {"units": "bohr"}] = None,
-    nProjectors: Optional[int] = None,
-    hessian: Optional[str] = None,
-    driftFilter: Optional[bool] = None,
-    bornOppenheimer: Optional[dict] = None,
+    maxSteps: int | None = None,
+    dX: Annotated[float | None, {"units": "bohr"}] = None,
+    dF: Annotated[float | None, {"units": "hartree/bohr"}] = None,
+    dEnergy: Annotated[float | None, {"units": "hartree"}] = None,
+    maxStepLength: Annotated[float | None, {"units": "bohr"}] = None,
+    nProjectors: int | None = None,
+    hessian: str | None = None,
+    driftFilter: bool | None = None,
+    bornOppenheimer: dict | None = None,
     wrap_string: bool = True,
 ):
     """
@@ -1886,7 +1888,7 @@ def _sphinx__main__linQN(
 @_func_in_func(sphinx.main.linQN)
 @units
 def _sphinx__main__linQN__bornOppenheimer(
-    scfDiag: Optional[dict] = None,
+    scfDiag: dict | None = None,
     wrap_string: bool = True,
 ):
     """
@@ -1905,27 +1907,27 @@ def _sphinx__main__linQN__bornOppenheimer(
 @_func_in_func(sphinx.main.linQN.bornOppenheimer)
 @units
 def _sphinx__main__linQN__bornOppenheimer__scfDiag(
-    dEnergy: Annotated[Optional[float], {"units": "hartree"}] = None,
-    maxSteps: Optional[int] = None,
-    maxResidue: Optional[float] = None,
-    printSteps: Optional[int] = None,
-    mixingMethod: Optional[str] = None,
-    nPulaySteps: Optional[int] = None,
-    rhoMixing: Optional[float] = None,
-    spinMixing: Optional[float] = None,
-    keepRhoFixed: Optional[bool] = None,
-    keepOccFixed: Optional[bool] = None,
-    keepSpinFixed: Optional[bool] = None,
-    spinMoment: Optional[float] = None,
-    ekt: Annotated[Optional[float], {"units": "eV"}] = None,
-    dipoleCorrection: Optional[bool] = None,
-    dSpinMoment: Optional[float] = None,
-    noRhoStorage: Optional[bool] = None,
-    noWavesStorage: Optional[bool] = None,
-    xcMesh: Optional[dict] = None,
-    CCG: Optional[dict] = None,
-    blockCCG: Optional[dict] = None,
-    preconditioner: Optional[dict] = None,
+    dEnergy: Annotated[float | None, {"units": "hartree"}] = None,
+    maxSteps: int | None = None,
+    maxResidue: float | None = None,
+    printSteps: int | None = None,
+    mixingMethod: str | None = None,
+    nPulaySteps: int | None = None,
+    rhoMixing: float | None = None,
+    spinMixing: float | None = None,
+    keepRhoFixed: bool | None = None,
+    keepOccFixed: bool | None = None,
+    keepSpinFixed: bool | None = None,
+    spinMoment: float | None = None,
+    ekt: Annotated[float | None, {"units": "eV"}] = None,
+    dipoleCorrection: bool | None = None,
+    dSpinMoment: float | None = None,
+    noRhoStorage: bool | None = None,
+    noWavesStorage: bool | None = None,
+    xcMesh: dict | None = None,
+    CCG: dict | None = None,
+    blockCCG: dict | None = None,
+    preconditioner: dict | None = None,
     wrap_string: bool = True,
 ):
     """
@@ -1985,8 +1987,8 @@ def _sphinx__main__linQN__bornOppenheimer__scfDiag(
 @units
 def _sphinx__main__linQN__bornOppenheimer__scfDiag__xcMesh(
     eCut: float,
-    mesh: Optional[list] = None,
-    meshAccuracy: Optional[float] = None,
+    mesh: list | None = None,
+    meshAccuracy: float | None = None,
     wrap_string: bool = True,
 ):
     """
@@ -2009,10 +2011,10 @@ def _sphinx__main__linQN__bornOppenheimer__scfDiag__xcMesh(
 @_func_in_func(sphinx.main.linQN.bornOppenheimer.scfDiag)
 @units
 def _sphinx__main__linQN__bornOppenheimer__scfDiag__CCG(
-    dRelEps: Optional[float] = None,
-    maxStepsCCG: Optional[int] = None,
-    dEnergy: Optional[float] = None,
-    xcMesh: Optional[dict] = None,
+    dRelEps: float | None = None,
+    maxStepsCCG: int | None = None,
+    dEnergy: float | None = None,
+    xcMesh: dict | None = None,
     wrap_string: bool = True,
 ):
     """
@@ -2038,8 +2040,8 @@ def _sphinx__main__linQN__bornOppenheimer__scfDiag__CCG(
 @units
 def _sphinx__main__linQN__bornOppenheimer__scfDiag__CCG__xcMesh(
     eCut: float,
-    mesh: Optional[list] = None,
-    meshAccuracy: Optional[float] = None,
+    mesh: list | None = None,
+    meshAccuracy: float | None = None,
     wrap_string: bool = True,
 ):
     """
@@ -2062,14 +2064,14 @@ def _sphinx__main__linQN__bornOppenheimer__scfDiag__CCG__xcMesh(
 @_func_in_func(sphinx.main.linQN.bornOppenheimer.scfDiag)
 @units
 def _sphinx__main__linQN__bornOppenheimer__scfDiag__blockCCG(
-    dRelEps: Optional[float] = None,
-    maxStepsCCG: Optional[int] = None,
-    blockSize: Optional[int] = None,
-    nSloppy: Optional[int] = None,
-    dEnergy: Optional[float] = None,
-    verbose: Optional[bool] = None,
-    numericalLimit: Optional[bool] = None,
-    xcMesh: Optional[dict] = None,
+    dRelEps: float | None = None,
+    maxStepsCCG: int | None = None,
+    blockSize: int | None = None,
+    nSloppy: int | None = None,
+    dEnergy: float | None = None,
+    verbose: bool | None = None,
+    numericalLimit: bool | None = None,
+    xcMesh: dict | None = None,
     wrap_string: bool = True,
 ):
     """
@@ -2103,8 +2105,8 @@ def _sphinx__main__linQN__bornOppenheimer__scfDiag__blockCCG(
 @units
 def _sphinx__main__linQN__bornOppenheimer__scfDiag__blockCCG__xcMesh(
     eCut: float,
-    mesh: Optional[list] = None,
-    meshAccuracy: Optional[float] = None,
+    mesh: list | None = None,
+    meshAccuracy: float | None = None,
     wrap_string: bool = True,
 ):
     """
@@ -2128,9 +2130,9 @@ def _sphinx__main__linQN__bornOppenheimer__scfDiag__blockCCG__xcMesh(
 @units
 def _sphinx__main__linQN__bornOppenheimer__scfDiag__preconditioner(
     type_: str,
-    scaling: Optional[float] = None,
-    spinScaling: Optional[float] = None,
-    dielecConstant: Optional[float] = None,
+    scaling: float | None = None,
+    spinScaling: float | None = None,
+    dielecConstant: float | None = None,
     wrap_string: bool = True,
 ):
     """
@@ -2155,15 +2157,15 @@ def _sphinx__main__linQN__bornOppenheimer__scfDiag__preconditioner(
 @_func_in_func(sphinx.main)
 @units
 def _sphinx__main__ricQN(
-    maxSteps: Optional[int] = None,
-    dX: Annotated[Optional[float], {"units": "bohr"}] = None,
-    dF: Annotated[Optional[float], {"units": "hartree/bohr"}] = None,
-    dEnergy: Annotated[Optional[float], {"units": "hartree"}] = None,
-    maxStepLength: Annotated[Optional[float], {"units": "bohr"}] = None,
-    nProjectors: Optional[int] = None,
-    softModeDamping: Annotated[Optional[float], {"units": "hartree/bohr**2"}] = None,
-    driftFilter: Optional[bool] = None,
-    bornOppenheimer: Optional[dict] = None,
+    maxSteps: int | None = None,
+    dX: Annotated[float | None, {"units": "bohr"}] = None,
+    dF: Annotated[float | None, {"units": "hartree/bohr"}] = None,
+    dEnergy: Annotated[float | None, {"units": "hartree"}] = None,
+    maxStepLength: Annotated[float | None, {"units": "bohr"}] = None,
+    nProjectors: int | None = None,
+    softModeDamping: Annotated[float | None, {"units": "hartree/bohr**2"}] = None,
+    driftFilter: bool | None = None,
+    bornOppenheimer: dict | None = None,
     wrap_string: bool = True,
 ):
     """
@@ -2196,7 +2198,7 @@ def _sphinx__main__ricQN(
 @_func_in_func(sphinx.main.ricQN)
 @units
 def _sphinx__main__ricQN__bornOppenheimer(
-    scfDiag: Optional[dict] = None,
+    scfDiag: dict | None = None,
     wrap_string: bool = True,
 ):
     """
@@ -2215,27 +2217,27 @@ def _sphinx__main__ricQN__bornOppenheimer(
 @_func_in_func(sphinx.main.ricQN.bornOppenheimer)
 @units
 def _sphinx__main__ricQN__bornOppenheimer__scfDiag(
-    dEnergy: Annotated[Optional[float], {"units": "hartree"}] = None,
-    maxSteps: Optional[int] = None,
-    maxResidue: Optional[float] = None,
-    printSteps: Optional[int] = None,
-    mixingMethod: Optional[str] = None,
-    nPulaySteps: Optional[int] = None,
-    rhoMixing: Optional[float] = None,
-    spinMixing: Optional[float] = None,
-    keepRhoFixed: Optional[bool] = None,
-    keepOccFixed: Optional[bool] = None,
-    keepSpinFixed: Optional[bool] = None,
-    spinMoment: Optional[float] = None,
-    ekt: Annotated[Optional[float], {"units": "eV"}] = None,
-    dipoleCorrection: Optional[bool] = None,
-    dSpinMoment: Optional[float] = None,
-    noRhoStorage: Optional[bool] = None,
-    noWavesStorage: Optional[bool] = None,
-    xcMesh: Optional[dict] = None,
-    CCG: Optional[dict] = None,
-    blockCCG: Optional[dict] = None,
-    preconditioner: Optional[dict] = None,
+    dEnergy: Annotated[float | None, {"units": "hartree"}] = None,
+    maxSteps: int | None = None,
+    maxResidue: float | None = None,
+    printSteps: int | None = None,
+    mixingMethod: str | None = None,
+    nPulaySteps: int | None = None,
+    rhoMixing: float | None = None,
+    spinMixing: float | None = None,
+    keepRhoFixed: bool | None = None,
+    keepOccFixed: bool | None = None,
+    keepSpinFixed: bool | None = None,
+    spinMoment: float | None = None,
+    ekt: Annotated[float | None, {"units": "eV"}] = None,
+    dipoleCorrection: bool | None = None,
+    dSpinMoment: float | None = None,
+    noRhoStorage: bool | None = None,
+    noWavesStorage: bool | None = None,
+    xcMesh: dict | None = None,
+    CCG: dict | None = None,
+    blockCCG: dict | None = None,
+    preconditioner: dict | None = None,
     wrap_string: bool = True,
 ):
     """
@@ -2295,8 +2297,8 @@ def _sphinx__main__ricQN__bornOppenheimer__scfDiag(
 @units
 def _sphinx__main__ricQN__bornOppenheimer__scfDiag__xcMesh(
     eCut: float,
-    mesh: Optional[list] = None,
-    meshAccuracy: Optional[float] = None,
+    mesh: list | None = None,
+    meshAccuracy: float | None = None,
     wrap_string: bool = True,
 ):
     """
@@ -2319,10 +2321,10 @@ def _sphinx__main__ricQN__bornOppenheimer__scfDiag__xcMesh(
 @_func_in_func(sphinx.main.ricQN.bornOppenheimer.scfDiag)
 @units
 def _sphinx__main__ricQN__bornOppenheimer__scfDiag__CCG(
-    dRelEps: Optional[float] = None,
-    maxStepsCCG: Optional[int] = None,
-    dEnergy: Optional[float] = None,
-    xcMesh: Optional[dict] = None,
+    dRelEps: float | None = None,
+    maxStepsCCG: int | None = None,
+    dEnergy: float | None = None,
+    xcMesh: dict | None = None,
     wrap_string: bool = True,
 ):
     """
@@ -2348,8 +2350,8 @@ def _sphinx__main__ricQN__bornOppenheimer__scfDiag__CCG(
 @units
 def _sphinx__main__ricQN__bornOppenheimer__scfDiag__CCG__xcMesh(
     eCut: float,
-    mesh: Optional[list] = None,
-    meshAccuracy: Optional[float] = None,
+    mesh: list | None = None,
+    meshAccuracy: float | None = None,
     wrap_string: bool = True,
 ):
     """
@@ -2372,14 +2374,14 @@ def _sphinx__main__ricQN__bornOppenheimer__scfDiag__CCG__xcMesh(
 @_func_in_func(sphinx.main.ricQN.bornOppenheimer.scfDiag)
 @units
 def _sphinx__main__ricQN__bornOppenheimer__scfDiag__blockCCG(
-    dRelEps: Optional[float] = None,
-    maxStepsCCG: Optional[int] = None,
-    blockSize: Optional[int] = None,
-    nSloppy: Optional[int] = None,
-    dEnergy: Optional[float] = None,
-    verbose: Optional[bool] = None,
-    numericalLimit: Optional[bool] = None,
-    xcMesh: Optional[dict] = None,
+    dRelEps: float | None = None,
+    maxStepsCCG: int | None = None,
+    blockSize: int | None = None,
+    nSloppy: int | None = None,
+    dEnergy: float | None = None,
+    verbose: bool | None = None,
+    numericalLimit: bool | None = None,
+    xcMesh: dict | None = None,
     wrap_string: bool = True,
 ):
     """
@@ -2413,8 +2415,8 @@ def _sphinx__main__ricQN__bornOppenheimer__scfDiag__blockCCG(
 @units
 def _sphinx__main__ricQN__bornOppenheimer__scfDiag__blockCCG__xcMesh(
     eCut: float,
-    mesh: Optional[list] = None,
-    meshAccuracy: Optional[float] = None,
+    mesh: list | None = None,
+    meshAccuracy: float | None = None,
     wrap_string: bool = True,
 ):
     """
@@ -2438,9 +2440,9 @@ def _sphinx__main__ricQN__bornOppenheimer__scfDiag__blockCCG__xcMesh(
 @units
 def _sphinx__main__ricQN__bornOppenheimer__scfDiag__preconditioner(
     type_: str,
-    scaling: Optional[float] = None,
-    spinScaling: Optional[float] = None,
-    dielecConstant: Optional[float] = None,
+    scaling: float | None = None,
+    spinScaling: float | None = None,
+    dielecConstant: float | None = None,
     wrap_string: bool = True,
 ):
     """
@@ -2465,13 +2467,13 @@ def _sphinx__main__ricQN__bornOppenheimer__scfDiag__preconditioner(
 @_func_in_func(sphinx.main)
 @units
 def _sphinx__main__ric(
-    maxDist: Annotated[Optional[float], {"units": "bohr"}] = None,
-    typifyThreshold: Optional[float] = None,
-    rmsThreshold: Optional[float] = None,
-    planeCutLimit: Optional[float] = None,
-    withAngles: Optional[bool] = None,
-    bvkAtoms: Optional[str] = None,
-    bornOppenheimer: Optional[dict] = None,
+    maxDist: Annotated[float | None, {"units": "bohr"}] = None,
+    typifyThreshold: float | None = None,
+    rmsThreshold: float | None = None,
+    planeCutLimit: float | None = None,
+    withAngles: bool | None = None,
+    bvkAtoms: str | None = None,
+    bornOppenheimer: dict | None = None,
     wrap_string: bool = True,
 ):
     """
@@ -2502,7 +2504,7 @@ def _sphinx__main__ric(
 @_func_in_func(sphinx.main.ric)
 @units
 def _sphinx__main__ric__bornOppenheimer(
-    scfDiag: Optional[dict] = None,
+    scfDiag: dict | None = None,
     wrap_string: bool = True,
 ):
     """
@@ -2521,27 +2523,27 @@ def _sphinx__main__ric__bornOppenheimer(
 @_func_in_func(sphinx.main.ric.bornOppenheimer)
 @units
 def _sphinx__main__ric__bornOppenheimer__scfDiag(
-    dEnergy: Annotated[Optional[float], {"units": "hartree"}] = None,
-    maxSteps: Optional[int] = None,
-    maxResidue: Optional[float] = None,
-    printSteps: Optional[int] = None,
-    mixingMethod: Optional[str] = None,
-    nPulaySteps: Optional[int] = None,
-    rhoMixing: Optional[float] = None,
-    spinMixing: Optional[float] = None,
-    keepRhoFixed: Optional[bool] = None,
-    keepOccFixed: Optional[bool] = None,
-    keepSpinFixed: Optional[bool] = None,
-    spinMoment: Optional[float] = None,
-    ekt: Annotated[Optional[float], {"units": "eV"}] = None,
-    dipoleCorrection: Optional[bool] = None,
-    dSpinMoment: Optional[float] = None,
-    noRhoStorage: Optional[bool] = None,
-    noWavesStorage: Optional[bool] = None,
-    xcMesh: Optional[dict] = None,
-    CCG: Optional[dict] = None,
-    blockCCG: Optional[dict] = None,
-    preconditioner: Optional[dict] = None,
+    dEnergy: Annotated[float | None, {"units": "hartree"}] = None,
+    maxSteps: int | None = None,
+    maxResidue: float | None = None,
+    printSteps: int | None = None,
+    mixingMethod: str | None = None,
+    nPulaySteps: int | None = None,
+    rhoMixing: float | None = None,
+    spinMixing: float | None = None,
+    keepRhoFixed: bool | None = None,
+    keepOccFixed: bool | None = None,
+    keepSpinFixed: bool | None = None,
+    spinMoment: float | None = None,
+    ekt: Annotated[float | None, {"units": "eV"}] = None,
+    dipoleCorrection: bool | None = None,
+    dSpinMoment: float | None = None,
+    noRhoStorage: bool | None = None,
+    noWavesStorage: bool | None = None,
+    xcMesh: dict | None = None,
+    CCG: dict | None = None,
+    blockCCG: dict | None = None,
+    preconditioner: dict | None = None,
     wrap_string: bool = True,
 ):
     """
@@ -2601,8 +2603,8 @@ def _sphinx__main__ric__bornOppenheimer__scfDiag(
 @units
 def _sphinx__main__ric__bornOppenheimer__scfDiag__xcMesh(
     eCut: float,
-    mesh: Optional[list] = None,
-    meshAccuracy: Optional[float] = None,
+    mesh: list | None = None,
+    meshAccuracy: float | None = None,
     wrap_string: bool = True,
 ):
     """
@@ -2625,10 +2627,10 @@ def _sphinx__main__ric__bornOppenheimer__scfDiag__xcMesh(
 @_func_in_func(sphinx.main.ric.bornOppenheimer.scfDiag)
 @units
 def _sphinx__main__ric__bornOppenheimer__scfDiag__CCG(
-    dRelEps: Optional[float] = None,
-    maxStepsCCG: Optional[int] = None,
-    dEnergy: Optional[float] = None,
-    xcMesh: Optional[dict] = None,
+    dRelEps: float | None = None,
+    maxStepsCCG: int | None = None,
+    dEnergy: float | None = None,
+    xcMesh: dict | None = None,
     wrap_string: bool = True,
 ):
     """
@@ -2654,8 +2656,8 @@ def _sphinx__main__ric__bornOppenheimer__scfDiag__CCG(
 @units
 def _sphinx__main__ric__bornOppenheimer__scfDiag__CCG__xcMesh(
     eCut: float,
-    mesh: Optional[list] = None,
-    meshAccuracy: Optional[float] = None,
+    mesh: list | None = None,
+    meshAccuracy: float | None = None,
     wrap_string: bool = True,
 ):
     """
@@ -2678,14 +2680,14 @@ def _sphinx__main__ric__bornOppenheimer__scfDiag__CCG__xcMesh(
 @_func_in_func(sphinx.main.ric.bornOppenheimer.scfDiag)
 @units
 def _sphinx__main__ric__bornOppenheimer__scfDiag__blockCCG(
-    dRelEps: Optional[float] = None,
-    maxStepsCCG: Optional[int] = None,
-    blockSize: Optional[int] = None,
-    nSloppy: Optional[int] = None,
-    dEnergy: Optional[float] = None,
-    verbose: Optional[bool] = None,
-    numericalLimit: Optional[bool] = None,
-    xcMesh: Optional[dict] = None,
+    dRelEps: float | None = None,
+    maxStepsCCG: int | None = None,
+    blockSize: int | None = None,
+    nSloppy: int | None = None,
+    dEnergy: float | None = None,
+    verbose: bool | None = None,
+    numericalLimit: bool | None = None,
+    xcMesh: dict | None = None,
     wrap_string: bool = True,
 ):
     """
@@ -2719,8 +2721,8 @@ def _sphinx__main__ric__bornOppenheimer__scfDiag__blockCCG(
 @units
 def _sphinx__main__ric__bornOppenheimer__scfDiag__blockCCG__xcMesh(
     eCut: float,
-    mesh: Optional[list] = None,
-    meshAccuracy: Optional[float] = None,
+    mesh: list | None = None,
+    meshAccuracy: float | None = None,
     wrap_string: bool = True,
 ):
     """
@@ -2744,9 +2746,9 @@ def _sphinx__main__ric__bornOppenheimer__scfDiag__blockCCG__xcMesh(
 @units
 def _sphinx__main__ric__bornOppenheimer__scfDiag__preconditioner(
     type_: str,
-    scaling: Optional[float] = None,
-    spinScaling: Optional[float] = None,
-    dielecConstant: Optional[float] = None,
+    scaling: float | None = None,
+    spinScaling: float | None = None,
+    dielecConstant: float | None = None,
     wrap_string: bool = True,
 ):
     """
@@ -2771,19 +2773,19 @@ def _sphinx__main__ric__bornOppenheimer__scfDiag__preconditioner(
 @_func_in_func(sphinx.main)
 @units
 def _sphinx__main__ricTS(
-    maxSteps: Optional[int] = None,
-    dX: Optional[float] = None,
-    dF: Optional[float] = None,
-    dEnergy: Optional[float] = None,
-    nProjectors: Optional[int] = None,
-    maxStepLength: Optional[float] = None,
-    transCurvature: Optional[float] = None,
-    anyStationaryPoint: Optional[bool] = None,
-    maxDirRot: Optional[float] = None,
-    scheme: Optional[int] = None,
-    driftFilter: Optional[bool] = None,
-    bornOppenheimer: Optional[dict] = None,
-    transPath: Optional[dict] = None,
+    maxSteps: int | None = None,
+    dX: float | None = None,
+    dF: float | None = None,
+    dEnergy: float | None = None,
+    nProjectors: int | None = None,
+    maxStepLength: float | None = None,
+    transCurvature: float | None = None,
+    anyStationaryPoint: bool | None = None,
+    maxDirRot: float | None = None,
+    scheme: int | None = None,
+    driftFilter: bool | None = None,
+    bornOppenheimer: dict | None = None,
+    transPath: dict | None = None,
     wrap_string: bool = True,
 ):
     """
@@ -2826,7 +2828,7 @@ def _sphinx__main__ricTS(
 @_func_in_func(sphinx.main.ricTS)
 @units
 def _sphinx__main__ricTS__bornOppenheimer(
-    scfDiag: Optional[dict] = None,
+    scfDiag: dict | None = None,
     wrap_string: bool = True,
 ):
     """
@@ -2845,27 +2847,27 @@ def _sphinx__main__ricTS__bornOppenheimer(
 @_func_in_func(sphinx.main.ricTS.bornOppenheimer)
 @units
 def _sphinx__main__ricTS__bornOppenheimer__scfDiag(
-    dEnergy: Annotated[Optional[float], {"units": "hartree"}] = None,
-    maxSteps: Optional[int] = None,
-    maxResidue: Optional[float] = None,
-    printSteps: Optional[int] = None,
-    mixingMethod: Optional[str] = None,
-    nPulaySteps: Optional[int] = None,
-    rhoMixing: Optional[float] = None,
-    spinMixing: Optional[float] = None,
-    keepRhoFixed: Optional[bool] = None,
-    keepOccFixed: Optional[bool] = None,
-    keepSpinFixed: Optional[bool] = None,
-    spinMoment: Optional[float] = None,
-    ekt: Annotated[Optional[float], {"units": "eV"}] = None,
-    dipoleCorrection: Optional[bool] = None,
-    dSpinMoment: Optional[float] = None,
-    noRhoStorage: Optional[bool] = None,
-    noWavesStorage: Optional[bool] = None,
-    xcMesh: Optional[dict] = None,
-    CCG: Optional[dict] = None,
-    blockCCG: Optional[dict] = None,
-    preconditioner: Optional[dict] = None,
+    dEnergy: Annotated[float | None, {"units": "hartree"}] = None,
+    maxSteps: int | None = None,
+    maxResidue: float | None = None,
+    printSteps: int | None = None,
+    mixingMethod: str | None = None,
+    nPulaySteps: int | None = None,
+    rhoMixing: float | None = None,
+    spinMixing: float | None = None,
+    keepRhoFixed: bool | None = None,
+    keepOccFixed: bool | None = None,
+    keepSpinFixed: bool | None = None,
+    spinMoment: float | None = None,
+    ekt: Annotated[float | None, {"units": "eV"}] = None,
+    dipoleCorrection: bool | None = None,
+    dSpinMoment: float | None = None,
+    noRhoStorage: bool | None = None,
+    noWavesStorage: bool | None = None,
+    xcMesh: dict | None = None,
+    CCG: dict | None = None,
+    blockCCG: dict | None = None,
+    preconditioner: dict | None = None,
     wrap_string: bool = True,
 ):
     """
@@ -2925,8 +2927,8 @@ def _sphinx__main__ricTS__bornOppenheimer__scfDiag(
 @units
 def _sphinx__main__ricTS__bornOppenheimer__scfDiag__xcMesh(
     eCut: float,
-    mesh: Optional[list] = None,
-    meshAccuracy: Optional[float] = None,
+    mesh: list | None = None,
+    meshAccuracy: float | None = None,
     wrap_string: bool = True,
 ):
     """
@@ -2949,10 +2951,10 @@ def _sphinx__main__ricTS__bornOppenheimer__scfDiag__xcMesh(
 @_func_in_func(sphinx.main.ricTS.bornOppenheimer.scfDiag)
 @units
 def _sphinx__main__ricTS__bornOppenheimer__scfDiag__CCG(
-    dRelEps: Optional[float] = None,
-    maxStepsCCG: Optional[int] = None,
-    dEnergy: Optional[float] = None,
-    xcMesh: Optional[dict] = None,
+    dRelEps: float | None = None,
+    maxStepsCCG: int | None = None,
+    dEnergy: float | None = None,
+    xcMesh: dict | None = None,
     wrap_string: bool = True,
 ):
     """
@@ -2978,8 +2980,8 @@ def _sphinx__main__ricTS__bornOppenheimer__scfDiag__CCG(
 @units
 def _sphinx__main__ricTS__bornOppenheimer__scfDiag__CCG__xcMesh(
     eCut: float,
-    mesh: Optional[list] = None,
-    meshAccuracy: Optional[float] = None,
+    mesh: list | None = None,
+    meshAccuracy: float | None = None,
     wrap_string: bool = True,
 ):
     """
@@ -3002,14 +3004,14 @@ def _sphinx__main__ricTS__bornOppenheimer__scfDiag__CCG__xcMesh(
 @_func_in_func(sphinx.main.ricTS.bornOppenheimer.scfDiag)
 @units
 def _sphinx__main__ricTS__bornOppenheimer__scfDiag__blockCCG(
-    dRelEps: Optional[float] = None,
-    maxStepsCCG: Optional[int] = None,
-    blockSize: Optional[int] = None,
-    nSloppy: Optional[int] = None,
-    dEnergy: Optional[float] = None,
-    verbose: Optional[bool] = None,
-    numericalLimit: Optional[bool] = None,
-    xcMesh: Optional[dict] = None,
+    dRelEps: float | None = None,
+    maxStepsCCG: int | None = None,
+    blockSize: int | None = None,
+    nSloppy: int | None = None,
+    dEnergy: float | None = None,
+    verbose: bool | None = None,
+    numericalLimit: bool | None = None,
+    xcMesh: dict | None = None,
     wrap_string: bool = True,
 ):
     """
@@ -3043,8 +3045,8 @@ def _sphinx__main__ricTS__bornOppenheimer__scfDiag__blockCCG(
 @units
 def _sphinx__main__ricTS__bornOppenheimer__scfDiag__blockCCG__xcMesh(
     eCut: float,
-    mesh: Optional[list] = None,
-    meshAccuracy: Optional[float] = None,
+    mesh: list | None = None,
+    meshAccuracy: float | None = None,
     wrap_string: bool = True,
 ):
     """
@@ -3068,9 +3070,9 @@ def _sphinx__main__ricTS__bornOppenheimer__scfDiag__blockCCG__xcMesh(
 @units
 def _sphinx__main__ricTS__bornOppenheimer__scfDiag__preconditioner(
     type_: str,
-    scaling: Optional[float] = None,
-    spinScaling: Optional[float] = None,
-    dielecConstant: Optional[float] = None,
+    scaling: float | None = None,
+    spinScaling: float | None = None,
+    dielecConstant: float | None = None,
     wrap_string: bool = True,
 ):
     """
@@ -3096,8 +3098,8 @@ def _sphinx__main__ricTS__bornOppenheimer__scfDiag__preconditioner(
 @units
 def _sphinx__main__ricTS__transPath(
     dir_: list,
-    atomId: Optional[int] = None,
-    atomIds: Optional[list] = None,
+    atomId: int | None = None,
+    atomIds: list | None = None,
     wrap_string: bool = True,
 ):
     """

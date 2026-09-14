@@ -66,16 +66,16 @@ class TestASE(unittest.TestCase):
 
     def test_magmom(self):
         structure = bulk("Al", cubic=True)
-        input_dict, spin_lst = get_structure_group(structure, use_symmetry=False)
+        spin_lst = get_structure_group(structure, use_symmetry=False)[1]
         self.assertIsNone(spin_lst, msg="No spin_lst for non-magnetic system")
         structure = bulk("Fe", cubic=True)
-        input_dict, spin_lst = get_structure_group(structure, use_symmetry=False)
+        spin_lst = get_structure_group(structure, use_symmetry=False)[1]
         self.assertEqual(
             len(spin_lst), 1, msg="Only one value for ferrimagnetic system"
         )
         structure = bulk("Fe", cubic=True)
         structure.arrays["initial_magmoms"] = [2.0, -2.0]
-        input_dict, spin_lst = get_structure_group(structure, use_symmetry=False)
+        _input_dict, spin_lst = get_structure_group(structure, use_symmetry=False)
         self.assertEqual(
             len(spin_lst), 2, msg="Two values for antiferromagnetic system"
         )

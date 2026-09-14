@@ -99,6 +99,4 @@ def _is_jth_potential(file_content: str, min_hits: int = 9) -> bool:
         "DENVHAT_SIZE",
     ]
     terms_404 = [term for term in exp_terms if term not in file_content]
-    if len(terms_404) == 0:
-        return True
-    return False
+    return len(terms_404) == 0
