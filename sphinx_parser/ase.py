@@ -1,4 +1,4 @@
-from typing import Optional
+from __future__ import annotations
 
 import numpy as np
 from ase import Atoms
@@ -69,7 +69,7 @@ def _get_spin_list(spins: NDArray) -> list:
 
 def get_structure_group(
     structure: Atoms, use_symmetry: bool = True
-) -> tuple[dict, Optional[list]]:
+) -> tuple[dict, list | None]:
     """
     create a SPHInX Group object based on structure
 

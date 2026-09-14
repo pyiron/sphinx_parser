@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import builtins
 import keyword
 import os
@@ -183,7 +185,7 @@ def _get_function(
         output.extend(
             [
                 f"{2 * indent}{_get_safe_parameter_name(key)}={_get_safe_parameter_name(key)},"
-                for key in d.keys()
+                for key in d
                 if key not in predefined
             ]
         )
