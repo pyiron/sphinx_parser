@@ -3,7 +3,7 @@ channels:
 dependencies:
 - coveralls
 - coverage
-- hatchling =1.32.0
+- hatchling =1.32.3
 - hatch-vcs =0.5.0
 - setuptools
 - numpy =2.5.3
